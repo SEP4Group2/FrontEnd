@@ -1,26 +1,55 @@
 // PlantList.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PlantStatus from './PlantStatus';
+import axios from 'axios';
 
 function PlantList() {
   const [plants, setPlants] = useState([]);
   const [newPlantName, setNewPlantName] = useState('');
   const [newPlantLocation, setNewPlantLocation] = useState('');
-  const [newPlantStatus, setNewPlantStatus] = useState('');
+  const [newPresetId, setNewPresetId] = useState('');
 
-  const addPlant = () => {
-    if (newPlantName && newPlantStatus) {
+  // Function to send a POST request to the server and create a new plant
+  const createNewPlant = async () => {
+    try {
       const newPlant = {
         name: newPlantName,
         location: newPlantLocation,
-        status: newPlantStatus,
+        presetId: newPresetId,
       };
-      setPlants([...plants, newPlant]);
+
+      //CHANGE THE ENDPOINT
+      const response = await axios.post('https://localhost:5000/plant/createPlant', newPlant);
+
+      // Handle the response from the server, you might want to update state or display a message
+      console.log('Plant created:', response.data);
+
+      // Define an array of preset options
+
+
+
+      // Clear the input fields after a successful POST
       setNewPlantName('');
       setNewPlantLocation('');
-      setNewPlantStatus('');
+      setNewPresetId('');
+    } catch (error) {
+      // Handle errors here, e.g., show an error message
+      console.error('Error creating plant:', error);
     }
   };
+
+  const presetOptions = ["Option 1", "Option 2", "Option 3"];
+  
+  //CHANGE 
+  // Load initial data when the component mounts
+  useEffect(() => {
+    // Fetch the list of plants from the server and set it in state
+    axios.get('/api/plants').then((response) => {
+      setPlants(response.data);
+    });
+  }, []);
+
+  
 
   return (
     <div>
@@ -37,13 +66,18 @@ function PlantList() {
           value={newPlantLocation}
           onChange={(e) => setNewPlantLocation(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Status"
-          value={newPlantStatus}
-          onChange={(e) => setNewPlantStatus(e.target.value)}
-        />
-        <button onClick={addPlant}>Add Plant</button>
+      <select
+        value={newPresetId}
+        onChange={(e) => setNewPresetId(e.target.value)}
+      >
+        <option value="">Select a Preset</option>
+        {presetOptions.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+        <button onClick={createNewPlant}>Add Plant</button>
       </div>
       <div className="plant-list">
         {plants.map((plant, index) => (
