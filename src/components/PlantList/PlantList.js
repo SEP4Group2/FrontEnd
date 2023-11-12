@@ -3,7 +3,7 @@ import * as React from 'react';
 import Box from '@mui/joy/Box';
 import PlantCardSkeleton from './../PlantCard/PlantCardSkeleton.js';
 
-export default function PlantList({plants}) {
+export default function PlantList({plants, onViewClick}) {
 
   const cardContainerStyles = {
     display: 'flex',
