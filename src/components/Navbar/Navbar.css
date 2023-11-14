@@ -1,0 +1,140 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  background: #333;
+  color: #fff;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 17%; /* Adjust height for responsiveness */
+  z-index: 100;
+}
+
+.navbar ul {
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  display: flex;
+  padding: 0;
+}
+
+.navbar li {
+  margin: 0 60px; /* Decrease margin for smaller screens */
+
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.navbar li a {
+  transition: 0.3s ease-in-out;
+}
+
+.navbar li a:hover,
+.navbar li a.active {
+  color: rgba(134, 158, 121, 0.918);
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 80px;
+  width: 80px;
+}
+
+.logo-img {
+  position: relative;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  padding: 3px;
+  object-fit: cover;
+}
+
+
+/* New Styles for Responsive Navbar */
+.menu-icon {
+  display: none;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .navbar {
+    padding: 10px;
+  }
+
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 80px; /* Adjust as needed based on your design */
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .nav-links.open {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .navbar li {
+    margin: 15px 0;
+  }
+
+  .menu-icon {
+    display: block;
+    cursor: pointer;
+  }
+
+  .bar1, .bar2, .bar3 {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px 0;
+    transition: 0.4s;
+  }
+
+  .open .bar1 {
+    transform: rotate(-45deg) translate(-5px, 6px);
+  }
+
+  .open .bar2 {
+    opacity: 0;
+  }
+
+  .open .bar3 {
+    transform: rotate(45deg) translate(-5px, -6px);
+  }
+
+}

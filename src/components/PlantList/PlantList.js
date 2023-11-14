@@ -17,9 +17,10 @@ export default function PlantList({plants, onViewClick}) {
     padding: '20px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    margin: '10px',
-    width: '80%',
-    maxHeight: '500px', // Set a maximum height as needed
+    // margin: '10px',
+    // width: '80%',
+    maxHeight: '100%', // Set a maximum height as needed
+    maxWidth: '100%', 
     overflowY: 'auto',    // Enable vertical scrolling when content overflows
   };
 
