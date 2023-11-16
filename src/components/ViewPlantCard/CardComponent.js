@@ -111,7 +111,7 @@ export default function CardComponent({ plant, onClose }) {
                     <div> {/* Edit max value later */}
                       50
                     </div>
-                    <div>/50</div>
+                    <div>/{editedValues.humidity}</div>
                     </div>
                   }
                 />
@@ -129,7 +129,7 @@ export default function CardComponent({ plant, onClose }) {
                       Moisture
                     </div>
                     <div>
-                      20/80
+                      20/{editedValues.moisture}
                     </div>
                     </div>
                   }
@@ -148,7 +148,7 @@ export default function CardComponent({ plant, onClose }) {
                     Temperature
                     </div>
                     <div>
-                    50/50
+                    50/{editedValues.temperature}
                     </div>
                     </div>
                   }
@@ -167,7 +167,7 @@ export default function CardComponent({ plant, onClose }) {
                     Light
                     </div>
                     <div>
-                    70/70
+                    70/{editedValues.light}
                     </div>
                     </div>
                   }
@@ -348,7 +348,7 @@ export default function CardComponent({ plant, onClose }) {
                             type="number"
                             value={editedValues.light}
                             onChange={(event) => handleMaxValueChange('light', event)}
-                            style={{width: `${editedValues.lighte.toString().length * 25}px`,height: '30px', margin:'0px',verticalAlign: 'middle' }}
+                            style={{width: `${editedValues.light.toString().length * 25}px`,height: '30px', margin:'0px',verticalAlign: 'middle' }}
                           />
                         ) : (
                           <span>{editedValues.light}</span>
