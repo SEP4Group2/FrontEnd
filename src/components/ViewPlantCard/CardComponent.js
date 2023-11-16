@@ -3,12 +3,10 @@ import {
   MDBCard,
   MDBCardBody,
   MDBCardTitle,
-  MDBCardText,
   MDBCardHeader,
   MDBTabs,
   MDBTabsItem,
   MDBTabsLink,
-  MDBBtn
 } from 'mdb-react-ui-kit'; // Use components from mdb-react-ui-kit
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import ModelViewer from "../3D/ModelViewer";
@@ -25,7 +23,6 @@ import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import WaterTank from "../WaterTank/WaterTank";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Button from '@mui/joy/Button';
-import Typography from '@mui/material/Typography';
 export default function CardComponent({ plant, onClose }) {
   const [activeTab, setActiveTab] = useState('status');
 
@@ -90,8 +87,8 @@ export default function CardComponent({ plant, onClose }) {
                     <div style={{ flex: '1' }}>
                       Humidity
                     </div>
-                    <div>
-                      10/50
+                    <div> {/* Edit max value later */}
+                      {plant.plantPreset.humidity} / 50
                     </div>
                     </div>
                   }

@@ -4,7 +4,7 @@ import Box from "@mui/joy/Box";
 import PlantCardSkeleton from "./../PlantCard/PlantCardSkeleton.js";
 import AddButton from "../FloatButton/FloatButton.jsx";
 import RegisterPlant from "../RegisterPlant/RegisterPlant.jsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function PlantList({ plants, onViewClick }) {
   const cardContainerStyles = {

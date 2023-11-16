@@ -4,20 +4,20 @@ import "./Popup.css";
 import Axios from "axios";
 
 const Popup = ({ onSave, onCancel }) => {
-  const [type, setType] = useState("");
+  const [name, setName] = useState("");
   const [humidity, setHumidity] = useState("");
   const [moisture, setMoisture] = useState("");
   const [temperature, setTemperature] = useState("");
-  const [light, setLight] = useState("");
+  const [uvLight, setLight] = useState("");
 
   const createPresetJSON = () => {
     // Create an object with the values
     const presetData = {
-      type,
+      name,
       humidity,
       moisture,
       temperature,
-      light,
+      uvLight,
     };
 
     console.log("Plant JSON Object:", presetData);
@@ -31,7 +31,7 @@ const Popup = ({ onSave, onCancel }) => {
 
     onCancel();
 
-    Axios.post("YOUR_BACKEND_ENDPOINT", presetData)
+    Axios.post("http://localhost:5000/PlantPreset/createPlantPreset", presetData)
       .then((response) => {
         if (response.status === 200) {
           console.log("Plant data saved successfully");
@@ -52,8 +52,8 @@ const Popup = ({ onSave, onCancel }) => {
           <label>Type:</label>
           <input
             type="text"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <label>Humidity level:</label>
           <input
@@ -76,7 +76,7 @@ const Popup = ({ onSave, onCancel }) => {
           <label>Light level:</label>
           <input
             type="text"
-            value={light}
+            value={uvLight}
             onChange={(e) => setLight(e.target.value)}
           />
           <div className="button-container">

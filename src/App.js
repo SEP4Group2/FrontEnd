@@ -1,25 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import PlantList from './components/PlantList/PlantList';
 import Navbar from './components/Navbar/Navbar';
 import RegisterPlant from './components/RegisterPlant/RegisterPlant';
 import { BrowserRouter as Router, Routes, Route, HashRouter } from 'react-router-dom';
 import './App.css'; // Import the CSS file for styling
+import axios from 'axios';
 
 const App = () => {
-  const plants = [
-    { id: 1, name: 'Plant 1' },
-    { id: 2, name: 'Plant 2' },
-    { id: 3, name: 'Plant 3' },
-    { id: 4, name: 'Plant 4' },
-    { id: 5, name: 'Plant 5' },
-    { id: 6, name: 'Plant 6' },
-    { id: 1, name: 'Plant 1' },
-    { id: 2, name: 'Plant 2' },
-    { id: 3, name: 'Plant 3' },
-    { id: 4, name: 'Plant 4' },
-    { id: 5, name: 'Plant 5' },
-    { id: 6, name: 'Plant 6' },
-  ];
+  const [plants, setPlants] = useState([]);
+
+  const fetchPlants = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/Plant");
+      setPlants(response.data);
+    } catch (error) {
+      console.error("Error fetching plants:", error);
+    }
+  };
+
+  // Fetch plants initially
+  useEffect(() => {
+    fetchPlants();
+  }, []);
+
+  // Fetch plants every 5 minutes
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchPlants();
+    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array means this effect runs once on mount
 
   return (
     <div>

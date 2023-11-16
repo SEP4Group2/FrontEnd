@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Axios from "axios";
 import "./RegisterPlant.css";
 import Image from "../../assets/plant.jpg";
 import Image2 from "../../assets/logo.jpg";
 import Popup from "../Popup/Popup";
+import axios from 'axios'
 
 const NewPlant = ({ onCancel }) => {
   const plantTypes = [
@@ -107,7 +108,7 @@ const NewPlant = ({ onCancel }) => {
       return;
     }
 
-    Axios.post("YOUR_BACKEND_ENDPOINT", plantJSON)
+    Axios.post("http://localhost:5000/Plant/createPlant", plantJSON)
       .then((response) => {
         if (response.status === 200) {
           console.log("Plant data saved successfully");
