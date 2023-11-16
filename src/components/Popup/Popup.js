@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import "./Popup.css";
 import Axios from "axios";
 
-
 const Popup = ({ onSave, onCancel }) => {
   const [type, setType] = useState("");
   const [humidity, setHumidity] = useState("");
@@ -11,29 +10,26 @@ const Popup = ({ onSave, onCancel }) => {
   const [temperature, setTemperature] = useState("");
   const [light, setLight] = useState("");
 
-  
   const createPresetJSON = () => {
     // Create an object with the values
     const presetData = {
-        type,
-        humidity,
-        moisture,
-        temperature,
-        light,
-      };
+      type,
+      humidity,
+      moisture,
+      temperature,
+      light,
+    };
 
     console.log("Plant JSON Object:", presetData);
-        // Check if any of the parameters is an empty string or null
-        if (
-            Object.values(presetData).some(
-              (param) => param === "" || param === null
-            )
-          ) {
-            console.log("Some parameters are empty or null; not saving");
-            return;
-          }
+    // Check if any of the parameters is an empty string or null
+    if (
+      Object.values(presetData).some((param) => param === "" || param === null)
+    ) {
+      console.log("Some parameters are empty or null; not saving");
+      return;
+    }
 
-    onCancel(); 
+    onCancel();
 
     Axios.post("YOUR_BACKEND_ENDPOINT", presetData)
       .then((response) => {
@@ -46,8 +42,6 @@ const Popup = ({ onSave, onCancel }) => {
       .catch((error) => {
         console.error("Error:", error);
       });
-
-
   };
 
   return (
@@ -86,11 +80,11 @@ const Popup = ({ onSave, onCancel }) => {
             onChange={(e) => setLight(e.target.value)}
           />
           <div className="button-container">
-            <div onClick={createPresetJSON}>
-            <button>Save</button>
-            </div>
             <div onClick={onCancel}>
-            <button >Cancel</button>
+              <button style={{ backgroundColor: "black" }}>Cancel</button>
+            </div>
+            <div onClick={createPresetJSON}>
+              <button>Save</button>
             </div>
           </div>
         </div>
