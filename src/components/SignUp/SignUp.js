@@ -35,6 +35,19 @@ export default function SignUp() {
       email: data.get('email'),
       password: data.get('password'),
     });
+    const handleLogin = async (username, password) => {
+      try {
+        const response = await axios.post('/getLogin/login', {
+          username: username,
+          password: password,
+        });
+        // Handle the response here, e.g., set some state based on the response status
+        console.log(response.data); // Log the response for now
+      } catch (error) {
+        // Handle errors here
+        console.error('Error:', error);
+      }
+    };
   };
 
   return (
