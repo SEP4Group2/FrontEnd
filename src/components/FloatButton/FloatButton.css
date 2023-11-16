@@ -1,0 +1,21 @@
+/* FloatButton.css */
+.float-button-container {
+  margin: 20px;
+
+}
+
+.float-button {
+  background-color: #1b5820;
+  color: #fff;
+  font-size: 24px;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.float-button:hover{
+  transform: scale(1.1);
+}

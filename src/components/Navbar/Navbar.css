@@ -9,6 +9,18 @@
 }
 
 /* Navbar */
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.account-icon {
+  margin-right: 2%;
+}
+
 .navbar {
   background: #333;
   color: #fff;
@@ -17,7 +29,7 @@
   align-items: center;
   position: fixed;
   width: 100%;
-  height: 17%; /* Adjust height for responsiveness */
+  height: 15%; 
   z-index: 100;
 }
 
@@ -30,7 +42,7 @@
 }
 
 .navbar li {
-  margin: 0 60px; /* Decrease margin for smaller screens */
+  margin: 0 60px;
 
 }
 
@@ -74,8 +86,8 @@
 
 .nav-links {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  list-style-type: none;
+  margin-left: 35%;
 }
 
 /* Responsive Styles */
@@ -94,7 +106,7 @@
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 80px; /* Adjust as needed based on your design */
+    top: 80px;
     left: 0;
     width: 100%;
     background-color: #333;
@@ -137,4 +149,11 @@
     transform: rotate(45deg) translate(-5px, -6px);
   }
 
+}
+
+/* New styles for larger screens */
+@media screen and (min-width: 1500px) {
+  .navbar {
+    height: 10%;
+  }
 }

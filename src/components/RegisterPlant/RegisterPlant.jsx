@@ -5,9 +5,9 @@ import Image from "../../assets/plant.jpg";
 import Image2 from "../../assets/logo.jpg";
 import Popup from "../Popup/Popup";
 
-const NewPlant = () => {
+const NewPlant = ({ onCancel }) => {
   const plantTypes = [
-        {
+    {
       id: "0",
       name: "Other",
       humidity: "",
@@ -85,6 +85,10 @@ const NewPlant = () => {
     setShowPopup(false);
   };
 
+  const handleCancelRegister = () => {
+    onCancel();
+  }
+
   const createPlantJSON = () => {
     const { name, location, preset } = plantData;
 
@@ -97,9 +101,7 @@ const NewPlant = () => {
     console.log("Plant JSON Object:", plantJSON);
 
     if (
-      Object.values(plantJSON).some(
-        (param) => param === "" || param === null
-      )
+      Object.values(plantJSON).some((param) => param === "" || param === null)
     ) {
       console.log("Some parameters are empty or null; not saving");
       return;
@@ -118,9 +120,11 @@ const NewPlant = () => {
       });
   };
 
+   
+
   return (
     <div className="new-plant-container">
-      {showPopup && <Popup  onCancel={handleCancel} />}
+      {showPopup && <Popup onCancel={handleCancel} />}
       <div className="left-content">
         <div className="plant-details">
           <h2>Register a New Plant</h2>
@@ -250,8 +254,13 @@ const NewPlant = () => {
             </div>
           </div>
         </div>
-        <div onClick={createPlantJSON} className="saveButton">
-          <button className="save-button">Save</button>
+        <div className="buttons">
+          <div onClick={handleCancelRegister} className="cancelButton">
+            <button className="cancel-button">Go back</button>
+          </div>
+          <div onClick={createPlantJSON} className="saveButton">
+            <button className="save-button">Save</button>
+          </div>
         </div>
       </div>
     </div>
