@@ -8,7 +8,7 @@ import Typography from "@mui/joy/Typography";
 import SvgIcon from "@mui/joy/SvgIcon";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import "./PlantCard.css";
-import { ViewPlantCard } from "../ViewPlantCard/ViewPlantCard";
+import CardComponent from "../ViewPlantCard/CardComponent.js";
 
 const cardStyles = {
   margin: "10px",
@@ -73,9 +73,9 @@ export function PlantCard({ index, plant }) {
 
       {showViewCard && (
         <div className="popup">
-          <div className="popup-content">
-            <ViewPlantCard plant={plant} onClose={closeViewCard} />
-          </div>
+          
+            <CardComponent plant={plant} onClose={closeViewCard} />
+          
         </div>
       )}
     </div>
