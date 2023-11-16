@@ -41,6 +41,7 @@
   list-style: none;
   display: flex;
   padding: 0;
+  margin-bottom: 0;
 }
 
 .navbar li {
@@ -115,7 +116,7 @@
     display: none;
     flex-direction: column;
     position: fixed;
-    top: 50px;
+    top: 45px;
     left: 0;
     width: 100%;
     background-color: #333;
