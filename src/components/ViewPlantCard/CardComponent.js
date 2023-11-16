@@ -25,10 +25,31 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Button from '@mui/joy/Button';
 export default function CardComponent({ plant, onClose }) {
   const [activeTab, setActiveTab] = useState('status');
+  const [editableMode, setEditableMode] = useState(false);
+  const [editedValues, setEditedValues] = useState({
+    humidity: plant.plantPreset.humidity,
+    moisture: plant.plantPreset.moisture,
+    temperature: plant.plantPreset.temperature,
+    light: plant.plantPreset.uvLight,
+    // Add other fields as needed
+  });
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  const handleEditClick = () => {
+    setEditableMode((prevEditableMode) => !prevEditableMode);
+  };
+
+  const handleMaxValueChange = (field, event) => {
+    const newValue = event.target.value;
+    setEditedValues((prevValues) => ({
+      ...prevValues,
+      [field]: newValue,
+    }));
+  };
+  
 
   return (
     <MDBCard className='text-center' style={{ width: '700px', height: '440px' }}>
@@ -88,8 +109,9 @@ export default function CardComponent({ plant, onClose }) {
                       Humidity
                     </div>
                     <div> {/* Edit max value later */}
-                      {plant.plantPreset.humidity} / 50
+                      50
                     </div>
+                    <div>/50</div>
                     </div>
                   }
                 />
@@ -175,12 +197,17 @@ export default function CardComponent({ plant, onClose }) {
 
             <MDBCardTitle style={{fontWeight: "Bold", fontSize: '28px', marginTop:'10px'}}>{plant.name}</MDBCardTitle>
             <div style={{ marginRight: 'auto', alignSelf: 'flex-end' }}>
-              <Button variant="solid" size="sm" style={{ backgroundColor: '#869e7a', color: 'white', marginLeft: '290px', marginTop: '0px' }}>
-                Edit
-              </Button>
-              <Button variant="soft" size="sm" style={{ color: 'grey', marginLeft: '20px' }}>
-                Delete
-              </Button>
+            <Button
+                  variant="solid"
+                  size="sm"
+                  style={{ backgroundColor: '#869e7a', color: 'white', marginLeft: '290px', marginTop: '0px' }}
+                  onClick={() => setEditableMode(!editableMode)}
+                >
+                  {editableMode ? 'Save' : 'Edit'}
+                </Button>
+                <Button variant="soft" size="sm" style={{ color: 'grey', marginLeft: '20px' }}>
+                  Delete
+                </Button>
             </div>
             
             </div>
@@ -205,14 +232,28 @@ export default function CardComponent({ plant, onClose }) {
                     <WaterIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={
-                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                    <div style={{ flex: '1' }}>
-                      Humidity
-                    </div>
-                    <div>
-                      10/50
-                    </div>
+                <ListItemText
+                  primary={
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                      <div style={{ flex: '1' }}>
+                        Humidity
+                      </div>
+                      <div>
+                        10
+                      </div>
+                      <div>/</div>
+                      <div>
+                        {editableMode ? (
+                          <input
+                            type="number"
+                            value={editedValues.humidity}
+                            onChange={(event) => handleMaxValueChange('humidity', event)}
+                            style={{width: `${editedValues.humidity.toString().length * 25}px`,height: '30px', margin:'0px',verticalAlign: 'middle' }}
+                          />
+                        ) : (
+                          <span>{editedValues.humidity}</span>
+                        )}
+                      </div>
                     </div>
                   }
                 />
@@ -224,14 +265,28 @@ export default function CardComponent({ plant, onClose }) {
                     <WaterDropIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={
-                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                    <div style={{ flex: '1' }}>
+                <ListItemText
+                  primary={
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                      <div style={{ flex: '1' }}>
                       Moisture
-                    </div>
-                    <div>
-                      20/80
-                    </div>
+                      </div>
+                      <div>
+                        20
+                      </div>
+                      <div>/</div>
+                      <div>
+                        {editableMode ? (
+                          <input
+                            type="number"
+                            value={editedValues.moisture}
+                            onChange={(event) => handleMaxValueChange('moisture', event)}
+                            style={{width: `${editedValues.moisture.toString().length * 25}px`,height: '30px', margin:'0px',verticalAlign: 'middle' }}
+                          />
+                        ) : (
+                          <span>{editedValues.moisture}</span>
+                        )}
+                      </div>
                     </div>
                   }
                 />
@@ -243,17 +298,32 @@ export default function CardComponent({ plant, onClose }) {
                     <DeviceThermostatIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={
-                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                    <div style={{ flex: '1' }}>
-                    Temperature
-                    </div>
-                    <div>
-                    50/50
-                    </div>
+                <ListItemText
+                  primary={
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                      <div style={{ flex: '1' }}>
+                      Temperature
+                      </div>
+                      <div>
+                        40
+                      </div>
+                      <div>/</div>
+                      <div>
+                        {editableMode ? (
+                          <input
+                            type="number"
+                            value={editedValues.temperature}
+                            onChange={(event) => handleMaxValueChange('temperature', event)}
+                            style={{width: `${editedValues.temperature.toString().length * 25}px`,height: '30px', margin:'0px',verticalAlign: 'middle' }}
+                          />
+                        ) : (
+                          <span>{editedValues.temperature}</span>
+                        )}
+                      </div>
                     </div>
                   }
                 />
+                
               </ListItem>
               <Divider variant="inset" component="li" />
               <ListItem>
@@ -262,14 +332,28 @@ export default function CardComponent({ plant, onClose }) {
                     <LightModeIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={
-                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                    <div style={{ flex: '1' }}>
-                    Light
-                    </div>
-                    <div>
-                    70/70
-                    </div>
+                <ListItemText
+                  primary={
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                      <div style={{ flex: '1' }}>
+                      Light
+                      </div>
+                      <div>
+                        0
+                      </div>
+                      <div>/</div>
+                      <div>
+                        {editableMode ? (
+                          <input
+                            type="number"
+                            value={editedValues.light}
+                            onChange={(event) => handleMaxValueChange('light', event)}
+                            style={{width: `${editedValues.lighte.toString().length * 25}px`,height: '30px', margin:'0px',verticalAlign: 'middle' }}
+                          />
+                        ) : (
+                          <span>{editedValues.light}</span>
+                        )}
+                      </div>
                     </div>
                   }
                 />
