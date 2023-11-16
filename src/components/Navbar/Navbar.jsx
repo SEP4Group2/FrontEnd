@@ -35,7 +35,7 @@ const Navbar = () => {
             <a href="/contact">Analytics</a>
           </li>
         </ul>
-        <div className="account-icon">
+        <div className="account-icon" style={{position: "fixed"}}>
           <AccountCircleIcon style={{ width: "40px", height: "40px" }} />
         </div>
       </div>
