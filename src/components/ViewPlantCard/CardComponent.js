@@ -75,6 +75,7 @@ export default function CardComponent({ plant, onClose }) {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img
             src="/plant.jpg" // Path relative to the public directory
+            alt=''
             style={{ width: '70px',
             height: '70px',
             objectFit: 'cover',
@@ -188,6 +189,7 @@ export default function CardComponent({ plant, onClose }) {
              <div style={{ display: 'flex', alignItems: 'center' }}>
             <img
             src="/plant.jpg" // Path relative to the public directory
+            alt=''
             style={{ width: '70px',
             height: '70px',
             objectFit: 'cover',
@@ -201,7 +203,7 @@ export default function CardComponent({ plant, onClose }) {
                   variant="solid"
                   size="sm"
                   style={{ backgroundColor: '#869e7a', color: 'white', marginLeft: '290px', marginTop: '0px' }}
-                  onClick={() => setEditableMode(!editableMode)}
+                  onClick={() => handleEditClick()}
                 >
                   {editableMode ? 'Save' : 'Edit'}
                 </Button>

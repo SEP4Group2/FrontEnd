@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PlantList from './components/PlantList/PlantList';
 import Navbar from './components/Navbar/Navbar';
 import RegisterPlant from './components/RegisterPlant/RegisterPlant';
+// eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, Routes, Route, HashRouter } from 'react-router-dom';
 import './App.css'; // Import the CSS file for styling
 import axios from 'axios';
