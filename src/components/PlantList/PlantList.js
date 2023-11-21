@@ -39,12 +39,18 @@ export default function PlantList({ plants, plantsData, onViewClick }) {
   if (plants.length === 0) {
     // Render the skeleton boxes if plants array is empty
     return (
+      showRegisterPlant ? (
+        <RegisterPlant onCancel={handleCancel} />
+      ) :
       <Box style={boxStyles}>
         <div style={{ paddingTop: "10px" }}>
           <div style={cardContainerStyles}>
             <PlantCardSkeleton />
             <PlantCardSkeleton />
             <PlantCardSkeleton />
+            <div onClick={handleAddButton} className="addButton">
+              <AddButton />
+            </div>
           </div>
         </div>
       </Box>
@@ -53,23 +59,23 @@ export default function PlantList({ plants, plantsData, onViewClick }) {
     // Render the PlantCard components if plants array is not empty
     return (
       <div>
-      {showRegisterPlant ? (
-        <RegisterPlant onCancel={handleCancel}/>
-      ) : (
-        <Box style={boxStyles}>
-          <div style={{ paddingTop: "10px" }}>
-            <div style={cardContainerStyles}>
-              {plants.map((plant, index) => (
-                <PlantCard plant={plant} plantsData={plantsData} index={index} />
-              ))}
-              <div onClick={handleAddButton} className="addButton">
-                <AddButton/>
+        {showRegisterPlant ? (
+          <RegisterPlant onCancel={handleCancel} />
+        ) : (
+          <Box style={boxStyles}>
+            <div style={{ paddingTop: "10px" }}>
+              <div style={cardContainerStyles}>
+                {plants.map((plant, index) => (
+                  <PlantCard plant={plant} plantsData={plantsData} index={index} />
+                ))}
+                <div onClick={handleAddButton} className="addButton">
+                  <AddButton />
+                </div>
               </div>
             </div>
-          </div>
-        </Box>
-      )}
-    </div>
-  );
+          </Box>
+        )}
+      </div>
+    );
   }
 }

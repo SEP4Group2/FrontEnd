@@ -257,7 +257,7 @@ const NewPlant = ({ onCancel }) => {
           <div onClick={handleCancelRegister} className="cancelButton">
             <button className="cancel-button">Go back</button>
           </div>
-          <div onClick={createPlantJSON} className="saveButton">
+          <div onClick={() => { createPlantJSON(); handleCancelRegister(); }} className="saveButton">
             <button className="save-button">Save</button>
           </div>
         </div>
