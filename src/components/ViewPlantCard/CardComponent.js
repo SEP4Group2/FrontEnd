@@ -23,10 +23,10 @@ import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import WaterTank from "../WaterTank/WaterTank";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Button from '@mui/joy/Button';
-export default function CardComponent({ plant, onClose }) {
+export default function CardComponent({ plant, plantsData, onClose }) {
   const [activeTab, setActiveTab] = useState('status');
   const [editableMode, setEditableMode] = useState(false);
-  const [editedValues, setEditedValues] = useState({
+  const [presetValues, setPresetValues] = useState({
     humidity: plant.plantPreset.humidity,
     moisture: plant.plantPreset.moisture,
     temperature: plant.plantPreset.temperature,
@@ -44,46 +44,49 @@ export default function CardComponent({ plant, onClose }) {
 
   const handleMaxValueChange = (field, event) => {
     const newValue = event.target.value;
-    setEditedValues((prevValues) => ({
+    setPresetValues((prevValues) => ({
       ...prevValues,
       [field]: newValue,
     }));
   };
-  
+
 
   return (
     <MDBCard className='text-center' style={{ width: '700px', height: '440px' }}>
       <MDBCardHeader>
         <MDBTabs className='card-header-tabs'>
           <MDBTabsItem>
-            <MDBTabsLink active={activeTab === 'status'} onClick={() => handleTabClick('status')} style={{fontSize:'15px', color: activeTab==='status' ? '#869e7a' : ''}}>
+            <MDBTabsLink active={activeTab === 'status'} onClick={() => handleTabClick('status')} style={{ fontSize: '15px', color: activeTab === 'status' ? '#869e7a' : '' }}>
               Status
             </MDBTabsLink>
           </MDBTabsItem>
           <MDBTabsItem>
-            <MDBTabsLink active={activeTab === 'information'} onClick={() => handleTabClick('information')} style={{fontSize:'15px'}}>
+            <MDBTabsLink active={activeTab === 'information'} onClick={() => handleTabClick('information')} style={{ fontSize: '15px' }}>
               Information
             </MDBTabsLink>
           </MDBTabsItem>
-          <CloseRoundedIcon style={{marginLeft:'370px',marginTop:'10px'}} onClick={onClose}/>
+          <CloseRoundedIcon style={{ marginLeft: '370px', marginTop: '10px' }} onClick={onClose} />
         </MDBTabs>
-        
+
       </MDBCardHeader>
       <MDBCardBody>
         {activeTab === 'status' && (
           <>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img
-            src="/plant.jpg" // Path relative to the public directory
-            style={{ width: '70px',
-            height: '70px',
-            objectFit: 'cover',
-            borderRadius: '50%',
-            marginRight: '30px', }}
-            />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img
+                src="/plant.jpg" // Path relative to the public directory
+                alt=''
+                style={{
+                  width: '70px',
+                  height: '70px',
+                  objectFit: 'cover',
+                  borderRadius: '50%',
+                  marginRight: '30px',
+                }}
+              />
 
-            <MDBCardTitle style={{fontWeight: "Bold", fontSize: '28px', marginTop:'10px'}}>{plant.name}</MDBCardTitle></div>
-            <Divider variant="fullWidth" style={{ marginTop:'10px' }} />
+              <MDBCardTitle style={{ fontWeight: "Bold", fontSize: '28px', marginTop: '10px' }}>{plant.name}</MDBCardTitle></div>
+            <Divider variant="fullWidth" style={{ marginTop: '10px' }} />
             <List
               sx={{
                 width: '300px',
@@ -91,7 +94,7 @@ export default function CardComponent({ plant, onClose }) {
                 bgcolor: 'background.paper',
                 marginTop: '10px',
                 marginLeft: '30px',
-                fontSize:'5px',// Add the following styles to ListItemText
+                fontSize: '5px',// Add the following styles to ListItemText
                 '& .MuiListItemText-primary': {
                   fontSize: '14px', // Adjust the fontSize as needed
                 },
@@ -108,12 +111,12 @@ export default function CardComponent({ plant, onClose }) {
                     <div style={{ flex: '1' }}>
                       Humidity
                     </div>
-                    <div> {/* Edit max value later */}
-                      50
+                    <div>
+                      {plantsData[plantsData.length - 1].humidity}
                     </div>
-                    <div>/{editedValues.humidity}</div>
-                    </div>
-                  }
+                    <div>/{presetValues.humidity}</div>
+                  </div>
+                }
                 />
               </ListItem>
               <Divider variant="inset" component="li" />
@@ -129,10 +132,10 @@ export default function CardComponent({ plant, onClose }) {
                       Moisture
                     </div>
                     <div>
-                      20/{editedValues.moisture}
+                      {plantsData[plantsData.length - 1].moisture}/{presetValues.moisture}
                     </div>
-                    </div>
-                  }
+                  </div>
+                }
                 />
               </ListItem>
               <Divider variant="inset" component="li" />
@@ -145,13 +148,13 @@ export default function CardComponent({ plant, onClose }) {
                 <ListItemText primary={
                   <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                     <div style={{ flex: '1' }}>
-                    Temperature
+                      Temperature
                     </div>
                     <div>
-                    50/{editedValues.temperature}
+                      {plantsData[plantsData.length - 1].temperature}/{presetValues.temperature}
                     </div>
-                    </div>
-                  }
+                  </div>
+                }
                 />
               </ListItem>
               <Divider variant="inset" component="li" />
@@ -164,55 +167,58 @@ export default function CardComponent({ plant, onClose }) {
                 <ListItemText primary={
                   <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                     <div style={{ flex: '1' }}>
-                    Light
+                      Light
                     </div>
                     <div>
-                    70/{editedValues.light}
+                      {plantsData[plantsData.length - 1].uvLight}/{presetValues.light}
                     </div>
-                    </div>
-                  }
+                  </div>
+                }
                 />
               </ListItem>
             </List>
-            <div style={{ width: '180px', height: '130px', display: 'flex', justifyContent: 'left', alignItems: 'center', marginTop: '-170px', marginLeft:'420px' }}>
+            <div style={{ width: '180px', height: '130px', display: 'flex', justifyContent: 'left', alignItems: 'center', marginTop: '-170px', marginLeft: '420px' }}>
               <ModelViewer scale="1" modelPath="flowertry10.gltf" />
-              
+
             </div>
           </>
-          
+
         )}
 
         {activeTab === 'information' && (
           <>
-             
-             <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img
-            src="/plant.jpg" // Path relative to the public directory
-            style={{ width: '70px',
-            height: '70px',
-            objectFit: 'cover',
-            borderRadius: '50%',
-            marginRight: '30px', }}
-            />
 
-            <MDBCardTitle style={{fontWeight: "Bold", fontSize: '28px', marginTop:'10px'}}>{plant.name}</MDBCardTitle>
-            <div style={{ marginRight: 'auto', alignSelf: 'flex-end' }}>
-            <Button
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img
+                src="/plant.jpg" // Path relative to the public directory
+                alt=''
+                style={{
+                  width: '70px',
+                  height: '70px',
+                  objectFit: 'cover',
+                  borderRadius: '50%',
+                  marginRight: '30px',
+                }}
+              />
+
+              <MDBCardTitle style={{ fontWeight: "Bold", fontSize: '28px', marginTop: '10px' }}>{plant.name}</MDBCardTitle>
+              <div style={{ marginRight: 'auto', alignSelf: 'flex-end' }}>
+                <Button
                   variant="solid"
                   size="sm"
                   style={{ backgroundColor: '#869e7a', color: 'white', marginLeft: '290px', marginTop: '0px' }}
-                  onClick={() => setEditableMode(!editableMode)}
+                  onClick={() => handleEditClick()}
                 >
                   {editableMode ? 'Save' : 'Edit'}
                 </Button>
                 <Button variant="soft" size="sm" style={{ color: 'grey', marginLeft: '20px' }}>
                   Delete
                 </Button>
+              </div>
+
             </div>
-            
-            </div>
-            
-            <Divider variant="fullWidth" style={{ marginTop:'10px' }} />
+
+            <Divider variant="fullWidth" style={{ marginTop: '10px' }} />
             <List
               sx={{
                 width: '300px',
@@ -220,7 +226,7 @@ export default function CardComponent({ plant, onClose }) {
                 bgcolor: 'background.paper',
                 marginTop: '10px',
                 marginLeft: '30px',
-                fontSize:'5px',// Add the following styles to ListItemText
+                fontSize: '5px',// Add the following styles to ListItemText
                 '& .MuiListItemText-primary': {
                   fontSize: '14px', // Adjust the fontSize as needed
                 },
@@ -239,19 +245,19 @@ export default function CardComponent({ plant, onClose }) {
                         Humidity
                       </div>
                       <div>
-                        10
+                        {plantsData[plantsData.length - 1].humidity}
                       </div>
                       <div>/</div>
                       <div>
                         {editableMode ? (
                           <input
                             type="number"
-                            value={editedValues.humidity}
+                            value={presetValues.humidity}
                             onChange={(event) => handleMaxValueChange('humidity', event)}
-                            style={{width: `${editedValues.humidity.toString().length * 25}px`,height: '30px', margin:'0px',verticalAlign: 'middle' }}
+                            style={{ width: `${presetValues.humidity.toString().length * 25}px`, height: '30px', margin: '0px', verticalAlign: 'middle' }}
                           />
                         ) : (
-                          <span>{editedValues.humidity}</span>
+                          <span>{presetValues.humidity}</span>
                         )}
                       </div>
                     </div>
@@ -269,22 +275,22 @@ export default function CardComponent({ plant, onClose }) {
                   primary={
                     <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
                       <div style={{ flex: '1' }}>
-                      Moisture
+                        Moisture
                       </div>
                       <div>
-                        20
+                        {plantsData[plantsData.length - 1].moisture}
                       </div>
                       <div>/</div>
                       <div>
                         {editableMode ? (
                           <input
                             type="number"
-                            value={editedValues.moisture}
+                            value={presetValues.moisture}
                             onChange={(event) => handleMaxValueChange('moisture', event)}
-                            style={{width: `${editedValues.moisture.toString().length * 25}px`,height: '30px', margin:'0px',verticalAlign: 'middle' }}
+                            style={{ width: `${presetValues.moisture.toString().length * 25}px`, height: '30px', margin: '0px', verticalAlign: 'middle' }}
                           />
                         ) : (
-                          <span>{editedValues.moisture}</span>
+                          <span>{presetValues.moisture}</span>
                         )}
                       </div>
                     </div>
@@ -302,28 +308,28 @@ export default function CardComponent({ plant, onClose }) {
                   primary={
                     <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
                       <div style={{ flex: '1' }}>
-                      Temperature
+                        Temperature
                       </div>
                       <div>
-                        40
+                        {plantsData[plantsData.length - 1].temperature}
                       </div>
                       <div>/</div>
                       <div>
                         {editableMode ? (
                           <input
                             type="number"
-                            value={editedValues.temperature}
+                            value={presetValues.temperature}
                             onChange={(event) => handleMaxValueChange('temperature', event)}
-                            style={{width: `${editedValues.temperature.toString().length * 25}px`,height: '30px', margin:'0px',verticalAlign: 'middle' }}
+                            style={{ width: `${presetValues.temperature.toString().length * 25}px`, height: '30px', margin: '0px', verticalAlign: 'middle' }}
                           />
                         ) : (
-                          <span>{editedValues.temperature}</span>
+                          <span>{presetValues.temperature}</span>
                         )}
                       </div>
                     </div>
                   }
                 />
-                
+
               </ListItem>
               <Divider variant="inset" component="li" />
               <ListItem>
@@ -336,22 +342,22 @@ export default function CardComponent({ plant, onClose }) {
                   primary={
                     <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
                       <div style={{ flex: '1' }}>
-                      Light
+                        Light
                       </div>
                       <div>
-                        0
+                        {plantsData[plantsData.length - 1].uvLight}
                       </div>
                       <div>/</div>
                       <div>
                         {editableMode ? (
                           <input
                             type="number"
-                            value={editedValues.light}
+                            value={presetValues.light}
                             onChange={(event) => handleMaxValueChange('light', event)}
-                            style={{width: `${editedValues.light.toString().length * 25}px`,height: '30px', margin:'0px',verticalAlign: 'middle' }}
+                            style={{ width: `${presetValues.light.toString().length * 25}px`, height: '30px', margin: '0px', verticalAlign: 'middle' }}
                           />
                         ) : (
-                          <span>{editedValues.light}</span>
+                          <span>{presetValues.light}</span>
                         )}
                       </div>
                     </div>
@@ -359,8 +365,8 @@ export default function CardComponent({ plant, onClose }) {
                 />
               </ListItem>
             </List>
-            <div style={{marginTop: '50px', marginLeft:'0px', position: 'absolute' }}><WaterTank waterLevel={60}/></div>
-            
+            <div style={{ marginTop: '50px', marginLeft: '0px', position: 'absolute' }}><WaterTank waterLevel={plantsData[plantsData.length-1].tankLevel} /></div>
+
           </>
         )}
       </MDBCardBody>

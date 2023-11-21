@@ -4,8 +4,6 @@ import "./RegisterPlant.css";
 import Image from "../../assets/plant.jpg";
 import Image2 from "../../assets/logo.jpg";
 import Popup from "../Popup/Popup";
-import axios from 'axios'
-
 const NewPlant = ({ onCancel }) => {
   const plantTypes = [
     {
@@ -96,7 +94,7 @@ const NewPlant = ({ onCancel }) => {
     const plantJSON = {
       name,
       location,
-      plantTypeId: preset,
+      plantPresetId: preset,
     };
 
     console.log("Plant JSON Object:", plantJSON);

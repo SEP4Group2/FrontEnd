@@ -6,7 +6,7 @@ import AddButton from "../FloatButton/FloatButton.jsx";
 import RegisterPlant from "../RegisterPlant/RegisterPlant.jsx";
 import { useState } from "react";
 
-export default function PlantList({ plants, onViewClick }) {
+export default function PlantList({ plants, plantsData, onViewClick }) {
   const cardContainerStyles = {
     display: "flex",
     flexWrap: "wrap",
@@ -60,7 +60,7 @@ export default function PlantList({ plants, onViewClick }) {
           <div style={{ paddingTop: "10px" }}>
             <div style={cardContainerStyles}>
               {plants.map((plant, index) => (
-                <PlantCard plant={plant} index={index} />
+                <PlantCard plant={plant} plantsData={plantsData} index={index} />
               ))}
               <div onClick={handleAddButton} className="addButton">
                 <AddButton/>

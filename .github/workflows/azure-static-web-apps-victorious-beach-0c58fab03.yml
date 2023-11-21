@@ -4,16 +4,20 @@ on:
   push:
     branches:
       - main
+      - develop
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+      - develop
 
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
+    env:
+      CI: false  # Set process.env.CI to false for this job
     steps:
       - uses: actions/checkout@v3
         with:
@@ -37,6 +41,8 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
     name: Close Pull Request Job
+    env:
+      CI: false  # Set process.env.CI to false for this job
     steps:
       - name: Close Pull Request
         id: closepullrequest

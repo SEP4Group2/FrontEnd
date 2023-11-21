@@ -26,7 +26,7 @@ const getStatusColor = (value) => {
   }
 };
 
-export function PlantCard({ index, plant }) {
+export function PlantCard({ index, plantsData, plant }) {
   const [showViewCard, setShowViewCard] = useState(false);
 
   const openViewCard = () => {
@@ -74,7 +74,7 @@ export function PlantCard({ index, plant }) {
       {showViewCard && (
         <div className="popup">
           
-            <CardComponent plant={plant} onClose={closeViewCard} />
+            <CardComponent plant={plant} plantsData={plantsData} onClose={closeViewCard} />
           
         </div>
       )}
