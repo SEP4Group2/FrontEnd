@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* New Plant Container */
+.new-plant-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+/* Left Content and Right Content */
+.left-content, .right-content {
+  flex: 1;
+  padding-left: 10%;
+}
+
+.left-content{
+  padding-top: 5%;
+}
+
+/* Plant Details */
+.plant-details {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
+
+/* Form Fields */
+.form-fields {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 80%;
+}
+
+.form-field {
+  margin: 5px 0;
+  width: calc(50% - 10px); /* Two columns with 10px gap */
+  box-sizing: border-box; /* Consider padding and border in width */
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* Plant Icons */
+.plant-icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-icon img {
+  width: 300px;
+  height: 300px;
+  border-radius: 10%;
+}
+
+.small-icons {
+  display: flex;
+  margin-top: 20px;
+}
+
+.small-icon {
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.small-icon img {
+  width: 100px;
+  height: 100px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.small-icon img:hover {
+  border: 4px solid #000000;
+}
+
+.buttons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Save Button */
+.cancelButton, .saveButton {
+  padding-top: 20px;
+  margin-left: 10px;
+
+}
+
+.cancel-button, .save-button {
+  background-color: rgb(60, 119, 21);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cancel-button {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.save-button:hover {
+  background-color: #197219;
+}
+
+.cancel-button:hover{
+  background-color: #686868;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .new-plant-container {
+    flex-direction: column;
+  }
+
+  .left-content, .right-content {
+    width: 100%;
+    float: none;
+  }
+  
+  .right-content{
+    padding-top: 10%;
+  }
+
+  .saveButton {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .form-field {
+    width: 100%;
+  }
+}
