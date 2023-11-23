@@ -29,15 +29,14 @@ const Popup = ({ onSave, onCancel }) => {
       return;
     }
 
-    onCancel();
-
     Axios.post("http://localhost:5000/PlantPreset/createPlantPreset", presetData)
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           console.log("Plant data saved successfully");
         } else {
           console.error("Failed to save plant data");
         }
+        onCancel();
       })
       .catch((error) => {
         console.error("Error:", error);
