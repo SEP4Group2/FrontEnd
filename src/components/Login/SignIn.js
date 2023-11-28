@@ -3,9 +3,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+import { Link as MuiLink } from '@mui/material';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -14,20 +13,9 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Spalant
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 function SignIn() {
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,9 +23,16 @@ function SignIn() {
     const password = data.get('password');
 
     try {
-      const response = await axios.get(`/getLogin/login?username=${username}&password=${password}`);
+      const response = await axios.post('/getLogin/login', {
+        username: username,
+        password: password,
+      });
+
       // Handle the response here, e.g., set some state based on the response status
       console.log(response.data); // Log the response for now
+
+      // Redirect to another page after successful login
+      navigate('/dashboard');
     } catch (error) {
       // Handle errors here
       console.error('Error:', error);
@@ -85,10 +80,7 @@ function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            
             <Button
               type="submit"
               fullWidth
@@ -98,23 +90,25 @@ function SignIn() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                {/* Updated usage of Link component */}
+                <MuiLink
+                  component={RouterLink}
+                  to="/register"
+                  variant="body2"
+                >
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </MuiLink>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
 }
 
 export default SignIn;
+
+
+
