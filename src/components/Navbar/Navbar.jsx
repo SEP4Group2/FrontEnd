@@ -3,7 +3,7 @@ import "./Navbar.css";
 import Image from "../../assets/logo.jpg";
 import { Link } from "react-router-dom";
 import UserMenu from "../UserMenu/usermenu.js";
-
+import NotificationIcon from "../Notifications/NotificationIcon.js";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,6 +35,9 @@ const Navbar = () => {
             <Link to="/analytics">Analytics</Link>
           </li>
         </ul>
+        <div className="notification-icon" style={{ position: 'fixed' }}>
+          <NotificationIcon />
+        </div>
         <div className="account-icon" style={{ position: "fixed" }}>
           <UserMenu />
         </div>
