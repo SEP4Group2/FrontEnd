@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      
+
       <div className="navbar-container">
         <div
           className={`menu-icon ${isOpen ? "open" : ""}`}
@@ -32,10 +32,10 @@ const Navbar = () => {
             <img src={Image} alt="" className="logo-img" />
           </div>
           <li>
-            <a href="/contact">Analytics</a>
+            <Link to="/analytics">Analytics</Link>
           </li>
         </ul>
-        <div className="account-icon">
+        <div className="account-icon" style={{ position: "fixed" }}>
           <AccountCircleIcon style={{ width: "40px", height: "40px" }} />
         </div>
       </div>

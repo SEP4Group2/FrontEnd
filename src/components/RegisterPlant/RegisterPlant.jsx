@@ -1,46 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "./RegisterPlant.css";
 import Image from "../../assets/plant.jpg";
 import Image2 from "../../assets/logo.jpg";
 import Popup from "../Popup/Popup";
-import axios from 'axios'
 
 const NewPlant = ({ onCancel }) => {
-  const plantTypes = [
-    {
-      id: "0",
-      name: "Other",
-      humidity: "",
-      moisture: "",
-      light: "",
-      temperature: "",
-    },
-    {
-      id: "1",
-      name: "Monstiera",
-      humidity: "50",
-      moisture: "50",
-      light: "50",
-      temperature: "50",
-    },
-    {
-      id: "2",
-      name: "Aloe",
-      humidity: "40",
-      moisture: "40",
-      light: "40",
-      temperature: "40",
-    },
-    {
-      id: "3",
-      name: "Sunflower",
-      humidity: "60",
-      moisture: "60",
-      light: "60",
-      temperature: "60",
-    },
-  ];
+  const other = {
+    name: "Other",
+    id: "0",
+    humidity: "0",
+    moisture: "0",
+    light: "0",
+    temperature: "0",
+  };
+  const [presets, setPresets] = useState([other]);
+
+  const fetchPresets = async () => {
+    try {
+      const response = await Axios.get("http://localhost:5000/PlantPreset");
+      if (Array.isArray(response.data)) {
+        const presetsWithSelectOne = [{ name: "Other", id: "0" }, ...response.data];
+        setPresets(presetsWithSelectOne);
+      }
+    } catch (error) {
+      console.error("Error fetching presets:", error);
+    }
+  };
+  useEffect(() => {
+    fetchPresets(); 
+  }, []);
 
   const [plantData, setPlantData] = useState({
     name: "",
@@ -59,7 +48,7 @@ const NewPlant = ({ onCancel }) => {
 
   const handleTypeChange = (e) => {
     const selectedType = e.target.value;
-    const selectedPlantType = plantTypes.find(
+    const selectedPlantType = presets.find(
       (type) => type.name === selectedType
     );
 
@@ -82,13 +71,19 @@ const NewPlant = ({ onCancel }) => {
     setPlantData({ ...plantData, icon: newIcon });
   };
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
+    try {
+    fetchPresets();
     setShowPopup(false);
+    }
+    catch (error) {
+      console.error("Error fetching presets:", error);
+    }
   };
 
   const handleCancelRegister = () => {
     onCancel();
-  }
+  };
 
   const createPlantJSON = () => {
     const { name, location, preset } = plantData;
@@ -96,7 +91,7 @@ const NewPlant = ({ onCancel }) => {
     const plantJSON = {
       name,
       location,
-      plantTypeId: preset,
+      plantPresetId: preset,
     };
 
     console.log("Plant JSON Object:", plantJSON);
@@ -120,8 +115,6 @@ const NewPlant = ({ onCancel }) => {
         console.error("Error:", error);
       });
   };
-
-   
 
   return (
     <div className="new-plant-container">
@@ -155,7 +148,8 @@ const NewPlant = ({ onCancel }) => {
                 value={plantData.selectedType}
                 onChange={handleTypeChange}
               >
-                {plantTypes.map((plantType) => (
+                <option value="" disabled hidden>Select Type</option>
+                {presets.map((plantType) => (
                   <option key={plantType.id} value={plantType.name}>
                     {plantType.name}
                   </option>
@@ -168,9 +162,8 @@ const NewPlant = ({ onCancel }) => {
                 type="text"
                 name="humidity"
                 value={
-                  plantTypes.find(
-                    (type) => type.name === plantData.selectedType
-                  )?.humidity || ""
+                  presets.find((type) => type.name === plantData.selectedType)
+                    ?.humidity || ""
                 }
                 onChange={handleInputChange}
                 readOnly
@@ -182,9 +175,8 @@ const NewPlant = ({ onCancel }) => {
                 type="text"
                 name="moisture"
                 value={
-                  plantTypes.find(
-                    (type) => type.name === plantData.selectedType
-                  )?.moisture || ""
+                  presets.find((type) => type.name === plantData.selectedType)
+                    ?.moisture || ""
                 }
                 onChange={handleInputChange}
                 readOnly
@@ -196,9 +188,8 @@ const NewPlant = ({ onCancel }) => {
                 type="text"
                 name="light"
                 value={
-                  plantTypes.find(
-                    (type) => type.name === plantData.selectedType
-                  )?.light || ""
+                  presets.find((type) => type.name === plantData.selectedType)
+                    ?.uvLight || ""
                 }
                 onChange={handleInputChange}
                 readOnly
@@ -210,9 +201,8 @@ const NewPlant = ({ onCancel }) => {
                 type="text"
                 name="temperature"
                 value={
-                  plantTypes.find(
-                    (type) => type.name === plantData.selectedType
-                  )?.temperature || ""
+                  presets.find((type) => type.name === plantData.selectedType)
+                    ?.temperature || ""
                 }
                 onChange={handleInputChange}
                 readOnly
@@ -259,7 +249,13 @@ const NewPlant = ({ onCancel }) => {
           <div onClick={handleCancelRegister} className="cancelButton">
             <button className="cancel-button">Go back</button>
           </div>
-          <div onClick={createPlantJSON} className="saveButton">
+          <div
+            onClick={() => {
+              createPlantJSON();
+              handleCancelRegister();
+            }}
+            className="saveButton"
+          >
             <button className="save-button">Save</button>
           </div>
         </div>
