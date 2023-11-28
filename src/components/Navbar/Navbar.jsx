@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import Image from "../../assets/logo.jpg";
 import { Link } from "react-router-dom";
+import UserMenu from "../UserMenu/usermenu.js";
 
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,7 @@ const Navbar = () => {
           </li>
         </ul>
         <div className="account-icon" style={{ position: "fixed" }}>
-          <AccountCircleIcon style={{ width: "40px", height: "40px" }} />
+          <UserMenu />
         </div>
       </div>
     </nav>
