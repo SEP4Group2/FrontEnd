@@ -8,7 +8,7 @@ import Popup from "../Popup/Popup";
 const NewPlant = ({ onCancel }) => {
   const other = {
     name: "Other",
-    id: "0",
+    presetId: "0",
     humidity: "0",
     moisture: "0",
     light: "0",
@@ -55,7 +55,7 @@ const NewPlant = ({ onCancel }) => {
     if (selectedPlantType && selectedType !== "Other") {
       setPlantData({
         ...plantData,
-        preset: selectedPlantType.id,
+        preset: selectedPlantType.presetId,
         selectedType,
       });
       console.log("I chose something");
