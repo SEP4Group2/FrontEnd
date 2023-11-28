@@ -6,7 +6,8 @@ import RegisterPlant from './components/RegisterPlant/RegisterPlant';
 import { BrowserRouter as Router, Routes, Route, HashRouter } from 'react-router-dom';
 import './App.css'; // Import the CSS file for styling
 import axios from 'axios';
-
+import SignIn from "./components/Login/SignIn";
+import SignUp from "./components/SignUp/SignUp";
 const App = () => {
   const [plants, setPlants] = useState([]);
   const [plantsData, setPlantsData] = useState([]);
@@ -65,6 +66,8 @@ const App = () => {
               element={<PlantList plants={plants} plantsData={plantsData} />}
             ></Route>
             <Route path="/newPlant" element={<RegisterPlant />}></Route>
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/register" element={<SignUp />} />
           </Routes>
         </div>
       </HashRouter>
