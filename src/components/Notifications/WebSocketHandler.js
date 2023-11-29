@@ -1,31 +1,37 @@
 import { useEffect, useState } from 'react';
+import { HubConnectionBuilder } from '@microsoft/signalr';
 
 const WebSocketHandler = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    // Establish a WebSocket connection
-    const socket = new WebSocket('ws://localhost:8080/?topic=User1');
+    // Create a SignalR connection
+    const connection = new HubConnectionBuilder()
+      .withUrl('https://your-signalr-hub-url') // Replace with your SignalR hub URL
+      .build();
 
-    // Connection opened
-    socket.addEventListener('open', (event) => {
-      console.log('WebSocket connected');
+    // Start the connection
+    async function startConnection() {
+      try {
+        await connection.start();
+        console.log('SignalR Connected!');
+      } catch (err) {
+        console.error('Error connecting to SignalR:', err);
+      }
+    }
+
+    // Listen for messages from the server
+    connection.on('ReceiveNotification', (notification) => {
+      setNotifications((prevNotifications) => [...prevNotifications, notification]);
     });
 
-    // Listen for messages
-    socket.addEventListener('message', (event) => {
-      const newNotification = JSON.parse(event.data);
-      setNotifications((prevNotifications) => [...prevNotifications, newNotification]);
-    });
-
-    // Connection closed
-    socket.addEventListener('close', (event) => {
-      console.log('WebSocket closed');
-    });
+    // Start the SignalR connection
+    startConnection();
 
     // Cleanup on component unmount
     return () => {
-      socket.close();
+      // Stop the SignalR connection
+      connection.stop();
     };
   }, []); // The empty dependency array ensures this effect runs once on mount
 

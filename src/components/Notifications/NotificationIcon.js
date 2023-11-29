@@ -6,11 +6,14 @@ import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import NotificationComponent from './NotificationComponent';
 import './NotificationIcon.css'
+import CssBaseline from '@mui/material/CssBaseline';
 
-const NotificationIcon = ({ notificationCount = 1 }) => {
+const NotificationIcon = ({ initialNotificationCount = 1 }) => {
+  const [notificationCount, setNotificationCount] = useState(initialNotificationCount);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
+    setNotificationCount(0);
     setAnchorEl(event.currentTarget);
   };
 
@@ -21,7 +24,9 @@ const NotificationIcon = ({ notificationCount = 1 }) => {
   const open = Boolean(anchorEl);
 
   return (
-    <>
+    
+    <React.Fragment>
+      <CssBaseline />
       <IconButton
         className="notification-icon"
         size="large"
@@ -48,7 +53,8 @@ const NotificationIcon = ({ notificationCount = 1 }) => {
       >
         <NotificationComponent notificationCount={notificationCount} />
       </Popover>
-    </>
+    
+    </React.Fragment>
   );
 };
 
