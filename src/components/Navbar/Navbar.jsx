@@ -16,7 +16,6 @@ const Navbar = ({ isAuthenticated }) => {
     setIsOpen(!isOpen);
   };
 
-  
   return (
     <nav className="navbar">
       <div className="navbar-container">
