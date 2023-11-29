@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,20 +14,17 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 
-function Copyright(props) {
+function ErrorMessage({ message }) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Spalant
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <div style={{ color: 'red', border: '1px solid red', padding: '10px', marginBottom: '10px' }}>
+      {message}
+    </div>
   );
 }
 
 function SignIn() {
+  const [error, setError] = useState(null);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,12 +32,19 @@ function SignIn() {
     const password = data.get('password');
 
     try {
-      const response = await axios.get(`/getLogin/login?username=${username}&password=${password}`);
-      // Handle the response here, e.g., set some state based on the response status
-      console.log(response.data); // Log the response for now
+      const response = await axios.post('/user/login', {
+        username: username,
+        password: password,
+      });
+
+      // Handle the token here, e.g., store it in local storage or context
+      const token = response.data;
+      console.log(token);
+
+      // Redirect the user or perform other actions based on successful login
     } catch (error) {
-      // Handle errors here
-      console.error('Error:', error);
+      console.error('Error:', error.response.data); // Log the error response
+      setError(error.response.data); // Set error state to display in UI
     }
   };
 
@@ -64,6 +68,7 @@ function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          {error && <ErrorMessage message={error} />}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -111,10 +116,10 @@ function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
 }
 
 export default SignIn;
+
