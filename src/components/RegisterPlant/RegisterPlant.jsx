@@ -25,6 +25,7 @@ const NewPlant = ({ onCancel }) => {
   }, []);
 
   const [plantData, setPlantData] = useState({
+    deviceId: "",
     name: "",
     location: "",
     preset: "",
@@ -79,9 +80,10 @@ const NewPlant = ({ onCancel }) => {
   };
 
   const createPlantJSON = () => {
-    const { name, location, preset } = plantData;
+    const { deviceId, name, location, preset } = plantData;
 
     const plantJSON = {
+      deviceId,
       name,
       location,
       plantPresetId: preset,
@@ -116,6 +118,15 @@ const NewPlant = ({ onCancel }) => {
         <div className="plant-details">
           <h2>Register a New Plant</h2>
           <div className="form-fields">
+          <div className="form-field">
+              <label>Device ID:</label>
+              <input
+                type="text"
+                name="name"
+                value={plantData.deviceId}
+                onChange={handleInputChange}
+              />
+            </div>
             <div className="form-field">
               <label>Name:</label>
               <input
