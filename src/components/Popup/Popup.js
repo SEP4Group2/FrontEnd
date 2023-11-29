@@ -4,6 +4,7 @@ import "./Popup.css";
 import Axios from "axios";
 
 const Popup = ({ onSave, onCancel }) => {
+  const [deviceId, setDeviceId] = useState ("");
   const [name, setName] = useState("");
   const [humidity, setHumidity] = useState("");
   const [moisture, setMoisture] = useState("");
@@ -13,6 +14,7 @@ const Popup = ({ onSave, onCancel }) => {
   const createPresetJSON = () => {
     // Create an object with the values
     const presetData = {
+      deviceId,
       name,
       humidity,
       moisture,
@@ -47,7 +49,12 @@ const Popup = ({ onSave, onCancel }) => {
     <div className="background">
       <div className="popup">
         <div className="popup-content">
-          <h2>New Preset</h2>
+        <label>Device Id:</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setDeviceId(e.target.value)}
+          />
           <label>Type:</label>
           <input
             type="text"
