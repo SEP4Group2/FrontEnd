@@ -14,13 +14,18 @@ const UserMenu = ({ isAuthenticated, onLogout }) => {
     navigate('/');
   };
 
+  const handleRegisterClick = () => {
+    navigate('/register');
+  };
+
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
         <>
-          <div {...bindTrigger(popupState)} style={{ fontSize: 40, cursor: 'pointer' }}>
-            <AccountCircleIcon />
-          </div>
+          <AccountCircleIcon
+            {...bindTrigger(popupState)}
+            style={{ fontSize: 40, cursor: 'pointer'}}
+          />
           <Menu {...bindMenu(popupState)}>
             {isAuthenticated ? (
               <div>
@@ -31,7 +36,7 @@ const UserMenu = ({ isAuthenticated, onLogout }) => {
               </div>
             ) : (
               <div>
-                <MenuItem >Register</MenuItem>
+                <MenuItem onClick={handleRegisterClick}>Register</MenuItem>
                 <MenuItem component={Link} to="/login" onClick={popupState.close}>
                   Login
                 </MenuItem>
@@ -45,6 +50,4 @@ const UserMenu = ({ isAuthenticated, onLogout }) => {
 };
 
 export default UserMenu;
-
-
 

@@ -1,16 +1,12 @@
-// Navbar.js
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 import Image from "../../assets/logo.jpg";
 import { Link } from "react-router-dom";
 import UserMenu from "../UserMenu/usermenu.js";
 
-const Navbar = ({ isAuthenticated }) => {
-  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("isAuthenticated in Navbar:", isAuthenticated);
-  }, [isAuthenticated]);
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -18,6 +14,7 @@ const Navbar = ({ isAuthenticated }) => {
 
   return (
     <nav className="navbar">
+
       <div className="navbar-container">
         <div
           className={`menu-icon ${isOpen ? "open" : ""}`}
@@ -27,30 +24,23 @@ const Navbar = ({ isAuthenticated }) => {
           <div className="bar2"></div>
           <div className="bar3"></div>
         </div>
-        <div className="logo">
-          <img src={Image} alt="" className="logo-img" />
-        </div>
         <ul className={`nav-links ${isOpen ? "open" : ""}`}>
-          {isAuthenticated && (
-            <>
-              <li>
-                <Link to="/myPlants">My Plants</Link>
-              </li>
-              <li>
-                <Link to="/analytics">Analytics</Link>
-              </li>
-            </>
-          )}
-        </ul>
-        <div className="account-icon" style={{ position: "fixed" }}>  
-          <UserMenu isAuthenticated={isAuthenticated} />
+          <li>
+            <Link to="/myPlants">My Plants</Link>
+          </li>
+          <div className="logo">
+            <img src={Image} alt="" className="logo-img" />
           </div>
+          <li>
+            <Link to="/analytics">Analytics</Link>
+          </li>
+        </ul>
+        <div className="account-icon" style={{ position: "fixed" }}>
+          <UserMenu />
+        </div>
       </div>
     </nav>
   );
 };
 
 export default Navbar;
-
-
-

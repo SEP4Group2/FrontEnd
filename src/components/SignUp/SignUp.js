@@ -10,41 +10,44 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
 
-function ErrorMessage({ message }) {
+function Copyright(props) {
   return (
-    <div style={{ color: 'red', border: '1px solid red', padding: '10px', marginBottom: '10px' }}>
-      {message}
-    </div>
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Spalant
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
   );
 }
+
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const [error, setError] = React.useState(null);
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      username: data.get('username'),
+      email: data.get('email'),
       password: data.get('password'),
     });
-
-    try {
-      const response = await axios.post('/user/createUser', {
-        username: data.get('username'), // Assuming 'email' is the username
-        password: data.get('password'),
-      });
-      console.log(response.data); // Log the response for now
-
-      // If registration is successful, you may want to handle the token or navigate the user
-    } catch (error) {
-      console.error('Error:', error.response.data); // Log the error response
-      setError(error.response.data); // Set error state to display in UI
-    }
+    const handleLogin = async (username, password) => {
+      try {
+        const response = await axios.post('/getLogin/login', {
+          username: username,
+          password: password,
+        });
+        // Handle the response here, e.g., set some state based on the response status
+        console.log(response.data); // Log the response for now
+      } catch (error) {
+        // Handle errors here
+        console.error('Error:', error);
+      }
+    };
   };
 
   return (
@@ -65,7 +68,6 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          {error && <ErrorMessage message={error} />}
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -110,6 +112,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
+        
             </Grid>
             <Button
               type="submit"
@@ -128,6 +131,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
+        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );
