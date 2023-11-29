@@ -6,15 +6,8 @@ import Image2 from "../../assets/logo.jpg";
 import Popup from "../Popup/Popup";
 
 const NewPlant = ({ onCancel }) => {
-  const other = {
-    name: "Other",
-    presetId: "0",
-    humidity: "0",
-    moisture: "0",
-    light: "0",
-    temperature: "0",
-  };
-  const [presets, setPresets] = useState([other]);
+
+  const [presets, setPresets] = useState([]);
 
   const fetchPresets = async () => {
     try {
