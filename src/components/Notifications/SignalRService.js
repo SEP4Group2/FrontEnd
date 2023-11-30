@@ -2,32 +2,50 @@
 import * as signalR from '@microsoft/signalr';
 
 const hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl('https://localhost:5016//notificationhub') // Replace with your SignalR hub URL
+  .withUrl('ws://localhost:5016/notificationhub', { transport: signalR.HttpTransportType.WebSockets, skipNegotiation: true })
+  .configureLogging(signalR.LogLevel.Debug)
   .build();
 
 const startConnection = async () => {
   try {
     await hubConnection.start();
     console.log('SignalR Connected!');
+
+    // Perform manual negotiation steps here if needed
+    await manualNegotiation();
   } catch (err) {
     console.error('Error while establishing SignalR connection:', err);
   }
 };
 
+// Function to perform manual negotiation
+const manualNegotiation = async () => {
+  try {
+    // Send the initial protocol and version
+    const protocolVersionMessage = '{"protocol":"json","version":1}';
+    await hubConnection.send('Send', protocolVersionMessage);
+
+    // Send additional messages as needed
+    const addToGroupMessage = '{"arguments":["1"],"target":"AddToGroup","type":1}';
+    await hubConnection.send('Send', addToGroupMessage);
+
+    // Add more manual steps as necessary
+  } catch (err) {
+    console.error('Error during manual negotiation:', err);
+  }
+};
+
 const subscribeToNotification = (callback) => {
-  // Subscribe to ReceiveNotification event
   hubConnection.on('ReceiveNotification', (message) => {
     callback(message);
   });
 };
 
 const addToGroup = (userId) => {
-  // Call the AddToGroup method when the user connects
   hubConnection.invoke('AddToGroup', userId).catch((err) => console.error(err));
 };
 
 const removeFromGroup = (userId) => {
-  // Call the RemoveFromGroup method when the user disconnects
   hubConnection.invoke('RemoveFromGroup', userId).catch((err) => console.error(err));
 };
 

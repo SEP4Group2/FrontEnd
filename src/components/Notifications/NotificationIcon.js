@@ -48,7 +48,7 @@ const NotificationIcon = ({ initialNotificationCount = 1 }) => {
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'left',
         }}
       >
         <NotificationComponent notificationCount={notificationCount} />
