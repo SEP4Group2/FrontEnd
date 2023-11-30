@@ -1,39 +1,30 @@
-import { useEffect, useState } from 'react';
-import { HubConnectionBuilder } from '@microsoft/signalr';
+// WebSocketHandler.js
+import React, { useEffect, useState } from 'react';
+import { startConnection, subscribeToNotification, addToGroup, removeFromGroup, stopConnection } from './SignalRService';
 
 const WebSocketHandler = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    // Create a SignalR connection
-    const connection = new HubConnectionBuilder()
-      .withUrl('https://your-signalr-hub-url') // Replace with your SignalR hub URL
-      .build();
+    const userId = 'userId'; // Replace with the actual user ID or identifier
 
-    // Start the connection
-    async function startConnection() {
-      try {
-        await connection.start();
-        console.log('SignalR Connected!');
-      } catch (err) {
-        console.error('Error connecting to SignalR:', err);
-      }
-    }
+    const setupSignalR = async () => {
+      await startConnection();
+      await addToGroup(userId);
 
-    // Listen for messages from the server
-    connection.on('ReceiveNotification', (notification) => {
-      setNotifications((prevNotifications) => [...prevNotifications, notification]);
-    });
+      const unsubscribe = subscribeToNotification((notification) => {
+        setNotifications((prevNotifications) => [...prevNotifications, notification]);
+      });
 
-    // Start the SignalR connection
-    startConnection();
-
-    // Cleanup on component unmount
-    return () => {
-      // Stop the SignalR connection
-      connection.stop();
+      return () => {
+        unsubscribe();
+        removeFromGroup(userId);
+        stopConnection();
+      };
     };
-  }, []); // The empty dependency array ensures this effect runs once on mount
+
+    setupSignalR();
+  }, []);
 
   return notifications;
 };
