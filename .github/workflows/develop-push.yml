@@ -1,0 +1,35 @@
+name: React App Build and Test (Develop)
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - develop
+
+jobs:
+  build_and_test_job:
+    runs-on: ubuntu-latest
+    name: Build and Test Job
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build React App
+        run: npm run build
+
+      - name: Test React App
+        run: npm test
