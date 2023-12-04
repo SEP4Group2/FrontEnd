@@ -6,6 +6,8 @@ import RegisterPlant from './components/RegisterPlant/RegisterPlant';
 import { BrowserRouter as Router, Routes, Route, HashRouter } from 'react-router-dom';
 import './App.css'; // Import the CSS file for styling
 import axios from 'axios';
+import Analytics from "./components/Analytics/Analytics";
+import 'apexcharts/dist/apexcharts.css';
 
 const App = () => {
   const [plants, setPlants] = useState([]);
@@ -65,6 +67,7 @@ const App = () => {
               element={<PlantList plants={plants} plantsData={plantsData} />}
             ></Route>
             <Route path="/newPlant" element={<RegisterPlant />}></Route>
+            <Route path="/analytics" element={<Analytics />} />
           </Routes>
         </div>
       </HashRouter>
