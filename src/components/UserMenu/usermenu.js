@@ -28,19 +28,19 @@ const UserMenu = ({ isAuthenticated, onLogout }) => {
           />
           <Menu {...bindMenu(popupState)}>
             {isAuthenticated ? (
-              <>
+              <div>
                 <MenuItem component={Link} to="/profile" onClick={popupState.close}>
                   My Profile
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </>
+              </div>
             ) : (
-              <>
+              <div>
                 <MenuItem onClick={handleRegisterClick}>Register</MenuItem>
                 <MenuItem component={Link} to="/login" onClick={popupState.close}>
                   Login
                 </MenuItem>
-              </>
+              </div>
             )}
           </Menu>
         </>

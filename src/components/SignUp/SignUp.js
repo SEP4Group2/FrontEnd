@@ -23,12 +23,12 @@ export default function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = data.get('email');
+    const username = data.get('username');
     const password = data.get('password');
 
     try {
-      const response = await axios.post('/user/createUser', {
-        email: email,
+      const response = await axios.post('http://localhost:5000/User/createUser', {
+        username: username,
         password: password,
       });
 

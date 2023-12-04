@@ -13,7 +13,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 
-function SignIn() {
+function SignIn({ setToken }) {
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -23,16 +23,15 @@ function SignIn() {
     const password = data.get('password');
 
     try {
-      const response = await axios.post('/getLogin/login', {
+      const response = await axios.post('http://localhost:5000/User/login', {
         username: username,
         password: password,
       });
 
-      // Handle the response here, e.g., set some state based on the response status
-      console.log(response.data); // Log the response for now
+      setToken(response.data);
 
       // Redirect to another page after successful login
-      navigate('/dashboard');
+      navigate('/myPlants');
     } catch (error) {
       // Handle errors here
       console.error('Error:', error);

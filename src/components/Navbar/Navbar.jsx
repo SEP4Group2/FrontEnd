@@ -38,7 +38,7 @@ const Navbar = ({ isAuthenticated }) => {
           )}
         </ul>
         <div className="account-icon" style={{ width: "40px", height: "40px" }}>
-          <UserMenu />
+          <UserMenu isAuthenticated={isAuthenticated}/>
         </div>
       </div>
     </nav>

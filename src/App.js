@@ -2,75 +2,74 @@ import React, { useState, useEffect } from "react";
 import PlantList from './components/PlantList/PlantList';
 import Navbar from './components/Navbar/Navbar';
 import RegisterPlant from './components/RegisterPlant/RegisterPlant';
-import { BrowserRouter as Router, Routes, Route, HashRouter } from 'react-router-dom';
-import './App.css'; // Import the CSS file for styling
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import './App.css';
 import axios from 'axios';
 import SignIn from "./components/Login/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 
 const App = () => {
+  const [token, setToken] = useState();
   const [plants, setPlants] = useState([]);
   const [plantsData, setPlantsData] = useState([]);
 
-  const fetchPlants = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/Plant");
-      setPlants(response.data);
-    } catch (error) {
-      console.error("Error fetching plants:", error);
-    }
-  };
-  const fetchPlantsData = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/PlantData/fetchPlantData/1");
-      setPlantsData(response.data);
-    } catch (error) {
-      console.error("Error fetching plants:", error);
-    }
-  };
-
-  // Fetch plants initially
   useEffect(() => {
-    fetchPlants();
-    fetchPlantsData();
-  }, []);
+    if (token) {
+      const fetchPlants = async () => {
+        try {
+          const plantResponse = await axios.get("http://localhost:5000/Plant");
+          setPlants(plantResponse.data);
+        } catch (error) {
+          console.error("Error fetching plants:", error);
+        }
+      };
 
-  // Fetch plants every 5 minutes
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchPlants();
-    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+      const fetchPlantsData = async () => {
+        try
+        {
+          const plantDataResponse = await axios.get("http://localhost:5000/PlantData/fetchPlantData/1");
+          setPlantsData(plantDataResponse.data);
+        }
+        catch (error)
+        {
+          console.error("Error fetching plants data:", error);
+        }
+      };
 
-    // Fetch data every 5 seconds
-    const updateData = setInterval(() => {
-      fetchPlantsData();
-    }, 5000)
+      const fetchInterval = setInterval(fetchPlants, 5 * 60 * 1000); // Fetch plants every 5 minutes
+      const dataInterval = setInterval(fetchPlantsData, 5000); // Fetch data every 5 seconds
 
-    // Cleanup interval on component unmount
-    return () => {
-      clearInterval(intervalId);
-      clearInterval(updateData);
+      // Cleanup intervals on component unmount
+      return () => {
+        clearInterval(fetchInterval);
+        clearInterval(dataInterval);
+      };
     }
-  }, []); // Empty dependency array means this effect runs once on mount
+  }); // Empty dependency array means this effect runs once on mount
 
   return (
     <div>
-      <HashRouter>
-        <Navbar />
-        {/* Container for adjusting margins and paddings */}
+      <Router>
+        <Navbar isAuthenticated={!!token} />
         <div className="content-container">
           <Routes>
-            <Route
-              exact
-              path="/myPlants"
-              element={<PlantList plants={plants} plantsData={plantsData} />}
-            ></Route>
-            <Route path="/newPlant" element={<RegisterPlant />}></Route>
-            <Route path="/login" element={<SignIn />} />
+            <Route path="/login" element={<SignIn setToken={setToken} />} />
             <Route path="/register" element={<SignUp />} />
+            {token ? (
+              <>
+                <Route
+                  path="/myPlants"
+                  element={<PlantList plants={plants} plantsData={plantsData} />}
+                />
+                <Route path="/newPlant" element={<RegisterPlant />} />
+                <Route path="/" element={<Navigate to="/myPlants" />} />
+              </>
+            ) : (
+              <Route path="/" element={<Navigate to="/login" />} />
+            )}
           </Routes>
         </div>
-      </HashRouter>
+      </Router>
     </div>
   );
 };
