@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Routes, Route, HashRouter } from 'react-router
 import './App.css'; // Import the CSS file for styling
 import axios from 'axios';
 import Analytics from "./components/Analytics/Analytics";
-import 'apexcharts/dist/apexcharts.css';
+import PlantCarousel from "./components/PlantList/PlantCarousel";
 
 const App = () => {
   const [plants, setPlants] = useState([]);
@@ -67,7 +67,10 @@ const App = () => {
               element={<PlantList plants={plants} plantsData={plantsData} />}
             ></Route>
             <Route path="/newPlant" element={<RegisterPlant />}></Route>
-            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/analytics" element={<React.Fragment>
+                  <PlantCarousel plants={plants} plantsData={plantsData} />
+                  <Analytics />
+                </React.Fragment>} />
           </Routes>
         </div>
       </HashRouter>
