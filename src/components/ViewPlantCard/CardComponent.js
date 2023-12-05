@@ -32,7 +32,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
   const [editedName, setEditedName] = useState(plant.name);
 
   const [editableMode, setEditableMode] = useState(false);
-  const [presetValues, setPresetValues] = useState({
+  const [presetValues] = useState({
     humidity: plant.plantPreset.humidity,
     moisture: plant.plantPreset.moisture,
     temperature: plant.plantPreset.temperature,
@@ -188,7 +188,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
                       }}
                     >
                       <div style={{ flex: "1" }}>Humidity</div>
-                      <div>{plantsData[plantsData.length - 1].humidity}</div>
+                      <div>{plantsData.humidity}</div>
                       <div>/{presetValues.humidity}</div>
                     </div>
                   }
@@ -212,7 +212,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
                     >
                       <div style={{ flex: "1" }}>Moisture</div>
                       <div>
-                        {plantsData[plantsData.length - 1].moisture}/
+                        {plantsData.moisture}/
                         {presetValues.moisture}
                       </div>
                     </div>
@@ -237,7 +237,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
                     >
                       <div style={{ flex: "1" }}>Temperature</div>
                       <div>
-                        {plantsData[plantsData.length - 1].temperature}/
+                        {plantsData.temperature}/
                         {presetValues.temperature}
                       </div>
                     </div>
@@ -262,7 +262,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
                     >
                       <div style={{ flex: "1" }}>Light</div>
                       <div>
-                        {plantsData[plantsData.length - 1].uvLight}/
+                        {plantsData.uvLight}/
                         {presetValues.light}
                       </div>
                     </div>
@@ -400,7 +400,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
                       }}
                     >
                       <div style={{ flex: "1" }}>Humidity</div>
-                      <div>{plantsData[plantsData.length - 1].humidity}</div>
+                      <div>{plantsData.humidity}</div>
                       <div>/</div>
                       <div>
                         <span>{presetValues.humidity}</span>
@@ -427,7 +427,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
                       }}
                     >
                       <div style={{ flex: "1" }}>Moisture</div>
-                      <div>{plantsData[plantsData.length - 1].moisture}</div>
+                      <div>{plantsData.moisture}</div>
                       <div>/</div>
                       <div>
                         <span>{presetValues.moisture}</span>
@@ -454,7 +454,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
                       }}
                     >
                       <div style={{ flex: "1" }}>Temperature</div>
-                      <div>{plantsData[plantsData.length - 1].temperature}</div>
+                      <div>{plantsData.temperature}</div>
                       <div>/</div>
                       <div>
                         <span>{presetValues.temperature}</span>
@@ -481,7 +481,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
                       }}
                     >
                       <div style={{ flex: "1" }}>Light</div>
-                      <div>{plantsData[plantsData.length - 1].uvLight}</div>
+                      <div>{plantsData.uvLight}</div>
                       <div>/</div>
 
                       <span>{presetValues.light}</span>
@@ -498,7 +498,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
               }}
             >
               <WaterTank
-                waterLevel={100 - plantsData[plantsData.length - 1].tankLevel}
+                waterLevel={100 - plantsData.tankLevel}
               />
             </div>
           </>

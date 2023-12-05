@@ -68,12 +68,30 @@ export default function PlantList({
               <div style={cardContainerStyles}>
                 {plants.length === 0 ? (
                   <>
-                    
-                    <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
                       <div>
-                        <div style={{width: "10%", height: "10%"}}><img src={Image} alt="" className="bg-img" style={{width: "240px", height: "210px"}}/></div>
-                        <h2 style={{marginLeft: "10%"}}>Add your first plant</h2>
-                        <div onClick={handleAddButton} className="addButton" style={{marginLeft: "30%"}}>
+                        <div style={{ width: "10%", height: "10%" }}>
+                          <img
+                            src={Image}
+                            alt=""
+                            className="bg-img"
+                            style={{ width: "240px", height: "210px" }}
+                          />
+                        </div>
+                        <h2 style={{ marginLeft: "10%" }}>
+                          Add your first plant
+                        </h2>
+                        <div
+                          onClick={handleAddButton}
+                          className="addButton"
+                          style={{ marginLeft: "30%" }}
+                        >
                           <AddButton />
                         </div>
                       </div>
@@ -81,13 +99,31 @@ export default function PlantList({
                   </>
                 ) : (
                   <>
-                    {plants.map((plant, index) => (
-                      <PlantCard
-                        plant={plant}
-                        plantsData={plantsData}
-                        index={index}
-                      />
-                    ))}
+                    {plants.map((plant, index) => {
+                      // Assuming plantId exists in the plant object, filter plantsData based on plantId
+                      const filteredData = plantsData.filter(
+                        (data) => data.plantId === plant.id
+                      );
+                      if (filteredData.length === 0)
+                        return (
+                          <PlantCard
+                            plant={plant}
+                            plantsData={plantsData[plantsData.length -1]} // Pass default values
+                            index={index}
+                            key={index} // Ensure each child element has a unique key prop
+                          />
+                        );
+
+                      return (
+                        <PlantCard
+                          plant={plant}
+                          plantsData={filteredData[filteredData.length -1]} // Pass filtered data to PlantCard
+                          index={index}
+                          key={index} // Ensure each child element has a unique key prop
+                        />
+                      );
+                    })}
+
                     <div onClick={handleAddButton} className="addButton">
                       <AddButton />
                     </div>
