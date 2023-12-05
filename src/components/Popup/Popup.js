@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import "./Popup.css";
 import Axios from "axios";
+import Alert from "@mui/material/Alert";
 
 const Popup = ({ onSave, onCancel }) => {
   const [name, setName] = useState("");
@@ -9,9 +10,11 @@ const Popup = ({ onSave, onCancel }) => {
   const [moisture, setMoisture] = useState("");
   const [temperature, setTemperature] = useState("");
   const [uvLight, setLight] = useState("");
+  const [warningText, setWarningText] = useState(false);
 
   const createPresetJSON = () => {
     // Create an object with the values
+    
     const presetData = {
       name,
       humidity,
@@ -25,6 +28,7 @@ const Popup = ({ onSave, onCancel }) => {
     if (
       Object.values(presetData).some((param) => param === "" || param === null)
     ) {
+      setWarningText(true);
       console.log("Some parameters are empty or null; not saving");
       return;
     }
@@ -57,26 +61,33 @@ const Popup = ({ onSave, onCancel }) => {
           <input
             type="text"
             value={humidity}
-            onChange={(e) => setHumidity(e.target.value)}
+            onChange={(e) => {const inputValue = e.target.value; if(/^\d*$/.test(inputValue)){setHumidity(e.target.value)}}}
           />
           <label>Moisture level:</label>
           <input
             type="text"
             value={moisture}
-            onChange={(e) => setMoisture(e.target.value)}
+            onChange={(e) => {const inputValue = e.target.value; if(/^\d*$/.test(inputValue)){setMoisture(e.target.value)}}}
           />
           <label>Temperature level:</label>
           <input
             type="text"
             value={temperature}
-            onChange={(e) => setTemperature(e.target.value)}
+            onChange={(e) => {const inputValue = e.target.value; if(/^\d*$/.test(inputValue)){setTemperature(e.target.value)}}}
           />
           <label>Light level:</label>
           <input
             type="text"
             value={uvLight}
-            onChange={(e) => setLight(e.target.value)}
+            onChange={(e) => {const inputValue = e.target.value; if(/^\d*$/.test(inputValue)){setLight(e.target.value)}}}
           />
+          <div style={{ marginTop: "10px" }}>
+              {warningText && (
+                <Alert severity="warning" onClose={() => setWarningText(false)}>
+                  Fields should not be empty!
+                </Alert>
+              )}
+            </div>
           <div className="button-container">
             <div onClick={onCancel}>
               <button style={{ backgroundColor: "black" }}>Cancel</button>
