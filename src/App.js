@@ -11,14 +11,17 @@ import SignUp from "./components/SignUp/SignUp";
 const App = () => {
   const [token, setToken] = useState();
   const [plants, setPlants] = useState([]);
-  const [plantsData, setPlantsData] = useState([]);
+  const [plantsData, setPlantsData] = useState([{plantId: 0, moisture: 0, humidity: 0, uvLight: 0, temperature: 0, tankLevel: 0}]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (token) {
       const fetchPlants = async () => {
         try {
+          
           const plantResponse = await axios.get("http://localhost:5000/Plant");
           setPlants(plantResponse.data);
+          setLoading(false);
         } catch (error) {
           console.error("Error fetching plants:", error);
         }
@@ -28,6 +31,7 @@ const App = () => {
         try
         {
           const plantDataResponse = await axios.get("http://localhost:5000/PlantData/fetchPlantData/1");
+          if(plantDataResponse.data.length > 0)
           setPlantsData(plantDataResponse.data);
         }
         catch (error)
@@ -36,7 +40,7 @@ const App = () => {
         }
       };
 
-      const fetchInterval = setInterval(fetchPlants, 5 * 60 * 1000); // Fetch plants every 5 minutes
+      const fetchInterval = setInterval(fetchPlants, 5000); // Fetch plants every 5 minutes
       const dataInterval = setInterval(fetchPlantsData, 5000); // Fetch data every 5 seconds
 
       // Cleanup intervals on component unmount
@@ -59,7 +63,7 @@ const App = () => {
               <>
                 <Route
                   path="/myPlants"
-                  element={<PlantList plants={plants} plantsData={plantsData} />}
+                  element={<PlantList plants={plants} plantsData={plantsData} loading={loading}/>}
                 />
                 <Route path="/newPlant" element={<RegisterPlant />} />
                 <Route path="/" element={<Navigate to="/myPlants" />} />
