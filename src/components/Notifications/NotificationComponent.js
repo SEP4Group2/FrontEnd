@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import WebSocketHandler from './WebSocketHandler';
 
-const NotificationComponent = () => {
+const NotificationComponent = ({ onNotificationCountChange }) => {
   const [messageList, setMessageList] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
 
@@ -31,10 +31,16 @@ const NotificationComponent = () => {
     setMessageList((prevMessages) => {
       const updatedMessages = [...prevMessages, notification];
       updateLocalStorage(updatedMessages);
-      setNotificationCount((prevCount) => prevCount + 1);
+      setNotificationCount((prevCount) => {
+        const newCount = prevCount + 1;
+        console.log('New Notification Count:', newCount);
+        onNotificationCountChange(newCount);
+        return newCount;
+      });
       return updatedMessages;
     });
   };
+  
 
   const updateLocalStorage = (updatedMessages) => {
     localStorage.setItem('notifications', JSON.stringify(updatedMessages));

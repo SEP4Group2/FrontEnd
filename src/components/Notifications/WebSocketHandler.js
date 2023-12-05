@@ -5,7 +5,7 @@ const WebSocketHandler = ({ onNotificationReceived }) => {
   const isConnectionStarted = useRef(false);
 
   useEffect(() => {
-    const userId = '1'; // Replace with the actual user ID
+    const userId = '1'; // Replace with id !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ;)
 
     const setupSignalR = async () => {
       try {
