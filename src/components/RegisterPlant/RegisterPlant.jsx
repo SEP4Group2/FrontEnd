@@ -3,17 +3,11 @@ import "./RegisterPlant.css";
 import Image from "../../assets/plant.jpg";
 import Image2 from "../../assets/logo.jpg";
 import Popup from "../Popup/Popup";
+import Alert from "@mui/material/Alert";
 
 const NewPlant = ({ onCancel }) => {
-  const other = {
-    name: "Other",
-    presetId: "0",
-    humidity: "0",
-    moisture: "0",
-    light: "0",
-    temperature: "0",
-  };
-  const [presets, setPresets] = useState([other]);
+  const [presets, setPresets] = useState([]);
+  const [warningText, setWarningText] = useState(false);
 
   const fetchPresets = async () => {
     try {
@@ -37,6 +31,8 @@ const NewPlant = ({ onCancel }) => {
   }, []);
 
   const [plantData, setPlantData] = useState({
+    userId: 1,
+    deviceId: "",
     name: "",
     location: "",
     preset: "",
@@ -91,9 +87,11 @@ const NewPlant = ({ onCancel }) => {
   };
 
   const createPlantJSON = () => {
-    const { name, location, preset } = plantData;
+    const { userId, deviceId, name, location, preset } = plantData;
 
     const plantJSON = {
+      userId,
+      deviceId,
       name,
       location,
       plantPresetId: preset,
@@ -104,6 +102,7 @@ const NewPlant = ({ onCancel }) => {
     if (
       Object.values(plantJSON).some((param) => param === "" || param === null)
     ) {
+      setWarningText(true);
       console.log("Some parameters are empty or null; not saving");
       return;
     }
@@ -120,6 +119,7 @@ const NewPlant = ({ onCancel }) => {
 
         if (response.ok) {
           console.log("Plant data saved successfully");
+          handleCancelRegister();
         } else {
           console.error("Failed to save plant data");
         }
@@ -231,6 +231,13 @@ const NewPlant = ({ onCancel }) => {
               </label>
             </div>
           </div>
+          <div style={{ marginTop: "10px" }}>
+              {warningText && (
+                <Alert severity="warning" onClose={() => setWarningText(false)}>
+                  Fields should not be empty!
+                </Alert>
+              )}
+            </div>
         </div>
       </div>
 
@@ -274,7 +281,6 @@ const NewPlant = ({ onCancel }) => {
           <div
             onClick={() => {
               createPlantJSON();
-              handleCancelRegister();
             }}
             className="saveButton"
           >
