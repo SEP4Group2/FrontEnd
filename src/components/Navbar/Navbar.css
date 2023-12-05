@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
-
 /* Global reset */
 * {
   margin: 0;
@@ -9,6 +8,30 @@
 }
 
 /* Navbar */
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.account-icon {
+  margin-right: 2%;
+  margin-left: 90%;
+  margin-bottom: 5%;
+  margin-top: 5%  ;
+  position: fixed;
+}
+
+.account-icon-not-logged-in{
+  margin-right: 2%;
+  margin-left: 45%;
+  margin-bottom: 5%;
+  margin-top: 5%  ;
+  position: fixed;
+}
+
 .navbar {
   background: #333;
   color: #fff;
@@ -20,21 +43,6 @@
   z-index: 100;
 }
 
-
-.navbar-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%; /* Ensure full width */
-  position: relative;
-}
-
-.account-icon {
-  margin-left: auto;
-  margin-right: 40px; /* Adjust this value as needed */
-}
-
-
 .navbar ul {
   justify-content: center;
   align-items: center;
@@ -45,13 +53,17 @@
 }
 
 .navbar li {
-  margin: 0 15px; /* Adjusted margin for better spacing */
+  margin: 0 60px;
+  width: 100px;
   text-align: center;
 }
 
 .navbar a {
   text-decoration: none;
   color: #fff;
+}
+
+.navbar li a {
   transition: 0.3s ease-in-out;
 }
 
@@ -61,10 +73,11 @@
 }
 
 .logo {
-  flex: 1; /* Takes up remaining space and centers the logo */
   display: flex;
-  justify-content: center;
-  margin-left: 75px;
+  flex-direction: column;
+  align-items: center;
+  height: 80px;
+  width: 80px;
 }
 
 .logo-img {
@@ -75,6 +88,7 @@
   padding: 3px;
   object-fit: cover;
 }
+
 
 /* New Styles for Responsive Navbar */
 .menu-icon {
@@ -93,21 +107,23 @@
     padding: 10px;
   }
 
-  .logo, .logo-img {
+  .logo, .logo-img{
     display: none;
   }
 
-  .account-icon {
-    margin-left: auto;
-    margin-right: 5%; /* Adjusted margin for better spacing */
+  .account-icon{
+   margin-left: 30%;
   }
+
+  .account-icon-not-logged-in{
+    margin-left: 30%;
+   }
 
   .navbar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-
   .nav-links {
     display: none;
     flex-direction: column;
@@ -154,4 +170,5 @@
   .open .bar3 {
     transform: rotate(45deg) translate(-5px, -6px);
   }
+
 }
