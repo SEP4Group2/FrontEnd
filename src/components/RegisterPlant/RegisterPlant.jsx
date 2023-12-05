@@ -4,16 +4,20 @@ import "./RegisterPlant.css";
 import Image from "../../assets/plant.jpg";
 import Image2 from "../../assets/logo.jpg";
 import Popup from "../Popup/Popup";
+import Alert from "@mui/material/Alert";
 
 const NewPlant = ({ onCancel }) => {
-
   const [presets, setPresets] = useState([]);
+  const [warningText, setWarningText] = useState(false);
 
   const fetchPresets = async () => {
     try {
       const response = await Axios.get("http://localhost:5000/PlantPreset");
       if (Array.isArray(response.data)) {
-        const presetsWithSelectOne = [{ name: "Other", id: "0" }, ...response.data];
+        const presetsWithSelectOne = [
+          { name: "Other", id: "0" },
+          ...response.data,
+        ];
         setPresets(presetsWithSelectOne);
       }
     } catch (error) {
@@ -21,10 +25,11 @@ const NewPlant = ({ onCancel }) => {
     }
   };
   useEffect(() => {
-    fetchPresets(); 
+    fetchPresets();
   }, []);
 
   const [plantData, setPlantData] = useState({
+    userId: 1,
     deviceId: "",
     name: "",
     location: "",
@@ -67,10 +72,9 @@ const NewPlant = ({ onCancel }) => {
 
   const handleCancel = async () => {
     try {
-    fetchPresets();
-    setShowPopup(false);
-    }
-    catch (error) {
+      fetchPresets();
+      setShowPopup(false);
+    } catch (error) {
       console.error("Error fetching presets:", error);
     }
   };
@@ -80,9 +84,10 @@ const NewPlant = ({ onCancel }) => {
   };
 
   const createPlantJSON = () => {
-    const { deviceId, name, location, preset } = plantData;
+    const { userId, deviceId, name, location, preset } = plantData;
 
     const plantJSON = {
+      userId,
       deviceId,
       name,
       location,
@@ -94,14 +99,16 @@ const NewPlant = ({ onCancel }) => {
     if (
       Object.values(plantJSON).some((param) => param === "" || param === null)
     ) {
+      setWarningText(true);
       console.log("Some parameters are empty or null; not saving");
       return;
     }
 
     Axios.post("http://localhost:5000/Plant/createPlant", plantJSON)
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           console.log("Plant data saved successfully");
+          handleCancelRegister();
         } else {
           console.error("Failed to save plant data");
         }
@@ -118,11 +125,11 @@ const NewPlant = ({ onCancel }) => {
         <div className="plant-details">
           <h2>Register a New Plant</h2>
           <div className="form-fields">
-          <div className="form-field">
+            <div className="form-field">
               <label>Device ID:</label>
               <input
                 type="text"
-                name="name"
+                name="deviceId"
                 value={plantData.deviceId}
                 onChange={handleInputChange}
               />
@@ -134,6 +141,7 @@ const NewPlant = ({ onCancel }) => {
                 name="name"
                 value={plantData.name}
                 onChange={handleInputChange}
+                maxLength={20}
               />
             </div>
             <div className="form-field">
@@ -152,7 +160,9 @@ const NewPlant = ({ onCancel }) => {
                 value={plantData.selectedType}
                 onChange={handleTypeChange}
               >
-                <option value="" disabled hidden>Select Type</option>
+                <option value="" disabled hidden>
+                  Select Type
+                </option>
                 {presets.map((plantType) => (
                   <option key={plantType.id} value={plantType.name}>
                     {plantType.name}
@@ -187,7 +197,7 @@ const NewPlant = ({ onCancel }) => {
               />
             </div>
             <div className="form-field">
-              <label>Light level:</label>
+              <label>Light:</label>
               <input
                 type="text"
                 name="light"
@@ -200,7 +210,7 @@ const NewPlant = ({ onCancel }) => {
               />
             </div>
             <div className="form-field">
-              <label>Temperature level:</label>
+              <label>Temperature:</label>
               <input
                 type="text"
                 name="temperature"
@@ -213,6 +223,13 @@ const NewPlant = ({ onCancel }) => {
               />
             </div>
           </div>
+          <div style={{ marginTop: "10px" }}>
+              {warningText && (
+                <Alert severity="warning" onClose={() => setWarningText(false)}>
+                  Fields should not be empty!
+                </Alert>
+              )}
+            </div>
         </div>
       </div>
 
@@ -256,7 +273,6 @@ const NewPlant = ({ onCancel }) => {
           <div
             onClick={() => {
               createPlantJSON();
-              handleCancelRegister();
             }}
             className="saveButton"
           >
