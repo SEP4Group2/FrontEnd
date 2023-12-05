@@ -1,4 +1,4 @@
-// signalrService.js
+
 import * as signalR from '@microsoft/signalr';
 
 const hubConnection = new signalR.HubConnectionBuilder()
@@ -6,30 +6,31 @@ const hubConnection = new signalR.HubConnectionBuilder()
   .configureLogging(signalR.LogLevel.Debug)
   .build();
 
-const startConnection = async () => {
-  try {
-    await hubConnection.start();
-    console.log('SignalR Connected!');
-
-    // Perform manual negotiation steps here if needed
-    await manualNegotiation();
-  } catch (err) {
-    console.error('Error while establishing SignalR connection:', err);
-  }
-};
+  const startConnection = async () => {
+    try {
+      if (hubConnection.state === signalR.HubConnectionState.Disconnected) {
+        await hubConnection.start();
+        console.log('SignalR Connected!');
+        await manualNegotiation();
+      }
+    } catch (err) {
+      console.error('Error while establishing SignalR connection:', err);
+    }
+  };
+  
 
 // Function to perform manual negotiation
 const manualNegotiation = async () => {
   try {
-    // Send the initial protocol and version
+    
     const protocolVersionMessage = '{"protocol":"json","version":1}';
     await hubConnection.send('Send', protocolVersionMessage);
 
-    // Send additional messages as needed
+    
     const addToGroupMessage = '{"arguments":["1"],"target":"AddToGroup","type":1}';
     await hubConnection.send('Send', addToGroupMessage);
 
-    // Add more manual steps as necessary
+    
   } catch (err) {
     console.error('Error during manual negotiation:', err);
   }

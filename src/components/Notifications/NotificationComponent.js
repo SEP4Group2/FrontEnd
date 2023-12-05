@@ -11,21 +11,39 @@ import IconButton from '@mui/material/IconButton';
 import WebSocketHandler from './WebSocketHandler';
 
 const NotificationComponent = () => {
-  const notifications = WebSocketHandler();
   const [messageList, setMessageList] = useState([]);
+  const [notificationCount, setNotificationCount] = useState(0);
 
   useEffect(() => {
-    setMessageList((prevMessages) => [...prevMessages, ...notifications]);
-  }, [notifications]);
+    const storedNotifications = JSON.parse(localStorage.getItem('notifications')) || [];
+    setMessageList(storedNotifications);
+  }, []);
 
   const handleRemoveMessage = (index) => {
-    setMessageList((prevMessages) => prevMessages.filter((_, i) => i !== index));
+    setMessageList((prevMessages) => {
+      const updatedMessages = prevMessages.filter((_, i) => i !== index);
+      updateLocalStorage(updatedMessages);
+      return updatedMessages;
+    });
+  };
+
+  const handleNotificationReceived = (notification) => {
+    setMessageList((prevMessages) => {
+      const updatedMessages = [...prevMessages, notification];
+      updateLocalStorage(updatedMessages);
+      setNotificationCount((prevCount) => prevCount + 1);
+      return updatedMessages;
+    });
+  };
+
+  const updateLocalStorage = (updatedMessages) => {
+    localStorage.setItem('notifications', JSON.stringify(updatedMessages));
   };
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Paper square sx={{ pb: '50px', minHeight: '300px', minWidth: '300px', maxWidth:'300px', overflow: 'auto' }}>
+      <Paper square sx={{ pb: '50px', minHeight: '300px', minWidth: '300px', maxWidth: '300px', overflow: 'auto' }}>
         <Typography variant="h5" gutterBottom component="div" sx={{ p: 2, pb: 0 }}>
           Notifications
         </Typography>
@@ -39,7 +57,7 @@ const NotificationComponent = () => {
                     component="span"
                     variant="body1"
                     color="text.primary"
-                    sx={{ wordWrap: 'break-word' }} // Allow long messages to wrap
+                    sx={{ wordWrap: 'break-word' }}
                   >
                     {notification}
                   </Typography>
@@ -52,8 +70,9 @@ const NotificationComponent = () => {
           ))}
         </List>
       </Paper>
+      <WebSocketHandler onNotificationReceived={handleNotificationReceived} />
     </React.Fragment>
   );
-}
+};
 
 export default NotificationComponent;

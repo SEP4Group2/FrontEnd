@@ -1,14 +1,14 @@
-// NotificationIcon.js
 import React, { useState } from 'react';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import NotificationComponent from './NotificationComponent';
-import './NotificationIcon.css'
+import './NotificationIcon.css';
 import CssBaseline from '@mui/material/CssBaseline';
+import WebSocketHandler from './WebSocketHandler';
 
-const NotificationIcon = ({ initialNotificationCount = 1 }) => {
+const NotificationIcon = ({ initialNotificationCount = 0 }) => {
   const [notificationCount, setNotificationCount] = useState(initialNotificationCount);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -23,8 +23,11 @@ const NotificationIcon = ({ initialNotificationCount = 1 }) => {
 
   const open = Boolean(anchorEl);
 
+  const handleNotificationCountChange = (count) => {
+    setNotificationCount(count);
+  };
+
   return (
-    
     <React.Fragment>
       <CssBaseline />
       <IconButton
@@ -51,9 +54,9 @@ const NotificationIcon = ({ initialNotificationCount = 1 }) => {
           horizontal: 'left',
         }}
       >
-        <NotificationComponent notificationCount={notificationCount} />
+        <NotificationComponent onNotificationCountChange={handleNotificationCountChange} />
       </Popover>
-    
+      <WebSocketHandler onNotificationReceived={() => {}} />
     </React.Fragment>
   );
 };

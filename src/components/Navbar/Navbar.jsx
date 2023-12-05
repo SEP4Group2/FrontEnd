@@ -35,12 +35,13 @@ const Navbar = ({ isAuthenticated }) => {
               <li>
                 <Link to="/analytics">Analytics</Link>
               </li>
+              <li>
+              <NotificationIcon />
+              </li>
+              
             </>
           )}
         </ul>
-        <div className="notification-icon" style={{ position: 'fixed' }}>
-          <NotificationIcon />
-        </div>
         <div className="account-icon" style={{ position: "fixed" }}>
           <UserMenu isAuthenticated={isAuthenticated} />
         </div>
