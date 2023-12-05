@@ -1,7 +1,6 @@
 // TypePopup.js
 import React, { useState } from "react";
 import "./Popup.css";
-import Axios from "axios";
 
 const Popup = ({ onSave, onCancel }) => {
   const [name, setName] = useState("");
@@ -29,18 +28,28 @@ const Popup = ({ onSave, onCancel }) => {
       return;
     }
 
-    Axios.post("http://localhost:5000/PlantPreset/createPlantPreset", presetData)
-      .then((response) => {
+    const createPlantPreset = async (presetData) => {
+      try {
+        const response = await fetch("http://localhost:5000/PlantPreset/createPlantPreset", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(presetData),
+        });
+    
         if (response.status === 201) {
           console.log("Plant data saved successfully");
         } else {
           console.error("Failed to save plant data");
         }
+    
         onCancel();
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error:", error);
-      });
+      }
+    };
+    createPlantPreset(presetData);
   };
 
   return (
