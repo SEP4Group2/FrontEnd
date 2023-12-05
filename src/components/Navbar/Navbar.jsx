@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import UserMenu from "../UserMenu/usermenu.js";
 import NotificationIcon from "../Notifications/NotificationIcon.js";
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -14,7 +14,6 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-
       <div className="navbar-container">
         <div
           className={`menu-icon ${isOpen ? "open" : ""}`}
@@ -24,22 +23,26 @@ const Navbar = () => {
           <div className="bar2"></div>
           <div className="bar3"></div>
         </div>
+        <div className="logo">
+          <img src={Image} alt="" className="logo-img" />
+        </div>
         <ul className={`nav-links ${isOpen ? "open" : ""}`}>
-          <li>
-            <Link to="/myPlants">My Plants</Link>
-          </li>
-          <div className="logo">
-            <img src={Image} alt="" className="logo-img" />
-          </div>
-          <li>
-            <Link to="/analytics">Analytics</Link>
-          </li>
+          {isAuthenticated && (
+            <>
+              <li>
+                <Link to="/myPlants">My Plants</Link>
+              </li>
+              <li>
+                <Link to="/analytics">Analytics</Link>
+              </li>
+            </>
+          )}
         </ul>
         <div className="notification-icon" style={{ position: 'fixed' }}>
           <NotificationIcon />
         </div>
         <div className="account-icon" style={{ position: "fixed" }}>
-          <UserMenu />
+          <UserMenu isAuthenticated={isAuthenticated} />
         </div>
       </div>
     </nav>
@@ -47,3 +50,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
