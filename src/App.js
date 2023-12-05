@@ -67,10 +67,10 @@ const App = () => {
               element={<PlantList plants={plants} plantsData={plantsData} />}
             ></Route>
             <Route path="/newPlant" element={<RegisterPlant />}></Route>
-            <Route path="/analytics" element={<React.Fragment>
+            <Route path="/analytics" element={
                   <PlantCarousel plants={plants} plantsData={plantsData} />
-                  <Analytics />
-                </React.Fragment>} />
+                  
+                } />
           </Routes>
         </div>
       </HashRouter>

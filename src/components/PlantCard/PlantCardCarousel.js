@@ -1,3 +1,5 @@
+// PlantCardCarousel.js
+
 import React, { useState } from "react";
 import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
@@ -17,27 +19,41 @@ const cardStyles = {
 
 const getStatusColor = (value) => {
   if (value < 40) {
-    return "#CD5D67";
+    return "#869E79"; // Default color for all cards
   } else if (value < 70) {
-    return "#FCAB10";
+    return "#869E79"; // Default color for all cards
   } else {
-    return "#869E79";
+    return "#869E79"; // Default color for all cards
   }
 };
 
-export function PlantCardCarousel({ index, plantsData, plant, onClick }) {
+export function PlantCardCarousel({ index, plantsData, plant, onClick, isSelected }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const cardColor = isSelected ? "#4CAF50" : (isHovered ? "#388E3C" : "#869E79");
+
   return (
     <Card
       key={index}
       variant="solid"
       color="primary"
       invertedColors
-      className="hover-card-carousel" // Update the class name for carousel styles
+      className="hover-card-carousel" 
       style={{
         ...cardStyles,
-        backgroundColor: getStatusColor(plant.statusValue),
+        backgroundColor: cardColor,
       }}
       onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <CardContent orientation="horizontal">
         <CircularProgress size="lg" determinate value={plant.statusValue}>
