@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect, useRef } from "react";
+import Axios from "axios";
 import ApexCharts from "react-apexcharts";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -8,63 +8,33 @@ import Typography from "@mui/material/Typography";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 
 const Analytics = () => {
-  const chartData = [
-    {
-      id: 'humidity',
-      name: 'Humidity',
-      series: [
-        { x: "Nov 04 00", y: 40 },
-        { x: "Nov 04 01", y: 50 },
-        { x: "Nov 04 02", y: 45 },
-        { x: "Nov 04 03", y: 55 },
-        { x: "Nov 04 04", y: 60 },
-        { x: "Nov 04 05", y: 65 },
-      ],
-      color: '#FF5733',
-    },
-    {
-      id: 'moisture',
-      name: 'Moisture',
-      series: [
-        { x: "Nov 04 00", y: 60 },
-        { x: "Nov 04 01", y: 70 },
-        { x: "Nov 04 02", y: 65 },
-        { x: "Nov 04 03", y: 75 },
-        { x: "Nov 04 04", y: 80 },
-        { x: "Nov 04 05", y: 40 },
-      ],
-      color: '#33FF57',
-    },
-    {
-      id: 'temperature',
-      name: 'Temperature',
-      series: [
-        { x: "Nov 04 00", y: 80 },
-        { x: "Nov 04 01", y: 90 },
-        { x: "Nov 04 02", y: 85 },
-        { x: "Nov 04 03", y: 95 },
-        { x: "Nov 04 04", y: 100 },
-        { x: "Nov 04 05", y: 57 },
-      ],
-      color: '#5733FF',
-    },
-    {
-      id: 'uv-light',
-      name: 'UV Light',
-      series: [
-        { x: "Nov 04 00", y: 100 },
-        { x: "Nov 04 01", y: 110 },
-        { x: "Nov 04 02", y: 105 },
-        { x: "Nov 04 03", y: 115 },
-        { x: "Nov 04 04", y: 120 },
-        { x: "Nov 04 05", y: 112 },
-      ],
-      color: '#FFE833',
-    },
-  ];
-
+  const [chartData, setChartData] = useState([]);
   const chartRef = useRef(null);
   const [expanded, setExpanded] = useState(null);
+
+  const fetchData = async (plantId) => {
+    try {
+      const response = await Axios.get(`http://localhost:5000/Analytics/${plantId}`);
+      
+      // Transform the fetched data into the desired format
+      const transformedData = response.data.map(item => ({
+        date: item.date,
+        avgTemperature: item.avgTemperature,
+        avgHumidity: item.avgHumidity,
+        avgUVLight: item.avgUVLight,
+        avgMoisture: item.avgMoisture,
+      }));
+
+      setChartData(transformedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    //change to actual id of user
+    fetchData('1');
+  }, []); // Empty dependency array 
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : null);
@@ -73,18 +43,33 @@ const Analytics = () => {
     }
   };
 
+  // Create series based on the chartData
+  const series = [
+    { name: 'avgTemperature', data: [] },
+    { name: 'avgHumidity', data: [] },
+    { name: 'avgUVLight', data: [] },
+    { name: 'avgMoisture', data: [] },
+  ];
+
+  chartData.forEach(item => {
+    series[0].data.push({ x: item.date, y: item.avgTemperature });
+    series[1].data.push({ x: item.date, y: item.avgHumidity });
+    series[2].data.push({ x: item.date, y: item.avgUVLight });
+    series[3].data.push({ x: item.date, y: item.avgMoisture });
+  });
+
   return (
     <div>
-      {chartData.map((chart, index) => (
+      {series.map((chart, index) => (
         <Accordion
           key={index}
-          expanded={expanded === chart.id}
-          onChange={handleChange(chart.id)}
+          expanded={expanded === chart.name}
+          onChange={handleChange(chart.name)}
         >
           <AccordionSummary
             expandIcon={<ArrowForwardIosSharpIcon />}
-            aria-controls={`${chart.id}-content`}
-            id={`${chart.id}-header`}
+            aria-controls={`${chart.name}-content`}
+            id={`${chart.name}-header`}
           >
             <Typography>{chart.name}</Typography>
           </AccordionSummary>
@@ -95,11 +80,11 @@ const Analytics = () => {
                 options={{
                   xaxis: {
                     type: "category",
-                    categories: chart.series.map((point) => point.x),
+                    categories: chart.data.map((point) => point.x),
                     labels: {
                       formatter: function (value) {
                         return value && !value.endsWith(" ")
-                          ? `${value}h`
+                          ? `${value}`
                           : value;
                       },
                     },
@@ -115,18 +100,10 @@ const Analytics = () => {
                   },
                   colors: [chart.color],
                   annotations: {
-                    points: [], // Clear annotations
+                    points: [], 
                   },
                 }}
-                series={[
-                  {
-                    name: chart.id,
-                    data: chart.series.map((point) => ({
-                      x: point.x,
-                      y: point.y,
-                    })),
-                  },
-                ]}
+                series={[{ name: chart.name, data: chart.data }]}
                 type="area"
                 height={160}
               />
@@ -139,5 +116,3 @@ const Analytics = () => {
 };
 
 export default Analytics;
-
-

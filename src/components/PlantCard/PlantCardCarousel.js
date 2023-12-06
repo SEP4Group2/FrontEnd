@@ -75,11 +75,7 @@ const PlantCardCarousel = ({ index, plantsData, plant, onClick, isSelected }) =>
           </CardContent>
         </CardContent>
       ) : null}
-      <CardActions style={{ justifyContent: "end" }}>
-        <Button variant="soft" size="sm">
-          View
-        </Button>
-      </CardActions>
+      
     </Card>
   );
 };
