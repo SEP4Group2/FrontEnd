@@ -11,7 +11,7 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState(0);
   const [plants, setPlants] = useState([]);
-  const [plantsData, setPlantsData] = useState([{plantId: 0, moisture: 0, humidity: 0, uvLight: 0, temperature: 0, tankLevel: 0}]);
+  const [plantsData, setPlantsData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

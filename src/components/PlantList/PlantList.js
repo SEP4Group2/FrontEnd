@@ -103,22 +103,22 @@ export default function PlantList({
                     {plants.map((plant, index) => {
                       // Assuming plantId exists in the plant object, filter plantsData based on plantId
                       const filteredData = plantsData.filter(
-                        (data) => data.plantId === plant.id
+                        (data) => data.plantDevice.plant.plantId === plant.id
                       );
-                      if (filteredData.length === 0)
+                      if (filteredData.length === 0) {
                         return (
                           <PlantCard
                             plant={plant}
-                            plantsData={plantsData[plantsData.length -1]} // Pass default values
+                            plantsData={{moisture: 0, humidity: 0, uvLight: 0, temperature: 0, tankLevel: 100}} // Pass default values
                             index={index}
                             key={index} // Ensure each child element has a unique key prop
                           />
                         );
-
+                      }
                       return (
                         <PlantCard
                           plant={plant}
-                          plantsData={filteredData[filteredData.length -1]} // Pass filtered data to PlantCard
+                          plantsData={filteredData[filteredData.length - 1]} // Pass filtered data to PlantCard
                           index={index}
                           key={index} // Ensure each child element has a unique key prop
                         />
