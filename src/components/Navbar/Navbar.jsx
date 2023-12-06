@@ -4,7 +4,7 @@ import Image from "../../assets/logo.jpg";
 import { Link } from "react-router-dom";
 import UserMenu from "../UserMenu/usermenu.js";
 
-const Navbar = ({ isAuthenticated }) => {
+const Navbar = ({ isAuthenticated, setToken, setUser }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -32,7 +32,7 @@ const Navbar = ({ isAuthenticated }) => {
             className="account-icon-not-logged-in"
             style={{ width: "40px", height: "40px" }}
           >
-            <UserMenu isAuthenticated={isAuthenticated} />
+            <UserMenu isAuthenticated={isAuthenticated} setToken = {setToken} setUser = {setUser} />
           </div>
         </>
         )}
@@ -56,7 +56,7 @@ const Navbar = ({ isAuthenticated }) => {
                 className="account-icon"
                 style={{ width: "40px", height: "40px" }}
               >
-                <UserMenu isAuthenticated={isAuthenticated} />
+                <UserMenu isAuthenticated={isAuthenticated} setToken = {setToken} setUser = {setUser} />
               </div>
             </>
           )}

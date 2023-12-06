@@ -42,10 +42,10 @@ const App = () => {
   return (
     <div>
       <Router>
-        <Navbar isAuthenticated={!!token} />
+        <Navbar isAuthenticated={!!token} setToken = {setToken} setUser = {setUser} />
         <div className="content-container">
           <Routes>
-            <Route path="/login" element={<SignIn setToken={setToken} setUser={setUser} />} />
+            <Route path="/login" element={<SignIn setToken={setToken} setUser={setUser} setLoading={setLoading}/>} />
             <Route path="/register" element={<SignUp />} />
             {token ? (
               <>

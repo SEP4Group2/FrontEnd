@@ -5,12 +5,13 @@ import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import { Link, useNavigate } from 'react-router-dom';
 
-const UserMenu = ({ isAuthenticated, onLogout }) => {
+const UserMenu = ({ isAuthenticated, setToken, setUser }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    setToken("");
+    setUser({})
     // Perform logout logic, and then redirect to the home page
-    onLogout();
     navigate('/');
   };
 
