@@ -27,7 +27,7 @@ const getStatusColor = (value) => {
   }
 };
 
-export function PlantCardCarousel({ index, plantsData, plant, onClick, isSelected }) {
+const PlantCardCarousel = ({ index, plantsData, plant, onClick, isSelected }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -38,7 +38,14 @@ export function PlantCardCarousel({ index, plantsData, plant, onClick, isSelecte
     setIsHovered(false);
   };
 
-  const cardColor = isSelected ? "#4CAF50" : (isHovered ? "#388E3C" : "#869E79");
+  // Add a conditional check to ensure plant is defined
+  const cardColor = plant
+    ? isSelected
+      ? "#4CAF50"
+      : isHovered
+      ? "#388E3C"
+      : "#869E79"
+    : "#869E79";
 
   return (
     <Card
@@ -46,7 +53,7 @@ export function PlantCardCarousel({ index, plantsData, plant, onClick, isSelecte
       variant="solid"
       color="primary"
       invertedColors
-      className="hover-card-carousel" 
+      className="hover-card-carousel"
       style={{
         ...cardStyles,
         backgroundColor: cardColor,
@@ -55,17 +62,19 @@ export function PlantCardCarousel({ index, plantsData, plant, onClick, isSelecte
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <CardContent orientation="horizontal">
-        <CircularProgress size="lg" determinate value={plant.statusValue}>
-          <SvgIcon>
-            <LocalFloristIcon />
-          </SvgIcon>
-        </CircularProgress>
-        <CardContent>
-          <Typography level="h3">{plant.name}</Typography>
-          <Typography level="p">Device ID: {plant.deviceId}</Typography>
+      {plant ? (  // Add a conditional check to ensure plant is defined
+        <CardContent orientation="horizontal">
+          <CircularProgress size="lg" determinate value={plant.statusValue || 0}>
+            <SvgIcon>
+              <LocalFloristIcon />
+            </SvgIcon>
+          </CircularProgress>
+          <CardContent>
+            <Typography level="h3">{plant.name}</Typography>
+            <Typography level="p">Device ID: {plant.deviceId}</Typography>
+          </CardContent>
         </CardContent>
-      </CardContent>
+      ) : null}
       <CardActions style={{ justifyContent: "end" }}>
         <Button variant="soft" size="sm">
           View
@@ -73,4 +82,5 @@ export function PlantCardCarousel({ index, plantsData, plant, onClick, isSelecte
       </CardActions>
     </Card>
   );
-}
+};
+export default PlantCardCarousel;
