@@ -6,6 +6,7 @@ import './App.css';
 import axios from 'axios';
 import SignIn from "./components/Login/SignIn";
 import SignUp from "./components/SignUp/SignUp";
+import MyProfile from "./components/MyProfile/MyProfile";
 
 const App = () => {
   const [token, setToken] = useState("");
@@ -15,25 +16,24 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if(token)
-    {
+    if (token) {
       const fetchData = async () => {
         try {
-          const plantResponse = await axios.get("http://localhost:5000/Plant/"+user.userId);
+          const plantResponse = await axios.get("http://localhost:5000/Plant/" + user.userId);
           setPlants(plantResponse.data);
-  
-          const plantDataResponse = await axios.get("http://localhost:5000/PlantData/fetchPlantData/"+user.userId);
+
+          const plantDataResponse = await axios.get("http://localhost:5000/PlantData/fetchPlantData/" + user.userId);
           if (plantDataResponse.data.length > 0)
             setPlantsData(plantDataResponse.data);
-  
+
           setLoading(false);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
       };
-  
+
       const fetchInterval = setInterval(fetchData, 3000);
-  
+
       return () => {
         clearInterval(fetchInterval);
       };
@@ -42,16 +42,17 @@ const App = () => {
   return (
     <div>
       <Router>
-        <Navbar isAuthenticated={!!token} setToken = {setToken} setUser = {setUser} />
+        <Navbar isAuthenticated={!!token} setToken={setToken} setUser={setUser} />
         <div className="content-container">
           <Routes>
-            <Route path="/login" element={<SignIn setToken={setToken} setUser={setUser} setLoading={setLoading}/>} />
+            <Route path="/login" element={<SignIn setToken={setToken} setUser={setUser} setLoading={setLoading} />} />
             <Route path="/register" element={<SignUp />} />
             {token ? (
               <>
+                <Route path="/myProfile" element={<MyProfile user={user} setUser={setUser} />} />
                 <Route
                   path="/myPlants"
-                  element={<PlantList plants={plants} userId={user.userId} plantsData={plantsData} loading={loading}/>}
+                  element={<PlantList plants={plants} userId={user.userId} plantsData={plantsData} loading={loading} />}
                 />
                 <Route path="/" element={<Navigate to="/myPlants" />} />
               </>
