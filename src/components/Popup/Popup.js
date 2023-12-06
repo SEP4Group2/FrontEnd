@@ -4,7 +4,7 @@ import "./Popup.css";
 import Axios from "axios";
 import Alert from "@mui/material/Alert";
 
-const Popup = ({ onSave, onCancel }) => {
+const Popup = ({ onCancel, userId }) => {
   const [name, setName] = useState("");
   const [humidity, setHumidity] = useState("");
   const [moisture, setMoisture] = useState("");
@@ -16,6 +16,7 @@ const Popup = ({ onSave, onCancel }) => {
     // Create an object with the values
     
     const presetData = {
+      userId: userId,
       name,
       humidity,
       moisture,

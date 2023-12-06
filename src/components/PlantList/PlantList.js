@@ -3,7 +3,7 @@ import * as React from "react";
 import Box from "@mui/joy/Box";
 import PlantCardSkeleton from "./../PlantCard/PlantCardSkeleton.js";
 import AddButton from "../FloatButton/FloatButton.jsx";
-import RegisterPlant from "../RegisterPlant/RegisterPlant.jsx";
+import RegisterPlant from "../RegisterPlant/RegisterPlant.js";
 import { useState } from "react";
 import Image from "../../assets/noPlants.jpg";
 
@@ -12,6 +12,7 @@ export default function PlantList({
   plantsData,
   loading,
   onViewClick,
+  userId,
 }) {
   const cardContainerStyles = {
     display: "flex",
@@ -41,7 +42,7 @@ export default function PlantList({
   if (loading) {
     // Render the skeleton boxes if plants array is empty
     return showRegisterPlant ? (
-      <RegisterPlant onCancel={handleCancel} />
+      <RegisterPlant userId={userId} onCancel={handleCancel} />
     ) : (
       <Box style={boxStyles}>
         <div style={{ paddingTop: "10px" }}>
@@ -61,7 +62,7 @@ export default function PlantList({
     return (
       <div>
         {showRegisterPlant ? (
-          <RegisterPlant onCancel={handleCancel} />
+          <RegisterPlant userId={userId} onCancel={handleCancel} />
         ) : (
           <Box style={boxStyles}>
             <div style={{ paddingTop: "10px" }}>
