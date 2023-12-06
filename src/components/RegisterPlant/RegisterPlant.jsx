@@ -6,12 +6,11 @@ import Popup from "../Popup/Popup";
 import Alert from "@mui/material/Alert";
 
 const NewPlant = ({ onCancel }) => {
-  const [presets, setPresets] = useState([]);
+  const [presets, setPresets] = useState([{ name: "Other", id: "0" }]);
   const [warningText, setWarningText] = useState(false);
-
   const fetchPresets = async () => {
     try {
-      const response = await fetch("http://localhost:5000/PlantPreset");
+      const response = await fetch("http://localhost:5000/PlantPreset/getAllPresets/0");
       if (response.ok) {
         const data = await response.json();
         if (Array.isArray(data)) {
@@ -64,7 +63,7 @@ const NewPlant = ({ onCancel }) => {
       setShowPopup(true);
       console.log("I chose other");
     } else {
-      console.error(`Selected plant type '${selectedType}' not found.`);
+      console.log(`Selected plant type '${selectedType}' not found.`);
     }
   };
 
@@ -139,6 +138,16 @@ const NewPlant = ({ onCancel }) => {
           <h2>Register a New Plant</h2>
           <div className="form-fields">
             <div className="form-field">
+              <label>Device ID:
+                <input
+                  type="text"
+                  name="deviceId"
+                  value={plantData.deviceId}
+                  onChange={handleInputChange}
+                />
+              </label>
+            </div>
+            <div className="form-field">
               <label>Name:
                 <input
                   type="text"
@@ -165,7 +174,9 @@ const NewPlant = ({ onCancel }) => {
                   value={plantData.selectedType}
                   onChange={handleTypeChange}
                 >
-                  <option value="" disabled hidden>Select Type</option>
+                  <option value="" disabled hidden>
+                    Select Type
+                  </option>
                   {presets.map((plantType) => (
                     <option key={plantType.id} value={plantType.name}>
                       {plantType.name}
@@ -232,12 +243,12 @@ const NewPlant = ({ onCancel }) => {
             </div>
           </div>
           <div style={{ marginTop: "10px" }}>
-              {warningText && (
-                <Alert severity="warning" onClose={() => setWarningText(false)}>
-                  Fields should not be empty!
-                </Alert>
-              )}
-            </div>
+            {warningText && (
+              <Alert severity="warning" onClose={() => setWarningText(false)}>
+                Fields should not be empty!
+              </Alert>
+            )}
+          </div>
         </div>
       </div>
 

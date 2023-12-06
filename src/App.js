@@ -19,7 +19,7 @@ const App = () => {
       const fetchPlants = async () => {
         try {
           
-          const plantResponse = await axios.get("http://localhost:5000/Plant");
+          const plantResponse = await axios.get("http://localhost:5000/Plant/1");
           setPlants(plantResponse.data);
           setLoading(false);
         } catch (error) {
