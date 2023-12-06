@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Axios from "axios";
 import "./RegisterPlant.css";
 import Image from "../../assets/plant.jpg";
@@ -6,30 +6,31 @@ import Image2 from "../../assets/logo.jpg";
 import Popup from "../Popup/Popup";
 import Alert from "@mui/material/Alert";
 
-const NewPlant = ({ onCancel }) => {
-  const [presets, setPresets] = useState([]);
+const RegisterPlant = ({ onCancel, userId }) => {
+  const [presets, setPresets] = useState([{ name: "Other", id: "0" }]);
   const [warningText, setWarningText] = useState(false);
 
-  const fetchPresets = async () => {
+  const fetchPresets = useCallback(async () => {
     try {
-      const response = await Axios.get("http://localhost:5000/PlantPreset");
-      if (Array.isArray(response.data)) {
-        const presetsWithSelectOne = [
-          { name: "Other", id: "0" },
-          ...response.data,
-        ];
-        setPresets(presetsWithSelectOne);
-      }
+      const response = await Axios.get("http://localhost:5000/PlantPreset/getAllPresets/"+userId);
+        if (Array.isArray(response.data)) {
+          const presetsWithSelectOne = [
+            { name: "Other", id: "0" },
+            ...response.data,
+          ];
+          setPresets(presetsWithSelectOne);
+        }
     } catch (error) {
       console.error("Error fetching presets:", error);
     }
-  };
+  }, [userId]);
   useEffect(() => {
+    // Call fetchPresets when the component mounts
     fetchPresets();
-  }, []);
+  }, [fetchPresets]);
 
   const [plantData, setPlantData] = useState({
-    userId: 1,
+    userId: userId,
     deviceId: "",
     name: "",
     location: "",
@@ -87,7 +88,7 @@ const NewPlant = ({ onCancel }) => {
     const { userId, deviceId, name, location, preset } = plantData;
 
     const plantJSON = {
-      userId,
+      userId: userId,
       deviceId,
       name,
       location,
@@ -120,7 +121,7 @@ const NewPlant = ({ onCancel }) => {
 
   return (
     <div className="new-plant-container">
-      {showPopup && <Popup onCancel={handleCancel} />}
+      {showPopup && <Popup userId={userId} onCancel={handleCancel}/>}
       <div className="left-content">
         <div className="plant-details">
           <h2>Register a New Plant</h2>
@@ -284,4 +285,4 @@ const NewPlant = ({ onCancel }) => {
   );
 };
 
-export default NewPlant;
+export default RegisterPlant;
