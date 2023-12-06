@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Axios from "axios";
 import "./RegisterPlant.css";
 import Image from "../../assets/plant.jpg";
 import Image2 from "../../assets/logo.jpg";
@@ -9,21 +8,23 @@ import Alert from "@mui/material/Alert";
 const RegisterPlant = ({ onCancel, userId }) => {
   const [presets, setPresets] = useState([{ name: "Other", id: "0" }]);
   const [warningText, setWarningText] = useState(false);
-
   const fetchPresets = useCallback(async () => {
     try {
-      const response = await Axios.get("http://localhost:5000/PlantPreset/getAllPresets/"+userId);
-        if (Array.isArray(response.data)) {
-          const presetsWithSelectOne = [
-            { name: "Other", id: "0" },
-            ...response.data,
-          ];
+      const response = await fetch("http://localhost:5000/PlantPreset/getAllPresets/"+userId);
+      if (response.ok) {
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          const presetsWithSelectOne = [{ name: "Other", id: "0" }, ...data];
           setPresets(presetsWithSelectOne);
         }
+      } else {
+        throw new Error('Network response was not ok');
+      }
     } catch (error) {
       console.error("Error fetching presets:", error);
     }
   }, [userId]);
+
   useEffect(() => {
     // Call fetchPresets when the component mounts
     fetchPresets();
@@ -63,7 +64,7 @@ const RegisterPlant = ({ onCancel, userId }) => {
       setShowPopup(true);
       console.log("I chose other");
     } else {
-      console.error(`Selected plant type '${selectedType}' not found.`);
+      console.log(`Selected plant type '${selectedType}' not found.`);
     }
   };
 
@@ -75,7 +76,8 @@ const RegisterPlant = ({ onCancel, userId }) => {
     try {
       fetchPresets();
       setShowPopup(false);
-    } catch (error) {
+    }
+    catch (error) {
       console.error("Error fetching presets:", error);
     }
   };
@@ -105,18 +107,28 @@ const RegisterPlant = ({ onCancel, userId }) => {
       return;
     }
 
-    Axios.post("http://localhost:5000/Plant/createPlant", plantJSON)
-      .then((response) => {
-        if (response.status === 201) {
+    const createPlant = async (plantJSON) => {
+      try {
+        const response = await fetch("http://localhost:5000/Plant/createPlant", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(plantJSON),
+        });
+
+        if (response.ok) {
           console.log("Plant data saved successfully");
           handleCancelRegister();
         } else {
           console.error("Failed to save plant data");
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error:", error);
-      });
+      }
+    };
+    createPlant(plantJSON);
+
   };
 
   return (
@@ -127,110 +139,117 @@ const RegisterPlant = ({ onCancel, userId }) => {
           <h2>Register a New Plant</h2>
           <div className="form-fields">
             <div className="form-field">
-              <label>Device ID:</label>
-              <input
-                type="text"
-                name="deviceId"
-                value={plantData.deviceId}
-                onChange={handleInputChange}
-              />
+              <label>Device ID:
+                <input
+                  type="text"
+                  name="deviceId"
+                  value={plantData.deviceId}
+                  onChange={handleInputChange}
+                />
+              </label>
             </div>
             <div className="form-field">
-              <label>Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={plantData.name}
-                onChange={handleInputChange}
-                maxLength={20}
-              />
+              <label>Name:
+                <input
+                  type="text"
+                  name="name"
+                  value={plantData.name}
+                  onChange={handleInputChange}
+                />
+              </label>
             </div>
             <div className="form-field">
-              <label>Location:</label>
-              <input
-                type="text"
-                name="location"
-                value={plantData.location}
-                onChange={handleInputChange}
-              />
+              <label>Location:
+                <input
+                  type="text"
+                  name="location"
+                  value={plantData.location}
+                  onChange={handleInputChange}
+                />
+              </label>
             </div>
             <div className="form-field">
-              <label>Type:</label>
-              <select
-                name="selectedType"
-                value={plantData.selectedType}
-                onChange={handleTypeChange}
-              >
-                <option value="" disabled hidden>
-                  Select Type
-                </option>
-                {presets.map((plantType) => (
-                  <option key={plantType.id} value={plantType.name}>
-                    {plantType.name}
+              <label>Type:
+                <select
+                  name="selectedType"
+                  value={plantData.selectedType}
+                  onChange={handleTypeChange}
+                >
+                  <option value="" disabled hidden>
+                    Select Type
                   </option>
-                ))}
-              </select>
+                  {presets.map((plantType) => (
+                    <option key={plantType.id} value={plantType.name}>
+                      {plantType.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
             <div className="form-field">
-              <label>Humidity level:</label>
-              <input
-                type="text"
-                name="humidity"
-                value={
-                  presets.find((type) => type.name === plantData.selectedType)
-                    ?.humidity || ""
-                }
-                onChange={handleInputChange}
-                readOnly
-              />
+              <label>Humidity level:
+                <input
+                  type="text"
+                  name="humidity"
+                  value={
+                    presets.find((type) => type.name === plantData.selectedType)
+                      ?.humidity || ""
+                  }
+                  onChange={handleInputChange}
+                  readOnly
+                />
+              </label>
             </div>
             <div className="form-field">
-              <label>Moisture level:</label>
-              <input
-                type="text"
-                name="moisture"
-                value={
-                  presets.find((type) => type.name === plantData.selectedType)
-                    ?.moisture || ""
-                }
-                onChange={handleInputChange}
-                readOnly
-              />
+              <label>Moisture level:
+                <input
+                  type="text"
+                  name="moisture"
+                  value={
+                    presets.find((type) => type.name === plantData.selectedType)
+                      ?.moisture || ""
+                  }
+                  onChange={handleInputChange}
+                  readOnly
+                />
+              </label>
             </div>
             <div className="form-field">
-              <label>Light:</label>
-              <input
-                type="text"
-                name="light"
-                value={
-                  presets.find((type) => type.name === plantData.selectedType)
-                    ?.uvLight || ""
-                }
-                onChange={handleInputChange}
-                readOnly
-              />
+              <label>Light level:
+                <input
+                  type="text"
+                  name="light"
+                  value={
+                    presets.find((type) => type.name === plantData.selectedType)
+                      ?.uvLight || ""
+                  }
+                  onChange={handleInputChange}
+                  readOnly
+                />
+              </label>
             </div>
             <div className="form-field">
-              <label>Temperature:</label>
-              <input
-                type="text"
-                name="temperature"
-                value={
-                  presets.find((type) => type.name === plantData.selectedType)
-                    ?.temperature || ""
-                }
-                onChange={handleInputChange}
-                readOnly
-              />
+              <label>Temperature level:
+                <input
+                  type="text"
+                  name="temperature"
+                  value={
+                    presets.find((type) => type.name === plantData.selectedType)
+                      ?.temperature || ""
+                  }
+                  onChange={handleInputChange}
+                  readOnly
+                />
+              </label>
             </div>
           </div>
           <div style={{ marginTop: "10px" }}>
-              {warningText && (
-                <Alert severity="warning" onClose={() => setWarningText(false)}>
-                  Fields should not be empty!
-                </Alert>
-              )}
-            </div>
+            {warningText && (
+              <Alert severity="warning" onClose={() => setWarningText(false)}>
+                Fields should not be empty!
+              </Alert>
+            )}
+          </div>
         </div>
       </div>
 
