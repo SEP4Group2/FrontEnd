@@ -1,0 +1,13 @@
+.custom-card-title {
+  text-align: left !important;
+
+  font-size: 13px;
+  margin-top: 0px;
+  margin-bottom: 0%;
+}
+
+.custom-input{
+    width: 50%;
+    margin-top: 0%;
+    margin-bottom: 0%;
+}

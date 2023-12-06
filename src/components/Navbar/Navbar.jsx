@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import UserMenu from "../UserMenu/usermenu.js";
 import NotificationIcon from "../Notifications/NotificationIcon.js";
 
-const Navbar = ({ isAuthenticated }) => {
+const Navbar = ({ isAuthenticated, setToken, setUser }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -23,32 +23,51 @@ const Navbar = ({ isAuthenticated }) => {
           <div className="bar2"></div>
           <div className="bar3"></div>
         </div>
-        <div className="logo">
-          <img src={Image} alt="" className="logo-img" />
-        </div>
+
+        {!isAuthenticated && (
+          <>
+            <div className="logo">
+              <img src={Image} alt="" className="logo-img" />
+            </div>
+            <div
+              className="account-icon-not-logged-in"
+              style={{ width: "40px", height: "40px" }}
+            >
+              <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser} />
+            </div>
+          </>
+        )}
         <ul className={`nav-links ${isOpen ? "open" : ""}`}>
           {isAuthenticated && (
             <>
               <li>
-                <Link to="/myPlants">My Plants</Link>
+                <Link to="/myPlants" style={{ marginRight: "15%" }}>
+                  My Plants
+                </Link>
+              </li>
+              <div className="logo">
+                <img src={Image} alt="" className="logo-img" />
+              </div>
+              <li>
+                <Link to="/analytics" style={{ marginLeft: "15%" }}>
+                  Analytics
+                </Link>
               </li>
               <li>
-                <Link to="/analytics">Analytics</Link>
+                <NotificationIcon />
               </li>
-              <li>
-              <NotificationIcon />
-              </li>
-              
+              <div
+                className="account-icon"
+                style={{ width: "40px", height: "40px" }}
+              >
+                <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser} />
+              </div>
             </>
           )}
         </ul>
-        <div className="account-icon" style={{ position: "fixed" }}>
-          <UserMenu isAuthenticated={isAuthenticated} />
-        </div>
       </div>
     </nav>
   );
 };
 
 export default Navbar;
-

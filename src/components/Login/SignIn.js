@@ -13,8 +13,10 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 
-function SignIn({ setToken }) {
+function SignIn({ setToken, setUser, setLoading }) {
   const navigate = useNavigate();
+
+  setLoading(true)
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,7 +30,8 @@ function SignIn({ setToken }) {
         password: password,
       });
 
-      setToken(response.data);
+      setToken(response.data.token);
+      setUser(response.data.user);
 
       // Redirect to another page after successful login
       navigate('/myPlants');
