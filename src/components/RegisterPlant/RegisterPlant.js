@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./RegisterPlant.css";
 import Image from "../../assets/plant.jpg";
 import Image2 from "../../assets/logo.jpg";
 import Popup from "../Popup/Popup";
 import Alert from "@mui/material/Alert";
 
-const NewPlant = ({ onCancel }) => {
+const RegisterPlant = ({ onCancel, userId }) => {
   const [presets, setPresets] = useState([{ name: "Other", id: "0" }]);
   const [warningText, setWarningText] = useState(false);
-  const fetchPresets = async () => {
+  const fetchPresets = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:5000/PlantPreset/getAllPresets/0");
+      const response = await fetch("http://localhost:5000/PlantPreset/getAllPresets/"+userId);
       if (response.ok) {
         const data = await response.json();
         if (Array.isArray(data)) {
@@ -23,14 +23,15 @@ const NewPlant = ({ onCancel }) => {
     } catch (error) {
       console.error("Error fetching presets:", error);
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
+    // Call fetchPresets when the component mounts
     fetchPresets();
-  }, []);
+  }, [fetchPresets]);
 
   const [plantData, setPlantData] = useState({
-    userId: 1,
+    userId: userId,
     deviceId: "",
     name: "",
     location: "",
@@ -89,7 +90,7 @@ const NewPlant = ({ onCancel }) => {
     const { userId, deviceId, name, location, preset } = plantData;
 
     const plantJSON = {
-      userId,
+      userId: userId,
       deviceId,
       name,
       location,
@@ -132,7 +133,7 @@ const NewPlant = ({ onCancel }) => {
 
   return (
     <div className="new-plant-container">
-      {showPopup && <Popup onCancel={handleCancel} />}
+      {showPopup && <Popup userId={userId} onCancel={handleCancel}/>}
       <div className="left-content">
         <div className="plant-details">
           <h2>Register a New Plant</h2>
@@ -303,4 +304,4 @@ const NewPlant = ({ onCancel }) => {
   );
 };
 
-export default NewPlant;
+export default RegisterPlant;
