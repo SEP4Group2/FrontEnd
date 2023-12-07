@@ -21,6 +21,16 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
     // Increment the count without resetting to 0
     setNotificationCount((prevCount) => prevCount + 1);
   };
+
+  const removeNotification = (index) => {
+    // Remove the notification at the specified index
+    setNotificationData((prevNotifications) => [
+      ...prevNotifications.slice(0, index),
+      ...prevNotifications.slice(index + 1),
+    ]);
+    // Decrement the count
+    setNotificationCount((prevCount) => prevCount - 1);
+  };
  
   return (
     <nav className="navbar">
@@ -66,7 +76,7 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
               <li>
                 <WebSocketHandler userId={userId} onNotificationReceived={handleNotificationReceived}/>
                 {/* Pass the notificationCount to NotificationIcon */}
-                <NotificationIcon notification={notificationData} notificationCount={notificationCount}/>
+                <NotificationIcon notification={notificationData} notificationCount={notificationCount} onRemoveNotification={removeNotification}/>
               </li>
               <div
                 className="account-icon"

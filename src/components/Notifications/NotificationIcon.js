@@ -8,7 +8,7 @@ import NotificationComponent from './NotificationComponent';
 import './NotificationIcon.css';
 import CssBaseline from '@mui/material/CssBaseline';
 
-const NotificationIcon = ({ notification, notificationCount }) => {
+const NotificationIcon = ({ notification, notificationCount, onRemoveNotification }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popoverCount, setPopoverCount] = useState(0);
 
@@ -29,9 +29,6 @@ const NotificationIcon = ({ notification, notificationCount }) => {
     }
   }, [open, notificationCount]);
 
-  const handleRemoveNotification = (index) => {
-  
-  };
 
   return (
     <React.Fragment>
@@ -62,7 +59,7 @@ const NotificationIcon = ({ notification, notificationCount }) => {
       >
         <NotificationComponent
           notifications={notification}
-          onRemoveNotification={handleRemoveNotification}
+          onRemoveNotification={onRemoveNotification}
         />
       </Popover>
     </React.Fragment>
