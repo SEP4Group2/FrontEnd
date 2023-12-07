@@ -1,5 +1,5 @@
 // Navbar.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 import Image from "../../assets/logo.jpg";
 import { Link } from "react-router-dom";
@@ -9,7 +9,6 @@ import WebSocketHandler from '../Notifications/WebSocketHandler';
 
 const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [notificationData, setNotificationData] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
 
   const toggleMenu = () => {
@@ -17,21 +16,50 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
   };
 
   const handleNotificationReceived = (notification) => {
-    setNotificationData((prevNotifications) => [...prevNotifications, notification]);
+    // Retrieve existing notifications from localStorage
+    const userNotifications = JSON.parse(localStorage.getItem(`user_${userId}_notifications`)) || [];
+    console.log(`user_${userId}_notifications`);
+    // Merge new notification with existing ones
+    const updatedNotifications = [...userNotifications, notification];
+
+    // Update localStorage
+    localStorage.setItem(`user_${userId}_notifications`, JSON.stringify(updatedNotifications));
+
     // Increment the count without resetting to 0
     setNotificationCount((prevCount) => prevCount + 1);
+    console.log(notification);
   };
 
   const removeNotification = (index) => {
+    // Retrieve existing notifications from localStorage
+    const userNotifications = JSON.parse(localStorage.getItem(`user_${userId}_notifications`)) || [];
+
     // Remove the notification at the specified index
-    setNotificationData((prevNotifications) => [
-      ...prevNotifications.slice(0, index),
-      ...prevNotifications.slice(index + 1),
-    ]);
+    const updatedNotifications = [
+      ...userNotifications.slice(0, index),
+      ...userNotifications.slice(index + 1),
+    ];
+
+    // Update localStorage
+    localStorage.setItem(`user_${userId}_notifications`, JSON.stringify(updatedNotifications));
+
     // Decrement the count
     setNotificationCount((prevCount) => prevCount - 1);
   };
- 
+
+  const handleLogout = () => {
+    // Clear notifications for the user on logout
+    localStorage.removeItem(`user_${userId}_notifications`);
+
+    console.log('Logout triggered in Navbar');
+  };
+
+  // Load user-specific notifications from localStorage on component mount
+  useEffect(() => {
+    const userNotifications = JSON.parse(localStorage.getItem(`user_${userId}_notifications`)) || [];
+    setNotificationCount(userNotifications.length);
+  }, [userId]);
+  
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -53,7 +81,7 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
               className="account-icon-not-logged-in"
               style={{ width: "40px", height: "40px" }}
             >
-              <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser} />
+              <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser} onLogout={handleLogout}/>
             </div>
           </>
         )}
@@ -74,15 +102,15 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
                 </Link>
               </li>
               <li>
-                <WebSocketHandler userId={userId} onNotificationReceived={handleNotificationReceived}/>
-                {/* Pass the notificationCount to NotificationIcon */}
-                <NotificationIcon notification={notificationData} notificationCount={notificationCount} onRemoveNotification={removeNotification}/>
+                <WebSocketHandler userId={userId} onNotificationReceived={handleNotificationReceived} onLogout={handleLogout}/>
+                
+                <NotificationIcon notification={ JSON.parse(localStorage.getItem(`user_${userId}_notifications`)) || []} notificationCount={notificationCount} onRemoveNotification={removeNotification}/>
               </li>
               <div
                 className="account-icon"
                 style={{ width: "40px", height: "40px" }}
               >
-                <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser} />
+                <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser} onLogout={handleLogout}/>
               </div>
             </>
           )}

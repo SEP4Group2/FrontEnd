@@ -21,10 +21,10 @@
 .left-content, .right-content {
   flex: 1;
   padding-left: 10%;
+  padding-top: 2vh;
 }
 
-.left-content{
-  padding-top: 5%;
+.left-content{ 
   display: flex;
   flex-direction: column;
 }
@@ -64,38 +64,53 @@ input, select {
 }
 
 /* Plant Icons */
-.plant-icons {
+.main-icon{
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  /* background-color: #508150; */
+  border-radius: 50%;
+  height: 30vh;
+  width: 60vh;
 }
 
 .main-icon img {
-  width: 300px;
-  height: 300px;
-  border-radius: 10%;
-}
-
-.small-icons {
-  display: flex;
-  margin-top: 20px;
-}
-
-.small-icon {
-  cursor: pointer;
-  margin: 0 10px;
-}
-
-.small-icon img {
-  width: 100px;
-  height: 100px;
-  border: 2px solid transparent;
+  width: 50vh;
+  height: 70vh;
   border-radius: 50%;
-  transition: 0.2s;
 }
 
-.small-icon img:hover {
-  border: 4px solid #000000;
+.icons-container{
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-top: 3vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons {
+  width: 45vh;
+  height: 150px;
+  overflow-y: scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  
+}
+
+.icons-container ::-webkit-scrollbar{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.imgs{
+    width:200px; 
+    height:180px;
+    border-radius:50%;
 }
 
 .buttons{
@@ -106,7 +121,6 @@ input, select {
 
 /* Save Button */
 .cancelButton, .saveButton {
-  padding-top: 20px;
   margin-left: 10px;
 
 }
@@ -145,8 +159,6 @@ input, select {
   background-color: #686868;
 }
 
-/*Warning message*/
-
 
 /* Responsive Styles */
 @media screen and (max-width: 1020px) {
@@ -172,6 +184,27 @@ input, select {
     width: 100%;
   }
 
-  /*Warning message*/
+  .right-content{
+    padding-top: 25vh;
+  }
+
+  .icons-container{
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-top: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+  .icons {
+    width: 75vh;
+    height: 150px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    
+  }
 
 }

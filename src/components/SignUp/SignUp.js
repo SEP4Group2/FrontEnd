@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,13 +13,15 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import Link from '@mui/material/Link';
-
+import Alert from "@mui/material/Alert";
 
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
+
+  const [warningText, setWarningText] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,20 +30,21 @@ export default function SignUp() {
     const password = data.get('password');
 
     try {
-      const response = await axios.post('http://localhost:5000/User/createUser', {
+      if(username === "" || password === "" || username === null || password === null)
+      {
+        setWarningText("Fields cannot be empty!")
+      }
+      else{
+        await axios.post('http://localhost:5000/User/createUser', {
         username: username,
         password: password,
       });
 
-      // Assuming your backend responds with the created user data
-      const newUser = response.data;
-
       // Redirect to login page after successful registration
       navigate('/login');
-
-      console.log('User registered:', newUser);
+      }
     } catch (error) {
-      console.error('Error:', error);
+      setWarningText(error.response.data);
     }
   };
 
@@ -60,7 +64,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Register
+            Register Account
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -69,7 +73,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="username"
-                  label="username" 
+                  label="Username"
                   name="username"
                   autoComplete="username"
                 />
@@ -101,11 +105,18 @@ export default function SignUp() {
                   to="/login"
                   variant="body2"
                 >
-                  {"Have an account? Sign Up"}
+                  {"Have an account? Sign In"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
+          <div style={{ marginTop: "10px" }}>
+            {warningText && (
+              <Alert severity="warning" onClose={() => setWarningText("")}>
+                {warningText}
+              </Alert>
+            )}
+          </div>
         </Box>
       </Container>
     </ThemeProvider>

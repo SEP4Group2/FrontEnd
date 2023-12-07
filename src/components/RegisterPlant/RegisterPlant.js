@@ -1,16 +1,41 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./RegisterPlant.css";
-import Image from "../../assets/plant.jpg";
-import Image2 from "../../assets/logo.jpg";
 import Popup from "../Popup/Popup";
 import Alert from "@mui/material/Alert";
+import Image1 from "../../assets/icons/1.jpg";
+import Image2 from "../../assets/icons/2.jpg";
+import Image3 from "../../assets/icons/3.jpg";
+import Image4 from "../../assets/icons/4.jpg";
+import Image5 from "../../assets/icons/5.jpg";
+import Image6 from "../../assets/icons/6.jpg";
+import Image7 from "../../assets/icons/7.jpg";
+import Image8 from "../../assets/icons/8.jpg";
+import Image9 from "../../assets/icons/9.jpg";
+import Image10 from "../../assets/icons/10.jpg";
+import Image11 from "../../assets/icons/11.jpg";
+import Image12 from "../../assets/icons/12.jpg";
+import Image13 from "../../assets/icons/13.jpg";
 
 const RegisterPlant = ({ onCancel, userId }) => {
   const [presets, setPresets] = useState([{ name: "Other", id: "0" }]);
   const [warningText, setWarningText] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [iconId, setIconId] = useState(1);
+  const [plantData, setPlantData] = useState({
+    userId: userId,
+    deviceId: "",
+    name: "",
+    location: "",
+    preset: "",
+    selectedType: "", // Add selectedType state
+  });
+  const [mainIconSrc, setMainIconSrc] = useState(Image1);
+
   const fetchPresets = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:5000/PlantPreset/getAllPresets/"+userId);
+      const response = await fetch(
+        "http://localhost:5000/PlantPreset/getAllPresets/" + userId
+      );
       if (response.ok) {
         const data = await response.json();
         if (Array.isArray(data)) {
@@ -18,7 +43,7 @@ const RegisterPlant = ({ onCancel, userId }) => {
           setPresets(presetsWithSelectOne);
         }
       } else {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
     } catch (error) {
       console.error("Error fetching presets:", error);
@@ -30,22 +55,17 @@ const RegisterPlant = ({ onCancel, userId }) => {
     fetchPresets();
   }, [fetchPresets]);
 
-  const [plantData, setPlantData] = useState({
-    userId: userId,
-    deviceId: "",
-    name: "",
-    location: "",
-    preset: "",
-    icon: Image, // Initial icon
-    selectedType: "", // Add selectedType state
-  });
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPlantData({ ...plantData, [name]: value });
   };
+  
 
-  const [showPopup, setShowPopup] = useState(false); // State variable to control the "Popup" component visibility
+  const handleClick = (id, iconSrc) => {
+    setIconId(id);
+    console.log(iconId);
+    setMainIconSrc(iconSrc);
+  };
 
   const handleTypeChange = (e) => {
     const selectedType = e.target.value;
@@ -68,16 +88,11 @@ const RegisterPlant = ({ onCancel, userId }) => {
     }
   };
 
-  const handleIconChange = (newIcon) => {
-    setPlantData({ ...plantData, icon: newIcon });
-  };
-
   const handleCancel = async () => {
     try {
       fetchPresets();
       setShowPopup(false);
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error fetching presets:", error);
     }
   };
@@ -95,8 +110,10 @@ const RegisterPlant = ({ onCancel, userId }) => {
       name,
       location,
       plantPresetId: preset,
+      iconId: iconId,
     };
 
+    console.log(iconId)
     console.log("Plant JSON Object:", plantJSON);
 
     if (
@@ -109,13 +126,16 @@ const RegisterPlant = ({ onCancel, userId }) => {
 
     const createPlant = async (plantJSON) => {
       try {
-        const response = await fetch("http://localhost:5000/Plant/createPlant", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(plantJSON),
-        });
+        const response = await fetch(
+          "http://localhost:5000/Plant/createPlant",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(plantJSON),
+          }
+        );
 
         if (response.ok) {
           console.log("Plant data saved successfully");
@@ -128,18 +148,18 @@ const RegisterPlant = ({ onCancel, userId }) => {
       }
     };
     createPlant(plantJSON);
-
   };
 
   return (
     <div className="new-plant-container">
-      {showPopup && <Popup userId={userId} onCancel={handleCancel}/>}
+      {showPopup && <Popup userId={userId} onCancel={handleCancel} />}
       <div className="left-content">
         <div className="plant-details">
           <h2>Register a New Plant</h2>
           <div className="form-fields">
             <div className="form-field">
-              <label>Device ID:
+              <label>
+                Device ID:
                 <input
                   type="text"
                   name="deviceId"
@@ -149,7 +169,8 @@ const RegisterPlant = ({ onCancel, userId }) => {
               </label>
             </div>
             <div className="form-field">
-              <label>Name:
+              <label>
+                Name:
                 <input
                   type="text"
                   name="name"
@@ -159,7 +180,8 @@ const RegisterPlant = ({ onCancel, userId }) => {
               </label>
             </div>
             <div className="form-field">
-              <label>Location:
+              <label>
+                Location:
                 <input
                   type="text"
                   name="location"
@@ -169,7 +191,8 @@ const RegisterPlant = ({ onCancel, userId }) => {
               </label>
             </div>
             <div className="form-field">
-              <label>Type:
+              <label>
+                Type:
                 <select
                   name="selectedType"
                   value={plantData.selectedType}
@@ -187,7 +210,8 @@ const RegisterPlant = ({ onCancel, userId }) => {
               </label>
             </div>
             <div className="form-field">
-              <label>Humidity level:
+              <label>
+                Humidity level:
                 <input
                   type="text"
                   name="humidity"
@@ -201,7 +225,8 @@ const RegisterPlant = ({ onCancel, userId }) => {
               </label>
             </div>
             <div className="form-field">
-              <label>Moisture level:
+              <label>
+                Moisture level:
                 <input
                   type="text"
                   name="moisture"
@@ -215,7 +240,8 @@ const RegisterPlant = ({ onCancel, userId }) => {
               </label>
             </div>
             <div className="form-field">
-              <label>Light level:
+              <label>
+                Light level:
                 <input
                   type="text"
                   name="light"
@@ -229,7 +255,8 @@ const RegisterPlant = ({ onCancel, userId }) => {
               </label>
             </div>
             <div className="form-field">
-              <label>Temperature level:
+              <label>
+                Temperature level:
                 <input
                   type="text"
                   name="temperature"
@@ -256,32 +283,87 @@ const RegisterPlant = ({ onCancel, userId }) => {
       <div className="right-content">
         <div className="plant-icons">
           <div className="main-icon">
-            {/* Display the main icon based on the selected icon */}
-            <img
-              src={plantData.icon} // Adjust the path to your image
-              alt="Main Plant Icon"
-              width="300"
-              height="300"
-            />
+            <img src={mainIconSrc} alt="Main Plant Icon" />
           </div>
-          <div className="small-icons">
-            <div className="small-icon" onClick={() => handleIconChange(Image)}>
+          <div className="icons-container">
+            <div className="icons">
               <img
-                src={Image} // Adjust the path to your image
-                alt="Icon 1"
-                width="100"
-                height="100"
+                className="imgs"
+                src={Image13}
+                alt={" "}
+                onClick={() => handleClick(13, Image13)}
               />
-            </div>
-            <div
-              className="small-icon"
-              onClick={() => handleIconChange(Image2)}
-            >
               <img
-                src={Image2} // Adjust the path to your image
-                alt="Icon 2"
-                width="100"
-                height="100"
+                className="imgs"
+                src={Image5}
+                alt={" "}
+                onClick={() => handleClick(5, Image5)}
+              />
+              <img
+                className="imgs"
+                src={Image12}
+                alt={" "}
+                onClick={() => handleClick(12, Image12)}
+              />
+              <img
+                className="imgs"
+                src={Image1}
+                alt={" "}
+                onClick={() => handleClick(1, Image1)}
+              />
+              <img
+                className="imgs"
+                src={Image2}
+                alt={" "}
+                onClick={() => handleClick(2, Image2)}
+              />
+              <img
+                className="imgs"
+                src={Image3}
+                alt={" "}
+                onClick={() => handleClick(3, Image3)}
+              />
+              <img
+                className="imgs"
+                src={Image4}
+                alt={" "}
+                onClick={() => handleClick(4, Image4)}
+              />
+              <img
+                className="imgs"
+                src={Image6}
+                alt={" "}
+                onClick={() => handleClick(6, Image6)}
+              />
+              <img
+                className="imgs"
+                src={Image7}
+                alt={" "}
+                onClick={() => handleClick(7, Image7)}
+              />
+              <img
+                className="imgs"
+                src={Image8}
+                alt={" "}
+                onClick={() => handleClick(8, Image8)}
+              />
+              <img
+                className="imgs"
+                src={Image9}
+                alt={" "}
+                onClick={() => handleClick(9, Image9)}
+              />
+              <img
+                className="imgs"
+                src={Image10}
+                alt={" "}
+                onClick={() => handleClick(10, Image10)}
+              />
+              <img
+                className="imgs"
+                src={Image11}
+                alt={" "}
+                onClick={() => handleClick(11, Image11)}
               />
             </div>
           </div>

@@ -25,12 +25,24 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Button from "@mui/joy/Button";
 import Axios from "axios";
 import "./CardComponent.css";
+import Image1 from "../../assets/icons/1.jpg";
+import Image2 from "../../assets/icons/2.jpg";
+import Image3 from "../../assets/icons/3.jpg";
+import Image4 from "../../assets/icons/4.jpg";
+import Image5 from "../../assets/icons/5.jpg";
+import Image6 from "../../assets/icons/6.jpg";
+import Image7 from "../../assets/icons/7.jpg";
+import Image8 from "../../assets/icons/8.jpg";
+import Image9 from "../../assets/icons/9.jpg";
+import Image10 from "../../assets/icons/10.jpg";
+import Image11 from "../../assets/icons/11.jpg";
+import Image12 from "../../assets/icons/12.jpg";
+import Image13 from "../../assets/icons/13.jpg";
 
 export default function CardComponent({ plant, plantsData, onClose }) {
   const [activeTab, setActiveTab] = useState("status");
   const [editedLocation, setEditedLocation] = useState(plant.location);
   const [editedName, setEditedName] = useState(plant.name);
-
   const [editableMode, setEditableMode] = useState(false);
   const [presetValues] = useState({
     humidity: plant.plantPreset.humidity,
@@ -38,6 +50,40 @@ export default function CardComponent({ plant, plantsData, onClose }) {
     temperature: plant.plantPreset.temperature,
     light: plant.plantPreset.uvLight,
   });
+
+  const getIcon = (iconId) => {
+    console.log(iconId);
+    switch (iconId) {
+      case 1:
+        return Image1;
+      case 2:
+        return Image2;
+      case 3:
+        return Image3;
+      case 4:
+        return Image4;
+      case 5:
+        return Image5;
+      case 6:
+        return Image6;
+      case 7:
+        return Image7;
+      case 8:
+        return Image8;
+      case 9:
+        return Image9;
+      case 10:
+        return Image10;
+      case 11:
+        return Image11;
+      case 12:
+        return Image12;
+      case 13:
+        return Image13;
+      default:
+        return Image1; // Default to Image1 or any other default image
+    }
+  };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -137,14 +183,15 @@ export default function CardComponent({ plant, plantsData, onClose }) {
               }}
             >
               <img
-                src="/plant.jpg" // Path relative to the public directory
+                src={getIcon(plant.iconId)} 
                 alt=""
                 style={{
-                  width: "70px",
-                  height: "70px",
+                  width: "100px",
+                  height: "100px",
                   objectFit: "cover",
                   borderRadius: "50%",
                   marginRight: "30px",
+                  marginLeft: "30px",
                 }}
               />
               <MDBCardTitle
@@ -290,14 +337,15 @@ export default function CardComponent({ plant, plantsData, onClose }) {
           <>
             <div style={{ display: "flex", alignItems: "center" }}>
               <img
-                src="/plant.jpg" // Path relative to the public directory
+                src={getIcon(plant.iconId)}  
                 alt=""
                 style={{
-                  width: "70px",
-                  height: "70px",
+                  width: "100px",
+                  height: "100px",
                   objectFit: "cover",
                   borderRadius: "50%",
                   marginRight: "30px",
+                  marginLeft: "30px",
                 }}
               />
 

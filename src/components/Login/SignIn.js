@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,9 +13,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import Alert from "@mui/material/Alert";
 
 function SignIn({ setToken, setUser, setLoading }) {
   const navigate = useNavigate();
+
+  const [warningText, setWarningText] = useState("");
 
   setLoading(true)
 
@@ -33,11 +37,12 @@ function SignIn({ setToken, setUser, setLoading }) {
       setToken(response.data.token);
       setUser(response.data.user);
 
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       // Redirect to another page after successful login
       navigate('/myPlants');
     } catch (error) {
-      // Handle errors here
-      console.error('Error:', error);
+      setWarningText(error.response.data);
     }
   };
 
@@ -82,7 +87,7 @@ function SignIn({ setToken, setUser, setLoading }) {
               id="password"
               autoComplete="current-password"
             />
-            
+
             <Button
               type="submit"
               fullWidth
@@ -104,6 +109,13 @@ function SignIn({ setToken, setUser, setLoading }) {
               </Grid>
             </Grid>
           </Box>
+          <div style={{ marginTop: "10px" }}>
+            {warningText && (
+              <Alert severity="error" onClose={() => setWarningText("")}>
+                {warningText}
+              </Alert>
+            )}
+          </div>
         </Box>
       </Container>
     </ThemeProvider>

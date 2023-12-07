@@ -1,8 +1,8 @@
 // WebSocketHandler.js
 import React, { useEffect, useRef } from 'react';
-import { startConnection, subscribeToNotification, addToGroup, stopConnection } from './SignalRService';
+import { startConnection, subscribeToNotification, addToGroup, removeFromGroup, stopConnection } from './SignalRService';
 
-const WebSocketHandler = ({ onNotificationReceived, userId }) => {
+const WebSocketHandler = ({ onNotificationReceived, userId, onLogout }) => {
   const isConnectionStarted = useRef(false);
   const useruser = String(userId);
 
@@ -36,6 +36,15 @@ const WebSocketHandler = ({ onNotificationReceived, userId }) => {
       isConnectionStarted.current = true;
     }
   }, [onNotificationReceived, useruser]);
+
+
+  useEffect(() => {
+    
+    return () => {
+      //removeFromGroup(useruser);
+      //stopConnection();
+    };
+  }, [onLogout, useruser]);
 
   return null;
 };
