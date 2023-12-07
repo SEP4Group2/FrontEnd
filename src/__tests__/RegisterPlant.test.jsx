@@ -1,8 +1,8 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom';
-import NewPlant from "./RegisterPlant";
+import NewPlant from "../components/RegisterPlant/RegisterPlant";
 
-describe("NewPlant", () => {
+describe("Rendering", () => {
     it('should render preset component when "Other" is chosen', async () => {
         render(<NewPlant onCancel={() => { }} />);
 
@@ -33,7 +33,8 @@ describe("NewPlant", () => {
         expect(typeSelect).toBeInTheDocument();
         expect(screen.getByText(/Select Type/i)).toBeInTheDocument();
     });
-
+});
+describe("State Update", () => {
     it('should update state when input fields are changed', () => {
         render(<NewPlant onCancel={() => { }} />);
 
