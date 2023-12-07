@@ -1,3 +1,4 @@
+// Navbar.js
 import React, { useState } from "react";
 import "./Navbar.css";
 import Image from "../../assets/logo.jpg";
@@ -8,20 +9,22 @@ import WebSocketHandler from '../Notifications/WebSocketHandler';
 
 const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [notificationData, setNotificationData] = useState(null);
+  const [notificationData, setNotificationData] = useState([]);
+  const [notificationCount, setNotificationCount] = useState(0);
 
-  console.log("navbar   " + userId);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
   const handleNotificationReceived = (notification) => {
-    console.log("navbar  " + notification);
-    setNotificationData(notification);
+    setNotificationData((prevNotifications) => [...prevNotifications, notification]);
+    // Increment the count without resetting to 0
+    setNotificationCount((prevCount) => prevCount + 1);
   };
+ 
   return (
     <nav className="navbar">
       <div className="navbar-container">
-      
         <div
           className={`menu-icon ${isOpen ? "open" : ""}`}
           onClick={toggleMenu}
@@ -41,7 +44,6 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
               style={{ width: "40px", height: "40px" }}
             >
               <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser} />
-              
             </div>
           </>
         )}
@@ -62,8 +64,9 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
                 </Link>
               </li>
               <li>
-              <WebSocketHandler userId={userId} onNotificationReceived={handleNotificationReceived}/>
-                <NotificationIcon notification={notificationData}/>
+                <WebSocketHandler userId={userId} onNotificationReceived={handleNotificationReceived}/>
+                {/* Pass the notificationCount to NotificationIcon */}
+                <NotificationIcon notification={notificationData} notificationCount={notificationCount}/>
               </li>
               <div
                 className="account-icon"

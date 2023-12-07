@@ -9,24 +9,9 @@ import ListSubheader from '@mui/material/ListSubheader';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 
-const NotificationComponent = ({ notification }) => {
-  const [notifications, setNotifications] = useState([]);
-
-  useEffect(() => {
-    console.log("DAmnnn"+notification)
-    if (notification) {
-      // Add the new notification to the state
-      console.log(notification);
-      setNotifications((prevNotifications) => [...prevNotifications, notification]);
-    }
-  }, [notification]);
-
+const NotificationComponent = ({ notifications, onRemoveNotification }) => {
   const handleRemoveMessage = (index) => {
-    setNotifications((prevMessages) => {
-      // Remove the notification at the specified index
-      const updatedMessages = prevMessages.filter((_, i) => i !== index);
-      return updatedMessages;
-    });
+    onRemoveNotification(index);
   };
 
   return (
@@ -48,7 +33,7 @@ const NotificationComponent = ({ notification }) => {
                     color="text.primary"
                     sx={{ wordWrap: 'break-word' }}
                   >
-                    {notification.message}
+                    {notification.notification}
                   </Typography>
                 }
               />

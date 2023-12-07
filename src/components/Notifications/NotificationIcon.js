@@ -8,11 +8,13 @@ import NotificationComponent from './NotificationComponent';
 import './NotificationIcon.css';
 import CssBaseline from '@mui/material/CssBaseline';
 
-const NotificationIcon = ({notification}) => {
+const NotificationIcon = ({ notification, notificationCount }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [popoverCount, setPopoverCount] = useState(0);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    setPopoverCount(notificationCount);
   };
 
   const handleClose = () => {
@@ -21,10 +23,15 @@ const NotificationIcon = ({notification}) => {
 
   const open = Boolean(anchorEl);
   useEffect(() => {
-    // Log the received notification
-    console.log('Received notification in NotificationIcon:', notification);
-    
-  }, [notification]);
+    if (open) {
+      // Update the local count when the popover is open
+      setPopoverCount(notificationCount);
+    }
+  }, [open, notificationCount]);
+
+  const handleRemoveNotification = (index) => {
+  
+  };
 
   return (
     <React.Fragment>
@@ -32,11 +39,11 @@ const NotificationIcon = ({notification}) => {
       <IconButton
         className="notification-icon"
         size="large"
-        aria-label={`show ${0} new notifications`}
+        aria-label={`show ${notificationCount - popoverCount} new notifications`}
         color="inherit"
         onClick={handleClick}
       >
-        <Badge badgeContent={0} color="error">
+        <Badge badgeContent={notificationCount - popoverCount} color="error">
           <NotificationsIcon style={{ width: '40px', height: '40px' }} />
         </Badge>
       </IconButton>
@@ -53,7 +60,10 @@ const NotificationIcon = ({notification}) => {
           horizontal: 'left',
         }}
       >
-        <NotificationComponent notification={notification}/>
+        <NotificationComponent
+          notifications={notification}
+          onRemoveNotification={handleRemoveNotification}
+        />
       </Popover>
     </React.Fragment>
   );

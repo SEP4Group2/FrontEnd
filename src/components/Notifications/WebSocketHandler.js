@@ -14,19 +14,16 @@ const WebSocketHandler = ({ onNotificationReceived, userId }) => {
         console.log('WebSocket Connection Started!');
         await addToGroup(useruser);
 
-        const unsubscribe = subscribeToNotification((notification) => {
+        const subscribe = subscribeToNotification((notification) => {
           console.log('Received notification in sockets:', notification);
           
           // Add a unique identifier to the notification
-          const notificationWithId = { message: notification, id: Date.now().toString() };
+          const notificationWithId = { notification };
           onNotificationReceived(notificationWithId);
         });
 
         return () => {
-          unsubscribe();
-          // Commenting out stopConnection to prevent stopping the connection
-          // stopConnection();
-          console.log('WebSocket Connection Stopped!');
+          subscribe();
         };
       } catch (error) {
         console.error('Error setting up SignalR:', error);
