@@ -47,7 +47,18 @@ const MyProfile = ({user, setUser}) => {
     const confirmDelete = window.confirm('Are you sure you want to delete your profile?');
 
     if (confirmDelete) {
-      // Add logic here to delete the profile (e.g., make an API request to the server)
+      fetch(`http://localhost:5000/User/`, {
+        method: 'DELETE',
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .catch(error => {
+          console.error('Error deleting user:', error);
+        });
       console.log('Profile deleted');
     }
   };
