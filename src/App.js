@@ -42,7 +42,7 @@ const App = () => {
   return (
     <div>
       <Router>
-        <Navbar isAuthenticated={!!token} setToken = {setToken} setUser = {setUser} />
+        <Navbar isAuthenticated={!!token} setToken = {setToken} setUser = {setUser} userId={user.userId} />
         <div className="content-container">
           <Routes>
             <Route path="/login" element={<SignIn setToken={setToken} setUser={setUser} setLoading={setLoading}/>} />

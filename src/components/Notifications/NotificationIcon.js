@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// NotificationIcon.js
+import React, { useState, useEffect } from 'react';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
@@ -6,14 +7,11 @@ import Popover from '@mui/material/Popover';
 import NotificationComponent from './NotificationComponent';
 import './NotificationIcon.css';
 import CssBaseline from '@mui/material/CssBaseline';
-import WebSocketHandler from './WebSocketHandler';
 
-const NotificationIcon = ({ initialNotificationCount = 0 }) => {
-  const [notificationCount, setNotificationCount] = useState(initialNotificationCount);
+const NotificationIcon = ({notification}) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
-    setNotificationCount(0);
     setAnchorEl(event.currentTarget);
   };
 
@@ -22,10 +20,10 @@ const NotificationIcon = ({ initialNotificationCount = 0 }) => {
   };
 
   const open = Boolean(anchorEl);
-
-  const handleNotificationCountChange = (count) => {
-    setNotificationCount(count);
-  };
+  useEffect(() => {
+    // Log the received notification
+    console.log('Received notification in NotificationIcon:', notification);
+  }, [notification]);
 
   return (
     <React.Fragment>
@@ -33,11 +31,11 @@ const NotificationIcon = ({ initialNotificationCount = 0 }) => {
       <IconButton
         className="notification-icon"
         size="large"
-        aria-label={`show ${notificationCount} new notifications`}
+        aria-label={`show ${0} new notifications`}
         color="inherit"
         onClick={handleClick}
       >
-        <Badge badgeContent={notificationCount} color="error">
+        <Badge badgeContent={0} color="error">
           <NotificationsIcon style={{ width: '40px', height: '40px' }} />
         </Badge>
       </IconButton>
@@ -54,9 +52,8 @@ const NotificationIcon = ({ initialNotificationCount = 0 }) => {
           horizontal: 'left',
         }}
       >
-        <NotificationComponent onNotificationCountChange={handleNotificationCountChange} />
+        <NotificationComponent notification={notification}/>
       </Popover>
-      <WebSocketHandler onNotificationReceived={() => {}} />
     </React.Fragment>
   );
 };

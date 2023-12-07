@@ -1,21 +1,27 @@
+// WebSocketHandler.js
 import React, { useEffect, useRef } from 'react';
 import { startConnection, subscribeToNotification, addToGroup, stopConnection } from './SignalRService';
 
-const WebSocketHandler = ({ onNotificationReceived }) => {
+const WebSocketHandler = ({ onNotificationReceived, userId }) => {
   const isConnectionStarted = useRef(false);
+  const useruser = String(userId);
 
   useEffect(() => {
-    const userId = '1'; // Replace with id !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ;)
-
     const setupSignalR = async () => {
       try {
         await startConnection();
+
         console.log('WebSocket Connection Started!');
-        await addToGroup(userId);
+        await addToGroup(useruser);
 
         const unsubscribe = subscribeToNotification((notification) => {
-          onNotificationReceived(notification);
-        });
+          console.log('Received notification in sockets:', notification);
+          // Invoke the callback passed from Navbar
+      if (typeof onNotificationReceived === 'function') {
+        onNotificationReceived(notification);
+      }
+    });
+          
 
         return () => {
           unsubscribe();
@@ -33,8 +39,7 @@ const WebSocketHandler = ({ onNotificationReceived }) => {
       setupSignalR();
       isConnectionStarted.current = true;
     }
-
-  }, [onNotificationReceived]);
+  }, [onNotificationReceived, useruser]);
 
   return null;
 };

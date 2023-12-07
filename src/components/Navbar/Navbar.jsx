@@ -4,17 +4,24 @@ import Image from "../../assets/logo.jpg";
 import { Link } from "react-router-dom";
 import UserMenu from "../UserMenu/usermenu.js";
 import NotificationIcon from "../Notifications/NotificationIcon.js";
+import WebSocketHandler from '../Notifications/WebSocketHandler';
 
-const Navbar = ({ isAuthenticated, setToken, setUser }) => {
+const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [notificationData, setNotificationData] = useState(null);
 
+  console.log("navbar   " + userId);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
+  const handleNotificationReceived = (notification) => {
+    console.log("navbar  " + notification);
+    setNotificationData(notification);
+  };
   return (
     <nav className="navbar">
       <div className="navbar-container">
+      
         <div
           className={`menu-icon ${isOpen ? "open" : ""}`}
           onClick={toggleMenu}
@@ -34,6 +41,7 @@ const Navbar = ({ isAuthenticated, setToken, setUser }) => {
               style={{ width: "40px", height: "40px" }}
             >
               <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser} />
+              
             </div>
           </>
         )}
@@ -54,7 +62,8 @@ const Navbar = ({ isAuthenticated, setToken, setUser }) => {
                 </Link>
               </li>
               <li>
-                <NotificationIcon />
+              <WebSocketHandler userId={userId} onNotificationReceived={handleNotificationReceived}/>
+                <NotificationIcon notification={notificationData}/>
               </li>
               <div
                 className="account-icon"

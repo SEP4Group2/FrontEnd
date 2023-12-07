@@ -8,42 +8,25 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
-import WebSocketHandler from './WebSocketHandler';
 
-const NotificationComponent = ({ onNotificationCountChange }) => {
-  const [messageList, setMessageList] = useState([]);
-  const [notificationCount, setNotificationCount] = useState(0);
+const NotificationComponent = ({ notification }) => {
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    const storedNotifications = JSON.parse(localStorage.getItem('notifications')) || [];
-    setMessageList(storedNotifications);
-  }, []);
+    console.log("DAmnnn"+notification)
+    if (notification) {
+      // Add the new notification to the state
+      console.log(notification);
+      setNotifications((prevNotifications) => [...prevNotifications, notification]);
+    }
+  }, [notification]);
 
   const handleRemoveMessage = (index) => {
-    setMessageList((prevMessages) => {
+    setNotifications((prevMessages) => {
+      // Remove the notification at the specified index
       const updatedMessages = prevMessages.filter((_, i) => i !== index);
-      updateLocalStorage(updatedMessages);
       return updatedMessages;
     });
-  };
-
-  const handleNotificationReceived = (notification) => {
-    setMessageList((prevMessages) => {
-      const updatedMessages = [...prevMessages, notification];
-      updateLocalStorage(updatedMessages);
-      setNotificationCount((prevCount) => {
-        const newCount = prevCount + 1;
-        console.log('New Notification Count:', newCount);
-        onNotificationCountChange(newCount);
-        return newCount;
-      });
-      return updatedMessages;
-    });
-  };
-  
-
-  const updateLocalStorage = (updatedMessages) => {
-    localStorage.setItem('notifications', JSON.stringify(updatedMessages));
   };
 
   return (
@@ -55,7 +38,7 @@ const NotificationComponent = ({ onNotificationCountChange }) => {
         </Typography>
         <List sx={{ mb: 2 }}>
           <ListSubheader sx={{ bgcolor: 'background.paper' }}>Today</ListSubheader>
-          {messageList.map((notification, index) => (
+          {notifications.map((notification, index) => (
             <ListItem key={index} button>
               <ListItemText
                 primary={
@@ -76,7 +59,6 @@ const NotificationComponent = ({ onNotificationCountChange }) => {
           ))}
         </List>
       </Paper>
-      <WebSocketHandler onNotificationReceived={handleNotificationReceived} />
     </React.Fragment>
   );
 };
