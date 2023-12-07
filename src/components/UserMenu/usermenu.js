@@ -30,7 +30,7 @@ const UserMenu = ({ isAuthenticated, setToken, setUser }) => {
           <Menu {...bindMenu(popupState)}>
             {isAuthenticated ? (
               <div>
-                <MenuItem component={Link} to="/profile" onClick={popupState.close}>
+                <MenuItem component={Link} to="/myProfile" onClick={popupState.close}>
                   My Profile
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>

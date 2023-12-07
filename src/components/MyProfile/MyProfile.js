@@ -3,12 +3,10 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-
-const MyProfile = ({user}) => () => {
+const MyProfile = ({user, setUser}) => {
   const [editMode, setEditMode] = useState(false);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
-  const [userData, setUserData] = useState();
-  setUserData(user);
+  const [userData, setUserData] = useState(user);
 
   const handleEdit = () => {
     setEditMode(true);
@@ -16,10 +14,33 @@ const MyProfile = ({user}) => () => {
 
 
   const handleSave = () => {
-    // Add logic here to save changes (e.g., make an API request to update the profile)
-    console.log('Changes saved:', userData);
-    setUnsavedChanges(false);
-    setEditMode(false);
+      const userPatchData = {
+        userId: userData.userId, // Replace 0 with the actual user ID you want to update
+        username: userData.username, // Replace "string" with the actual username
+        password: userData.password // Replace "string" with the actual password
+      };
+    
+      fetch(`http://localhost:5000/User`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userPatchData),
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          setUser(userData)
+          return response.json();
+        })
+        .then(() => {
+          setUnsavedChanges(false);
+          setEditMode(false);
+        })
+        .catch(error => {
+          console.error('Error updating user:', error);
+        });
   };
 
   const handleDelete = () => {
@@ -32,7 +53,7 @@ const MyProfile = ({user}) => () => {
   };
 
   const handleCancel = () => {
-    setUserData(initialUserData);
+    setUserData(user);
     setEditMode(false);
     setUnsavedChanges(false);
   };
@@ -62,17 +83,6 @@ const MyProfile = ({user}) => () => {
         />
         <TextField
           required={editMode}
-          label="Email"
-          type="email"
-          name="email"
-          value={userData.email}
-          onChange={handleChange}
-          disabled={!editMode}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          required={editMode}
           label="Password"
           type="password"
           autoComplete="current-password"
@@ -84,7 +94,7 @@ const MyProfile = ({user}) => () => {
           margin="normal"
         />
       </div>
-      <div style={{ textAlign: 'left', marginLeft: '16px', marginTop: '16px' }}>
+      <div style={{ marginLeft: '16px', marginTop: '16px' }}>
         <Button onClick={handleDelete} variant="contained" style={{ marginRight: '8px' }}>
           Delete
         </Button>
