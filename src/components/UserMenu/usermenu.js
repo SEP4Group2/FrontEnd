@@ -11,6 +11,9 @@ const UserMenu = ({ isAuthenticated, setToken, setUser }) => {
   const handleLogout = () => {
     setToken("");
     setUser({})
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     // Perform logout logic, and then redirect to the home page
     navigate('/');
   };
@@ -30,7 +33,7 @@ const UserMenu = ({ isAuthenticated, setToken, setUser }) => {
           <Menu {...bindMenu(popupState)}>
             {isAuthenticated ? (
               <div>
-                <MenuItem component={Link} to="/profile" onClick={popupState.close}>
+                <MenuItem component={Link} to="/myProfile" onClick={popupState.close}>
                   My Profile
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>

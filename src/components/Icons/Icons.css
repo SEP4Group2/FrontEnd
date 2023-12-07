@@ -1,0 +1,25 @@
+.icons-container{
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.icons {
+    margin-top: 2vh;
+  width: 350px;
+  height: 150px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.icons-container ::-webkit-scrollbar{
+    display: none;
+}
+
+.imgs{
+    width:200px; 
+    height:180px;
+    border-radius:50%;
+    margin-right: 5px;
+}
