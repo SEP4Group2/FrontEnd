@@ -6,6 +6,8 @@ import './App.css';
 import axios from 'axios';
 import SignIn from "./components/Login/SignIn";
 import SignUp from "./components/SignUp/SignUp";
+import LandingPage from "./components/LandingPage/LandingPage";
+import MyProfile from "./components/MyProfile/MyProfile";
 import PlantCarousel from "./components/PlantCarousel/PlantCarousel";
 
 const App = () => {
@@ -51,8 +53,10 @@ const App = () => {
           <Routes>
             <Route path="/login" element={<SignIn setToken={setToken} setUser={setUser} setLoading={setLoading} />} />
             <Route path="/register" element={<SignUp />} />
+            <Route path="/loadPage" element={<LandingPage/>}/>
             {token ? (
               <>
+                <Route path="/myProfile" element={<MyProfile user={user} setUser={setUser} />} />
                 <Route
                   path="/myPlants"
                   element={<PlantList plants={plants} userId={user.userId} plantsData={plantsData} loading={loading} />}
@@ -61,7 +65,7 @@ const App = () => {
                 <Route path="/" element={<Navigate to="/myPlants" />} />
               </>
             ) : (
-              <Route path="/" element={<Navigate to="/login" />} />
+              <Route path="/" element={<Navigate to="/loadPage" />} />
             )}
           </Routes>
         </div>
