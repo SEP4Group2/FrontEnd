@@ -6,6 +6,7 @@ import './App.css';
 import axios from 'axios';
 import SignIn from "./components/Login/SignIn";
 import SignUp from "./components/SignUp/SignUp";
+import LandingPage from "./components/LandingPage/LandingPage";
 
 const App = () => {
   const [token, setToken] = useState("");
@@ -47,6 +48,7 @@ const App = () => {
           <Routes>
             <Route path="/login" element={<SignIn setToken={setToken} setUser={setUser} setLoading={setLoading}/>} />
             <Route path="/register" element={<SignUp />} />
+            <Route path="/loadPage" element={<LandingPage/>}/>
             {token ? (
               <>
                 <Route
