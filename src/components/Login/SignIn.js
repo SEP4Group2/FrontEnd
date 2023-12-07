@@ -37,6 +37,8 @@ function SignIn({ setToken, setUser, setLoading }) {
       setToken(response.data.token);
       setUser(response.data.user);
 
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       // Redirect to another page after successful login
       navigate('/myPlants');
     } catch (error) {

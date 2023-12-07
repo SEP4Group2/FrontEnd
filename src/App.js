@@ -8,10 +8,15 @@ import SignIn from "./components/Login/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import LandingPage from "./components/LandingPage/LandingPage";
 import MyProfile from "./components/MyProfile/MyProfile";
+import PlantCarousel from "./components/PlantCarousel/PlantCarousel";
 
 const App = () => {
-  const [token, setToken] = useState("");
-  const [user, setUser] = useState(0);
+  const storedToken = localStorage.getItem('token');
+  const storedUser = localStorage.getItem('user');
+
+  const [token, setToken] = useState(storedToken);
+  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+  
   const [plants, setPlants] = useState([]);
   const [plantsData, setPlantsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -56,6 +61,7 @@ const App = () => {
                   path="/myPlants"
                   element={<PlantList plants={plants} userId={user.userId} plantsData={plantsData} loading={loading} />}
                 />
+                <Route path="/analytics" element={<PlantCarousel plants={plants} />} />
                 <Route path="/" element={<Navigate to="/myPlants" />} />
               </>
             ) : (
