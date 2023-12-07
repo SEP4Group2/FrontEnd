@@ -48,7 +48,7 @@ const NotificationComponent = ({ notification }) => {
                     color="text.primary"
                     sx={{ wordWrap: 'break-word' }}
                   >
-                    {notification}
+                    {notification.message}
                   </Typography>
                 }
               />

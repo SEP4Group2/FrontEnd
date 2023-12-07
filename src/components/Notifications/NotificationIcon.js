@@ -23,6 +23,7 @@ const NotificationIcon = ({notification}) => {
   useEffect(() => {
     // Log the received notification
     console.log('Received notification in NotificationIcon:', notification);
+    
   }, [notification]);
 
   return (

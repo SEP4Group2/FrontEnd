@@ -16,12 +16,11 @@ const WebSocketHandler = ({ onNotificationReceived, userId }) => {
 
         const unsubscribe = subscribeToNotification((notification) => {
           console.log('Received notification in sockets:', notification);
-          // Invoke the callback passed from Navbar
-      if (typeof onNotificationReceived === 'function') {
-        onNotificationReceived(notification);
-      }
-    });
           
+          // Add a unique identifier to the notification
+          const notificationWithId = { message: notification, id: Date.now().toString() };
+          onNotificationReceived(notificationWithId);
+        });
 
         return () => {
           unsubscribe();
