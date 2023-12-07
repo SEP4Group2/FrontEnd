@@ -65,7 +65,7 @@ const App = () => {
                 <Route path="/" element={<Navigate to="/myPlants" />} />
               </>
             ) : (
-              <Route path="/" element={<Navigate to="/login" />} />
+              <Route path="/" element={<Navigate to="/loadPage" />} />
             )}
           </Routes>
         </div>

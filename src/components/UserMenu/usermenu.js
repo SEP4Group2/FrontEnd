@@ -11,6 +11,9 @@ const UserMenu = ({ isAuthenticated, setToken, setUser }) => {
   const handleLogout = () => {
     setToken("");
     setUser({})
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     // Perform logout logic, and then redirect to the home page
     navigate('/');
   };
