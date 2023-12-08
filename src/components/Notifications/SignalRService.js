@@ -27,8 +27,8 @@ const manualNegotiation = async () => {
     await hubConnection.send('Send', protocolVersionMessage);
 
     
-    const addToGroupMessage = '{"arguments":["1"],"target":"AddToGroup","type":1}';
-    await hubConnection.send('Send', addToGroupMessage);
+    //const addToGroupMessage = '{"arguments":["1"],"target":"AddToGroup","type":1}';
+    //await hubConnection.send('Send', addToGroupMessage);
 
     
   } catch (err) {

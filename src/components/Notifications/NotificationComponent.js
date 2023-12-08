@@ -14,7 +14,6 @@ const NotificationComponent = ({ notifications, onRemoveNotification }) => {
     onRemoveNotification(index);
   };
 
-  console.log('Notifications:', notifications);
   return (
     <React.Fragment>
       <CssBaseline />
