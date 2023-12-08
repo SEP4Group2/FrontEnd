@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { startConnection, subscribeToNotification, addToGroup, removeFromGroup, stopConnection } from './SignalRService';
 
-const WebSocketHandler = ({ onNotificationReceived, userId, onLogout }) => {
+const WebSocketHandler = ({ onNotificationReceived, userId }) => {
   const isConnectionStarted = useRef(false);
   const user = String(userId);
 
@@ -29,22 +29,32 @@ const WebSocketHandler = ({ onNotificationReceived, userId, onLogout }) => {
         console.error('Error setting up SignalR:', error);
       }
     };
-    // Check if the connection is not already started
-    if (!isConnectionStarted.current) {
-      setupSignalR();
-      isConnectionStarted.current = true;
-    }
+    const handleUser = async () => {
+      console.log(user);
+      if (user === "undefined") {
+        if (isConnectionStarted.current) {
+          try {
+            await removeFromGroup(localStorage.getItem("NotificationID"));
+            await stopConnection();
+            isConnectionStarted.current = false;
+            localStorage.removeItem("NotificationID");
+          } catch (error) {
+            console.error('Error during removeFromGroup or stopConnection:', error);
+          }
+        }
+      } else {
+        // Check if the connection is not already started
+        if (!isConnectionStarted.current) {
+          setupSignalR();
+          isConnectionStarted.current = true;
+          localStorage.setItem("NotificationID", user);
+        }
+      }
+    };
+    
+    handleUser();
     
   }, [onNotificationReceived, user]);
-
-  useEffect(() => {
-    console.log("before removing");
-    if (onLogout) {
-      console.log("removing is triggered");
-      //removeFromGroup(user);
-    }
-
-  }, [onLogout, user]);
 
   return null;
 };

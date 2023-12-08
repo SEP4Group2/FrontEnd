@@ -25,11 +25,6 @@ const manualNegotiation = async () => {
     
     const protocolVersionMessage = '{"protocol":"json","version":1}';
     await hubConnection.send('Send', protocolVersionMessage);
-
-    
-    //const addToGroupMessage = '{"arguments":["1"],"target":"AddToGroup","type":1}';
-    //await hubConnection.send('Send', addToGroupMessage);
-
     
   } catch (err) {
     console.error('Error during manual negotiation:', err);
@@ -46,8 +41,14 @@ const addToGroup = (userId) => {
   hubConnection.invoke('AddToGroup', userId).catch((err) => console.error(err));
 };
 
-const removeFromGroup = (userId) => {
-  hubConnection.invoke('RemoveFromGroup', userId).catch((err) => console.error(err));
+const removeFromGroup = async(userId) => {
+  try {
+    await hubConnection.invoke('RemoveFromGroup', userId);
+    console.log(`User ${userId} removed from the group successfully.`);
+  } catch (err) {
+    console.error('Error while removing:', err);
+  }
+  
 };
 
 const stopConnection = async () => {
