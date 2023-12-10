@@ -1,4 +1,3 @@
-
 import * as signalR from '@microsoft/signalr';
 
 const hubConnection = new signalR.HubConnectionBuilder()
@@ -37,6 +36,10 @@ const subscribeToNotification = (callback) => {
   });
 };
 
+const unsubscribeFromNotification = (callback) => {
+  hubConnection.off('ReceiveNotification', callback);
+};
+
 const addToGroup = (userId) => {
   hubConnection.invoke('AddToGroup', userId).catch((err) => console.error(err));
 };
@@ -60,4 +63,4 @@ const stopConnection = async () => {
   }
 };
 
-export { startConnection, subscribeToNotification, addToGroup, removeFromGroup, stopConnection };
+export { startConnection, subscribeToNotification, addToGroup, removeFromGroup, stopConnection, unsubscribeFromNotification };

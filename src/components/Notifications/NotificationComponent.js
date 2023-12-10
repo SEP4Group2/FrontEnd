@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -17,7 +17,7 @@ const NotificationComponent = ({ notifications, onRemoveNotification }) => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Paper square sx={{ pb: '50px', minHeight: '300px', minWidth: '300px', maxWidth: '300px', overflow: 'auto' }}>
+      <Paper square sx={{ pb: '50px', minHeight: '300px', maxHeight: '500px', minWidth: '300px', maxWidth: '300px', overflow: 'auto' }}>
         <Typography variant="h5" gutterBottom component="div" sx={{ p: 2, pb: 0 }}>
           Notifications
         </Typography>
@@ -33,7 +33,7 @@ const NotificationComponent = ({ notifications, onRemoveNotification }) => {
                     color="text.primary"
                     sx={{ wordWrap: 'break-word' }}
                   >
-                    {notification.notification}
+                    {notification.message}
                   </Typography>
                 }
               />

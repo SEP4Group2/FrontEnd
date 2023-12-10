@@ -1,6 +1,3 @@
-
-
-// Navbar.js
 import React, { useState, useCallback } from "react";
 import "./Navbar.css";
 import Image from "../../assets/logo.jpg";
@@ -19,12 +16,29 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
   };
 
   const handleNotificationReceived = (notification) => {
-    setNotificationData((prevNotifications) => [...prevNotifications, notification]);
-    
-    setNotificationCount((prevCount) => prevCount + 1);
+    console.log("navbar msgs ID: ", notification.id);
+  
+    setNotificationData((prevNotifications) => {
+      const isNotificationExist = prevNotifications.some(
+        (existingNotification) =>
+          existingNotification.id === notification.id &&
+          existingNotification.message === notification.message
+      );
+      // If the notification doesn't exist, add it to the array
+      if (!isNotificationExist) {
+        setNotificationCount((prevCount) => prevCount + 1);
+        return [...prevNotifications, notification];
+      }
+        //needed to add return bc the notificationdata wasn't updating fast enough for other msgs, so get updated version by return
+      // If the notification already exists, return the current state
+      return prevNotifications;
+    });
   };
+  
+
   const handleLogout = useCallback(() => {
     setNotificationData([]);
+    setNotificationCount(0);
     console.log('Logout triggered in Navbar');
   }, []);
 
@@ -85,17 +99,14 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
                   Analytics
                 </Link>
               </li>
-              <li>
-                
+              <div className="notification-icon"> 
                 <NotificationIcon notification={notificationData} notificationCount={notificationCount} onRemoveNotification={removeNotification}/>
-              </li>
+              </div>
               <div
                 className="account-icon"
                 style={{ width: "40px", height: "40px" }}
               >
-                
                 <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser} onLogout={handleLogout}/>
-                
               </div>
             </>
           )}

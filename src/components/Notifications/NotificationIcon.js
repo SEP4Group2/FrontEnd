@@ -1,11 +1,9 @@
-// NotificationIcon.js
 import React, { useState, useEffect } from 'react';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import NotificationComponent from './NotificationComponent';
-import './NotificationIcon.css';
 import CssBaseline from '@mui/material/CssBaseline';
 
 const NotificationIcon = ({ notification, notificationCount, onRemoveNotification }) => {
