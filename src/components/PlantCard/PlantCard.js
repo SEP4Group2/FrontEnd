@@ -67,7 +67,7 @@ export function PlantCard({ index, plantsData, plant }) {
         className="hover-card"
         style={{
           ...cardStyles,
-          backgroundColor: getStatusColor(plant.statusValue),
+          backgroundColor: getStatusColor(plantsData.percentageStatus),
         }}
       >
         <CardContent orientation="horizontal">
