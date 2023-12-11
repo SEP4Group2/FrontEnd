@@ -23,7 +23,7 @@ const MyProfile = ({ user, setUser, setToken }) => {
       password: userData.password // Replace "string" with the actual password
     };
 
-    fetch(`http://localhost:5000/User`, {
+    fetch(`http://20.67.215.134:5000/User`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const MyProfile = ({ user, setUser, setToken }) => {
     const confirmDelete = window.confirm('Are you sure you want to delete your profile?');
 
     if (confirmDelete) {
-      fetch(`http://localhost:5000/User/${userData.userId}`, {
+      fetch(`http://20.67.215.134:5000/User/${userData.userId}`, {
         method: 'DELETE',
       })
         .then(response => {
