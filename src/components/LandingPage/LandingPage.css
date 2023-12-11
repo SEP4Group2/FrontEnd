@@ -1,0 +1,117 @@
+/* LandingPage.css */
+
+/* General Styles */
+
+ 
+  
+  
+/* First Section Styles */
+.landing-page-box {
+    width: 95%;
+    margin: 20px;
+    height: auto;
+    background-color: rgba(237, 230, 224);
+    display: flex;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   
+    
+  }
+  
+  .landing-page-title-container {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    display: flex;
+
+  }
+  
+  .landing-page-text {
+    font-family: 'Jomolhari';
+    font-size: 3.6vw;
+    text-align: left;
+    margin-left: 7%;
+    margin-right: 25%;
+    margin-top: 28%;
+  }
+  
+  .landing-page-image-container {
+    margin-left: auto;
+    margin-right: 20px;
+  }
+  
+  .landing-page-image {
+    width: 25%;
+    height: auto;
+    border-radius: 3%;
+    margin-right: 4%;
+    display: flex;
+    align-self: center;
+
+  }
+  
+  .landing-page-description {
+    font-family: 'Jomolhari';
+    font-size: 1.4vw;
+    text-align: justify;
+    max-width: 80%;
+    margin-left: 7%;
+    margin-right: 31%;
+    margin-bottom: 5%;
+    margin-top: 1%;
+  }
+  
+  /* Second Section Styles */
+  .landing-page-section {
+    padding-top: 10%;
+    padding-bottom: 6%;
+  }
+  
+  .landing-page-grid {
+    display: flex;
+    flex-wrap: wrap; /* Adjusted for responsiveness */
+    justify-content: space-around;
+    align-items: flex-start; /* Adjusted for responsiveness */
+  }
+  
+  .landing-page-card {
+    width: 90%; /* Adjusted for responsiveness */
+    margin-bottom: 20px; /* Adjusted for responsiveness */
+    
+  }
+  
+
+  
+  /* Third Section Styles */
+  .landing-page-about-image {
+    width: 45%; /* Adjusted for responsiveness */
+    height: auto;
+    border-radius: 10px;
+    margin-top: 40px; /* Adjusted for responsiveness */
+  }
+  
+  .landing-page-about-title {
+    font-family: 'Jomolhari';
+    font-size: 2.7vw;
+    position: absolute;
+    margin-top: -28%; /* Adjusted for responsiveness */
+    left: 65%; /* Adjusted for responsiveness */
+    transform: none; /* Adjusted for responsiveness */
+    text-align: center; /* Adjusted for responsiveness */
+  }
+  
+  .landing-page-about-description {
+    font-family: 'Jomolhari';
+    font-size: 1.5vw;
+    position: absolute;
+    margin-top: -20%; /* Adjusted for responsiveness */
+    left: 50%;
+    right: 10%; /* Adjusted for responsiveness */
+    transform: none; /* Adjusted for responsiveness */
+    text-align: justify; 
+  
+  }
+
+  
+  /* Add additional media queries as needed */
+  

@@ -16,7 +16,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Adjust the z-index to ensure the popup appears above other elements */
+  
+  
 }
 .popup-content {
   background: rgba(
@@ -41,7 +42,7 @@ h2 {
 label {
   display: block;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 input {
@@ -54,7 +55,7 @@ input {
   margin-top: 20px;
   text-align: right;
   display: flex;
-  margin-left: 50%;
+  margin-left: 45%;
 }
 button {
   padding: 5px 10px;

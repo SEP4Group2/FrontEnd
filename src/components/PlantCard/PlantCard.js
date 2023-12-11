@@ -9,6 +9,7 @@ import SvgIcon from "@mui/joy/SvgIcon";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import "./PlantCard.css";
 import CardComponent from "../ViewPlantCard/CardComponent.js";
+import Axios from "axios";
 
 const cardStyles = {
   margin: "10px",
@@ -37,6 +38,25 @@ export function PlantCard({ index, plantsData, plant }) {
     setShowViewCard(false);
   };
 
+  const handleClickDelete = async () => {
+    try {
+      const plantId = plant.id;
+      console.log(plantId)
+      const response = await Axios.delete(
+        
+        'http://localhost:5000/Plant/'+plantId,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Plant deleted", response.data);
+    } catch (error) {
+      console.error("Error deleting plant:", error);
+    }
+  };
+
   return (
     <div>
       <Card
@@ -51,7 +71,7 @@ export function PlantCard({ index, plantsData, plant }) {
         }}
       >
         <CardContent orientation="horizontal">
-          <CircularProgress size="lg" determinate value={plant.statusValue}>
+          <CircularProgress size="lg" determinate value={plantsData.percentageStatus}>
             <SvgIcon>
               <LocalFloristIcon />
             </SvgIcon>
@@ -65,7 +85,7 @@ export function PlantCard({ index, plantsData, plant }) {
           <Button variant="soft" size="sm" onClick={openViewCard}>
             View
           </Button>
-          <Button variant="solid" size="sm" style={{ color: "black" }}>
+          <Button variant="solid" size="sm" style={{ color: "black" }} onClick={handleClickDelete}>
             Delete
           </Button>
         </CardActions>
