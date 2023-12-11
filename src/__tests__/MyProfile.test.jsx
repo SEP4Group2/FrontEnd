@@ -2,6 +2,7 @@
 // src/components/Profile.test.js
 import React from 'react';
 import { render, fireEvent, screen, act } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import MyProfile from '../components/MyProfile/MyProfile.js';
 
@@ -13,7 +14,10 @@ describe('MyProfile Component', () => {
   };
 
   test('renders profile with user data', () => {
-    render(<MyProfile user={mockUser} setUser={() => {}} />);
+    render(
+      <MemoryRouter>
+        <MyProfile user={mockUser} setUser={() => { }} setToken={() => { }} />
+      </MemoryRouter>);
 
     expect(screen.getByLabelText(/Username/)).toHaveValue(mockUser.username);
     expect(screen.getByLabelText(/Password/)).toHaveValue(mockUser.password);
@@ -23,7 +27,11 @@ describe('MyProfile Component', () => {
   });
 
   test('allows editing when Edit button is clicked', async () => {
-    render(<MyProfile user={mockUser} setUser={() => {}} />);
+    render(
+      <MemoryRouter>
+        <MyProfile user={mockUser} setUser={() => { }} setToken={() => { }} />
+      </MemoryRouter>
+    );
 
     expect(screen.getByLabelText(/Username/)).toBeDisabled();
     expect(screen.getByLabelText(/Password/)).toBeDisabled();
@@ -38,7 +46,11 @@ describe('MyProfile Component', () => {
   });
 
   test('calls fetch when Save button is clicked', async () => {
-    render(<MyProfile user={mockUser} setUser={() => {}} />);
+    render(
+      <MemoryRouter>
+        <MyProfile user={mockUser} setUser={() => { }} setToken={() => { }} />
+      </MemoryRouter>
+    );
 
     // Mock the window.confirm method
     global.confirm = jest.fn(() => true);
@@ -86,15 +98,22 @@ describe('MyProfile Component', () => {
   });
 
   test('calls handleDelete and logs "Profile deleted" when Delete button is clicked', () => {
-    render(<MyProfile user={mockUser} setUser={() => {}} />);
+    render(
+      <MemoryRouter>
+        <MyProfile user={mockUser} setUser={() => { }} setToken={() => { }} />
+      </MemoryRouter>
+    );
 
-    global.confirm = jest.fn(() => true);
     fireEvent.click(screen.getByText(/Delete/));
     expect(window.confirm).toHaveBeenCalledWith('Are you sure you want to delete your profile?');
   });
 
   test('calls handleCancel and resets state when Cancel button is clicked', async () => {
-    render(<MyProfile user={mockUser} setUser={() => {}} />);
+    render(
+      <MemoryRouter>
+        <MyProfile user={mockUser} setUser={() => { }} setToken={() => { }} />
+      </MemoryRouter>
+      );
 
     fireEvent.click(screen.getByText(/Edit/));
 
