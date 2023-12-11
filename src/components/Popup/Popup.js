@@ -22,32 +22,23 @@ const Popup = ({ onCancel, userId }) => {
       temperature,
       uvLight,
     };
-
-    console.log("Plant JSON Object:", presetData);
     // Check if any of the parameters is an empty string or null
     if (
       Object.values(presetData).some((param) => param === "" || param === null)
     ) {
       setWarningText(true);
-      console.log("Some parameters are empty or null; not saving");
       return;
     }
 
     const createPlantPreset = async (presetData) => {
       try {
-        const response = await fetch("http://localhost:5000/PlantPreset/createPlantPreset", {
+        await fetch("http://localhost:5000/PlantPreset/createPlantPreset", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(presetData),
         });
-
-        if (response.status === 201) {
-          console.log("Plant data saved successfully");
-        } else {
-          console.error("Failed to save plant data");
-        }
 
         onCancel();
       } catch (error) {
@@ -108,7 +99,7 @@ const Popup = ({ onCancel, userId }) => {
               <button style={{ backgroundColor: "black" }}>Cancel</button>
             </div>
             <div onClick={createPresetJSON}>
-              <button>Save</button>
+              <button data-testid="save-button">Save</button>
             </div>
           </div>
         </div>

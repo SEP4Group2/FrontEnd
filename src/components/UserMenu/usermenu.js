@@ -5,10 +5,11 @@ import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import { Link, useNavigate } from 'react-router-dom';
 
-const UserMenu = ({ isAuthenticated, setToken, setUser }) => {
+const UserMenu = ({ isAuthenticated, setToken, setUser, onLogout }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    onLogout();
     setToken("");
     setUser({})
 
