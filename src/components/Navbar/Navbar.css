@@ -17,11 +17,7 @@
 }
 
 .account-icon {
-  margin-right: 2%;
-  margin-left: 90%;
-  margin-bottom: 5%;
-  margin-top: 5%  ;
-  position: fixed;
+  margin-top: 12%  ; 
 }
 
 .account-icon-not-logged-in{
@@ -71,13 +67,6 @@
 .navbar li a.active {
   color: rgba(134, 158, 121, 0.918);
 }
-.notification-icon{
-  margin-right: 2%;
-  margin-left: 80%;
-  margin-bottom: 5%;
-  margin-top: 5%  ;
-  position: fixed;
-}
 
 .logo {
   display: flex;
@@ -85,6 +74,13 @@
   align-items: center;
   height: 80px;
   width: 80px;
+}
+.my-plants-link{
+  margin-right: 15%;
+}
+
+.analytics-link{
+  margin-right: 15%;
 }
 
 .logo-img {
@@ -95,9 +91,22 @@
   padding: 3px;
   object-fit: cover;
 }
+.icons{
+  height: auto;
+  width: auto;
+  margin-right: 2%;
+  margin-left: 80%;
+  margin-bottom: 5%;
+  margin-top: 5%;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+}
 
+.icons::-webkit-scrollbar{
+  display: none;
+}
 
-/* New Styles for Responsive Navbar */
 .menu-icon {
   display: none;
   cursor: pointer;
@@ -108,16 +117,17 @@
   list-style-type: none;
 }
 
-@media screen and (max-width: 1200px) {
+/*Styles for Responsive Navbar */
+/* @media screen and (max-width: 1200px) {
   .notification-icon {
     margin-left: 77%;
   }
-}
-@media screen and (max-width: 1000px) {
+} */
+/* @media screen and (max-width: 1000px) {
   .notification-icon {
     margin-left: 75%;
   }
-}
+} */
 
 
 /* Responsive Styles */
@@ -129,14 +139,20 @@
   .logo, .logo-img{
     display: none;
   }
-
-  .account-icon{
-   margin-left: 30%;
+  .icons{
+    margin-right: 20%;
+    margin-bottom: 5%;
+    margin-top: 5%  ;
+    position: fixed;
   }
+
+  /* .account-icon{
+   margin-left: 30%;
+  } */
 
   .account-icon-not-logged-in{
     margin-left: 30%;
-   }
+   } 
 
   .navbar-container {
     display: flex;

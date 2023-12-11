@@ -4,7 +4,7 @@ import Image from "../../assets/logo.jpg";
 import { Link } from "react-router-dom";
 import UserMenu from "../UserMenu/usermenu.js";
 import NotificationIcon from "../Notifications/NotificationIcon.js";
-import WebSocketHandler from '../Notifications/WebSocketHandler';
+import WebSocketHandler from "../Notifications/WebSocketHandler";
 
 const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
 
   const handleNotificationReceived = (notification) => {
     console.log("navbar msgs ID: ", notification.id);
-  
+
     setNotificationData((prevNotifications) => {
       const isNotificationExist = prevNotifications.some(
         (existingNotification) =>
@@ -29,31 +29,28 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
         setNotificationCount((prevCount) => prevCount + 1);
         return [...prevNotifications, notification];
       }
-        //needed to add return bc the notificationdata wasn't updating fast enough for other msgs, so get updated version by return
+      //needed to add return bc the notificationdata wasn't updating fast enough for other msgs, so get updated version by return
       // If the notification already exists, return the current state
       return prevNotifications;
     });
   };
-  
 
   const handleLogout = useCallback(() => {
     setNotificationData([]);
     setNotificationCount(0);
-    console.log('Logout triggered in Navbar');
+    console.log("Logout triggered in Navbar");
   }, []);
 
   const removeNotification = (index) => {
-    
     setNotificationData((prevNotifications) => [
       ...prevNotifications.slice(0, index),
       ...prevNotifications.slice(index + 1),
     ]);
-    
+
     setNotificationCount((prevCount) => prevCount - 1);
   };
- 
+
   return (
-    
     <nav className="navbar">
       <div className="navbar-container">
         <div
@@ -64,11 +61,13 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
           <div className="bar2"></div>
           <div className="bar3"></div>
         </div>
-        <WebSocketHandler userId={userId} onNotificationReceived={handleNotificationReceived} onLogout={handleLogout}/>
+        <WebSocketHandler
+          userId={userId}
+          onNotificationReceived={handleNotificationReceived}
+          onLogout={handleLogout}
+        />
         {!isAuthenticated && (
-          
           <>
-          
             <div className="logo">
               <img src={Image} alt="" className="logo-img" />
             </div>
@@ -76,18 +75,20 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
               className="account-icon-not-logged-in"
               style={{ width: "40px", height: "40px" }}
             >
-              <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser}/>
+              <UserMenu
+                isAuthenticated={isAuthenticated}
+                setToken={setToken}
+                setUser={setUser}
+              />
             </div>
           </>
         )}
-        
+
         <ul className={`nav-links ${isOpen ? "open" : ""}`}>
           {isAuthenticated && (
-            
             <>
-            
               <li>
-                <Link to="/myPlants" style={{ marginRight: "15%" }}>
+                <Link to="/myPlants" className="my-plants-link" >
                   My Plants
                 </Link>
               </li>
@@ -95,18 +96,29 @@ const Navbar = ({ isAuthenticated, setToken, setUser, userId }) => {
                 <img src={Image} alt="" className="logo-img" />
               </div>
               <li>
-                <Link to="/analytics" style={{ marginLeft: "15%" }}>
+                <Link to="/analytics" className="analytics-link" >
                   Analytics
                 </Link>
               </li>
-              <div className="notification-icon"> 
-                <NotificationIcon notification={notificationData} notificationCount={notificationCount} onRemoveNotification={removeNotification}/>
-              </div>
-              <div
-                className="account-icon"
-                style={{ width: "40px", height: "40px" }}
-              >
-                <UserMenu isAuthenticated={isAuthenticated} setToken={setToken} setUser={setUser} onLogout={handleLogout}/>
+              <div className="icons">
+                <div className="notification-icon">
+                  <NotificationIcon
+                    notification={notificationData}
+                    notificationCount={notificationCount}
+                    onRemoveNotification={removeNotification}
+                  />
+                </div>
+                <div
+                  className="account-icon"
+                  
+                >
+                  <UserMenu
+                    isAuthenticated={isAuthenticated}
+                    setToken={setToken}
+                    setUser={setUser}
+                    onLogout={handleLogout}
+                  />
+                </div>
               </div>
             </>
           )}

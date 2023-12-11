@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import {Grid} from '@mui/material';
 
 const MyProfile = ({user, setUser}) => {
   const [editMode, setEditMode] = useState(false);
@@ -68,9 +69,12 @@ const MyProfile = ({user, setUser}) => {
   };
 
   return (
-    <div style={{ textAlign: 'center', marginLeft: '100px', marginTop: '80px' }}>
-      <h1>My Profile</h1>
-      <div style={{ width: '300px', margin: '0 auto', marginBottom: '16px' }}>
+    <Grid container justifyContent="center" alignItems="center" style={{ marginTop: '80px' }}>
+    <Grid item xs={12}>
+      <h1 style={{ textAlign: 'center' }}>My Profile</h1>
+    </Grid>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
+      <div style={{ margin: '0 auto', marginBottom: '16px' }}>
         <TextField
           required={editMode}
           label="Username"
@@ -94,13 +98,20 @@ const MyProfile = ({user, setUser}) => {
           margin="normal"
         />
       </div>
-      <div style={{ marginLeft: '16px', marginTop: '16px' }}>
+    </Grid>
+    <Grid item xs={12}>
+      <div style={{ textAlign: 'center', marginTop: '16px' }}>
         <Button onClick={handleDelete} variant="contained" style={{ marginRight: '8px' }}>
           Delete
         </Button>
         {editMode && (
           <>
-            <Button onClick={handleSave} variant="contained" style={{ marginRight: '8px' }} disabled={!unsavedChanges}>
+            <Button
+              onClick={handleSave}
+              variant="contained"
+              style={{ marginRight: '8px' }}
+              disabled={!unsavedChanges}
+            >
               Save
             </Button>
             <Button onClick={handleCancel} variant="contained">
@@ -114,7 +125,8 @@ const MyProfile = ({user, setUser}) => {
           </Button>
         )}
       </div>
-    </div>
+    </Grid>
+  </Grid>
   );
 };
 
