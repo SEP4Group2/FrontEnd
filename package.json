@@ -29,8 +29,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --detectOpenHandles",
-    "eject": "react-scripts eject",
-    "coverage": "react-scripts test --env=jsdom --coverage"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -49,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "fetch-mock-jest": "^1.5.1"
   }
 }
