@@ -29,12 +29,7 @@ jobs:
         run: npm install
 
       - name: Test React App with Coverage
-        run: npm test -- --coverage
+        run: npm test
 
       - name: Build React App
         run: npm run build
-
-      - name: Upload coverage to Codecov (example for Codecov, adjust based on your service)
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
