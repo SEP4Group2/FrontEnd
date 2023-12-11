@@ -328,7 +328,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
                 marginLeft: "420px",
               }}
             >
-              <ModelViewer scale="1" modelPath="flowertry10.gltf" />
+              <ModelViewer scale="1" modelPath="flowerinpot2.gltf" />
             </div>
           </>
         )}

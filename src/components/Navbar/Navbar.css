@@ -71,6 +71,13 @@
 .navbar li a.active {
   color: rgba(134, 158, 121, 0.918);
 }
+.notification-icon{
+  margin-right: 2%;
+  margin-left: 80%;
+  margin-bottom: 5%;
+  margin-top: 5%  ;
+  position: fixed;
+}
 
 .logo {
   display: flex;
@@ -100,6 +107,18 @@
   display: flex;
   list-style-type: none;
 }
+
+@media screen and (max-width: 1200px) {
+  .notification-icon {
+    margin-left: 77%;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .notification-icon {
+    margin-left: 75%;
+  }
+}
+
 
 /* Responsive Styles */
 @media screen and (max-width: 768px) {
