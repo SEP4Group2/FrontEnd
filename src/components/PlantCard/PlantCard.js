@@ -44,7 +44,7 @@ export function PlantCard({ index, plantsData, plant }) {
       console.log(plantId)
       const response = await Axios.delete(
         
-        'http://localhost:5000/Plant/'+plantId,
+        'http://20.67.215.134:5000/Plant/'+plantId,
         {
           headers: {
             "Content-Type": "application/json",

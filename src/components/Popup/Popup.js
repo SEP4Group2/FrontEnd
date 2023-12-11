@@ -32,7 +32,7 @@ const Popup = ({ onCancel, userId }) => {
 
     const createPlantPreset = async (presetData) => {
       try {
-        await fetch("http://localhost:5000/PlantPreset/createPlantPreset", {
+        await fetch("http://20.67.215.134:5000/PlantPreset/createPlantPreset", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

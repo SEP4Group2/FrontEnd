@@ -1,7 +1,7 @@
 import * as signalR from '@microsoft/signalr';
 
 const hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl('ws://localhost:5016/notificationhub', { transport: signalR.HttpTransportType.WebSockets, skipNegotiation: true })
+  .withUrl('ws://20.223.12.109:5016/notificationhub', { transport: signalR.HttpTransportType.WebSockets, skipNegotiation: true })
   .configureLogging(signalR.LogLevel.Debug)
   .build();
 

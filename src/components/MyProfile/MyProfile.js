@@ -21,7 +21,7 @@ const MyProfile = ({user, setUser}) => {
         password: userData.password // Replace "string" with the actual password
       };
     
-      fetch(`http://localhost:5000/User`, {
+      fetch(`http://20.67.215.134:5000/User`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
