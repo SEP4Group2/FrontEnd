@@ -70,7 +70,7 @@ const App = () => {
             <Route path="/loadPage" element={<LandingPage/>}/>
             {token ? (
               <>
-                <Route path="/myProfile" element={<MyProfile user={user} setUser={setUser} />} />
+                <Route path="/myProfile" element={<MyProfile user={user} setUser={setUser} setToken={setToken} />} />
                 <Route
                   path="/myPlants"
                   element={<PlantList plants={plants} userId={user.userId} plantsData={plantsData} loading={loading} />}
