@@ -3,7 +3,6 @@ import PlantList from './components/PlantList/PlantList';
 import Navbar from './components/Navbar/Navbar';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import axios from 'axios';
 import SignIn from "./components/Login/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import LandingPage from "./components/LandingPage/LandingPage";
@@ -25,12 +24,18 @@ const App = () => {
     if (token) {
       const fetchData = async () => {
         try {
-          const plantResponse = await axios.get("http://localhost:5000/Plant/" + user.userId);
-          setPlants(plantResponse.data);
+          // Fetch plant data
+          const plantResponse = await fetch(`http://localhost:5000/Plant/${user.userId}`);
+          const plantsJson = await plantResponse.json();
+          setPlants(plantsJson);
 
-          const plantDataResponse = await axios.get("http://localhost:5000/PlantData/fetchPlantData/" + user.userId);
-          if (plantDataResponse.data.length > 0)
-            setPlantsData(plantDataResponse.data);
+          // Fetch plant data
+          const plantDataResponse = await fetch(`http://localhost:5000/PlantData/fetchPlantData/${user.userId}`);
+          const plantDataJson = await plantDataResponse.json();
+          
+          if (plantDataJson.length > 0) {
+            setPlantsData(plantDataJson);
+          }
 
           setLoading(false);
         } catch (error) {
@@ -38,17 +43,26 @@ const App = () => {
         }
       };
 
+      // Initial fetch
+      fetchData();
+
+      // Set up interval for subsequent fetches
       const fetchInterval = setInterval(fetchData, 3000);
 
       return () => {
         clearInterval(fetchInterval);
       };
-    };
-  });
+    }
+  }, [token, user]);
+
   return (
     <div>
       <Router>
-        <Navbar isAuthenticated={!!token} setToken={setToken} setUser={setUser} />
+      {user && user.userId !== null ? (
+          <Navbar isAuthenticated={!!token} setToken={setToken} setUser={setUser} userId={user.userId}/>
+        ) : (
+          <Navbar isAuthenticated={!!token} setToken={setToken} setUser={setUser} />
+        )}
         <div className="content-container">
           <Routes>
             <Route path="/login" element={<SignIn setToken={setToken} setUser={setUser} setLoading={setLoading} />} />

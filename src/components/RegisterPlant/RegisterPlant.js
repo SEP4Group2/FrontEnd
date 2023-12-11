@@ -79,12 +79,9 @@ const RegisterPlant = ({ onCancel, userId }) => {
         preset: selectedPlantType.presetId,
         selectedType,
       });
-      console.log("I chose something");
     } else if (selectedType === "Other") {
       setShowPopup(true);
-      console.log("I chose other");
     } else {
-      console.log(`Selected plant type '${selectedType}' not found.`);
     }
   };
 
@@ -112,9 +109,6 @@ const RegisterPlant = ({ onCancel, userId }) => {
       plantPresetId: preset,
       iconId: iconId,
     };
-
-    console.log(iconId)
-    console.log("Plant JSON Object:", plantJSON);
 
     if (
       Object.values(plantJSON).some((param) => param === "" || param === null)

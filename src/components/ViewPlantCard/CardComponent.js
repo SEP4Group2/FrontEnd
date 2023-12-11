@@ -51,6 +51,29 @@ export default function CardComponent({ plant, plantsData, onClose }) {
     light: plant.plantPreset.uvLight,
   });
 
+  const handleWaterPlant = async () => {
+    try {
+      const deviceId = plant.deviceId; // Replace with the actual property from your plant data
+      const response = await fetch(`http://localhost:5000/actions/waterPlant/${deviceId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.ok) {
+        console.log('Plant watered:', response);
+        // You may want to update the state or perform other actions after watering the plant
+      } else {
+        console.error('Error watering plant:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error watering plant:', error);
+    }
+  };
+  
+  
+
   const getIcon = (iconId) => {
     console.log(iconId);
     switch (iconId) {
@@ -220,6 +243,17 @@ export default function CardComponent({ plant, plantsData, onClose }) {
               >
                 {plant.name}
               </MDBCardTitle>
+              <Button onClick={handleWaterPlant} style={{
+                width: "120px", // Adjust the width as needed
+                height: "40px", // Adjust the height as needed
+                backgroundColor: "#869e7a",
+                color: "white",
+                marginLeft: "auto", // This will move the button to the right
+                marginRight: "30px", // Add margin to separate from the text
+                marginTop: "0px",
+              }}>
+                Water Plant
+              </Button>
             </div>
 
             <Divider variant="fullWidth" style={{ marginTop: "10px" }} />
@@ -345,7 +379,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
                 marginLeft: "420px",
               }}
             >
-              <ModelViewer scale="1" modelPath="flowertry10.gltf" />
+              <ModelViewer scale="1" modelPath="flowerinpot2.gltf" />
             </div>
           </>
         )}

@@ -71,7 +71,7 @@ export function PlantCard({ index, plantsData, plant }) {
         }}
       >
         <CardContent orientation="horizontal">
-          <CircularProgress size="lg" determinate value={plant.statusValue}>
+          <CircularProgress size="lg" determinate value={plantsData.percentageStatus}>
             <SvgIcon>
               <LocalFloristIcon />
             </SvgIcon>

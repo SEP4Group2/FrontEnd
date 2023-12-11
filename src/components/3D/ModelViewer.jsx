@@ -14,7 +14,7 @@ const ModelViewer = ({ modelPath, scale = 0.7, position = [0, 0, 0] }) => {
       <pointLight position={[position[0], position[1], position[2] - 10]} /> */}
       <Suspense fallback={null}>
         <GltfModel modelPath={modelPath} scale={scale} position={position} />
-        <OrbitControls enableZoom={true} />
+        <OrbitControls enableZoom={false} />
       </Suspense>
     </Canvas>
   );
