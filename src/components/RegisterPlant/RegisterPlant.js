@@ -279,7 +279,7 @@ const RegisterPlant = ({ onCancel, userId }) => {
             <img src={mainIconSrc} alt="Main Plant Icon" />
           </div>
           <div className="icons-container">
-            <div className="icons">
+            <div className="plant-icons">
               <img
                 className="imgs"
                 src={Image13}
