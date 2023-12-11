@@ -281,7 +281,6 @@ const RegisterPlant = ({ onCancel, userId }) => {
       </div>
 
       <div className="right-content">
-        <div className="plant-icons">
           <div className="main-icon">
             <img src={mainIconSrc} alt="Main Plant Icon" />
           </div>
@@ -290,84 +289,84 @@ const RegisterPlant = ({ onCancel, userId }) => {
               <img
                 className="imgs"
                 src={Image13}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(13, Image13)}
               />
               <img
                 className="imgs"
                 src={Image5}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(5, Image5)}
               />
               <img
                 className="imgs"
                 src={Image12}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(12, Image12)}
               />
               <img
                 className="imgs"
                 src={Image1}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(1, Image1)}
               />
               <img
                 className="imgs"
                 src={Image2}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(2, Image2)}
               />
               <img
                 className="imgs"
                 src={Image3}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(3, Image3)}
               />
               <img
                 className="imgs"
                 src={Image4}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(4, Image4)}
               />
               <img
                 className="imgs"
                 src={Image6}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(6, Image6)}
               />
               <img
                 className="imgs"
                 src={Image7}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(7, Image7)}
               />
               <img
                 className="imgs"
                 src={Image8}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(8, Image8)}
               />
               <img
                 className="imgs"
                 src={Image9}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(9, Image9)}
               />
               <img
                 className="imgs"
                 src={Image10}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(10, Image10)}
               />
               <img
                 className="imgs"
                 src={Image11}
-                alt={" "}
+                alt={"Press Shift and scroll horizontally"}
                 onClick={() => handleClick(11, Image11)}
               />
             </div>
           </div>
-        </div>
+       
         <div className="buttons">
           <div onClick={handleCancelRegister} className="cancelButton">
             <button className="cancel-button">Go back</button>

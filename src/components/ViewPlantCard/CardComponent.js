@@ -142,10 +142,26 @@ export default function CardComponent({ plant, plantsData, onClose }) {
   return (
     <MDBCard
       className="text-center"
-      style={{ width: "700px", height: "440px" }}
+      style={{ width: "100%", height: "440px", maxWidth: "700px", margin: "0 auto" }}
     >
-      <MDBCardHeader>
+      <MDBCardHeader style={{
+        display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+          <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%',
+          }}
+        >
         <MDBTabs className="card-header-tabs">
+        <CloseRoundedIcon
+          className="custom-close-icon"
+            // style={{ marginTop: "10px" }}
+            onClick={onClose}
+          />
           <MDBTabsItem>
             <MDBTabsLink
               active={activeTab === "status"}
@@ -167,19 +183,20 @@ export default function CardComponent({ plant, plantsData, onClose }) {
               Information
             </MDBTabsLink>
           </MDBTabsItem>
-          <CloseRoundedIcon
-            style={{ marginLeft: "370px", marginTop: "10px" }}
-            onClick={onClose}
-          />
+          
         </MDBTabs>
+        </div>
       </MDBCardHeader>
-      <MDBCardBody>
+      <MDBCardBody style={{ overflowY: "auto" }}>
         {activeTab === "status" && (
           <>
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
+                overflowX: "auto",
+                maxWidth: "calc(100% - 50px)",
+                padding: "0",
               }}
             >
               <img
@@ -542,7 +559,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
               style={{
                 marginTop: "50px",
                 marginLeft: "0px",
-                position: "absolute",
+               
               }}
             >
               <WaterTank
