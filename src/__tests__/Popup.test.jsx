@@ -29,7 +29,7 @@ describe("Rendering", () => {
         };
         
         expect(window.fetch).toHaveBeenCalledWith(
-            'http://127.0.0.1/5000/PlantPreset/createPlantPreset',
+            'http://localhost:5000/PlantPreset/createPlantPreset',
             expect.objectContaining({
                 method: 'POST',
                 body: JSON.stringify(expectedPresetData),

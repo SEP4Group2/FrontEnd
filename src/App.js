@@ -25,12 +25,12 @@ const App = () => {
       const fetchData = async () => {
         try {
           // Fetch plant data
-          const plantResponse = await fetch(`http://127.0.0.1/5000/Plant/${user.userId}`);
+          const plantResponse = await fetch(`http://localhost:5000/Plant/${user.userId}`);
           const plantsJson = await plantResponse.json();
           setPlants(plantsJson);
 
           // Fetch plant data
-          const plantDataResponse = await fetch(`http://127.0.0.1/5000/PlantData/fetchPlantData/${user.userId}`);
+          const plantDataResponse = await fetch(`http://localhost:5000/PlantData/fetchPlantData/${user.userId}`);
           const plantDataJson = await plantDataResponse.json();
           
           if (plantDataJson.length > 0) {
