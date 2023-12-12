@@ -29,7 +29,7 @@ function SignIn({ setToken, setUser, setLoading }) {
     const password = data.get('password');
 
     try {
-      const response = await axios.post('http://localhost:5000/User/login', {
+      const response = await axios.post('http://127.0.0.1/5000/User/login', {
         username: username,
         password: password,
       });

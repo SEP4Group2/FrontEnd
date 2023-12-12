@@ -18,7 +18,7 @@ const PlantCarousel = ({ plants }) => {
 
     const fetchData = async (plantId) => {
             try {
-              const response = await fetch("http://localhost:5000/Analytics/"+plantId);
+              const response = await fetch("http://127.0.0.1/5000/Analytics/"+plantId);
               if (response.ok) {
                 const data = await response.json();
                 if (Array.isArray(data)) {
