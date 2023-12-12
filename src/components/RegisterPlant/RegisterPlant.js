@@ -34,7 +34,7 @@ const RegisterPlant = ({ onCancel, userId }) => {
   const fetchPresets = useCallback(async () => {
     try {
       const response = await fetch(
-        "http://127.0.0.1/5000/PlantPreset/getAllPresets/" + userId
+        "http://localhost:5000/PlantPreset/getAllPresets/" + userId
       );
       if (response.ok) {
         const data = await response.json();
@@ -121,7 +121,7 @@ const RegisterPlant = ({ onCancel, userId }) => {
     const createPlant = async (plantJSON) => {
       try {
         const response = await fetch(
-          "http://127.0.0.1/5000/Plant/createPlant",
+          "http://localhost:5000/Plant/createPlant",
           {
             method: "POST",
             headers: {

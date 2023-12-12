@@ -54,7 +54,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
   const handleWaterPlant = async () => {
     try {
       const deviceId = plant.deviceId; // Replace with the actual property from your plant data
-      const response = await fetch(`http://127.0.0.1/5000/actions/waterPlant/${deviceId}`, {
+      const response = await fetch(`http://localhost:5000/actions/waterPlant/${deviceId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
       });
 
       const response = await Axios.patch(
-        "http://127.0.0.1/5000/Plant",
+        "http://localhost:5000/Plant",
         plantJSON,
         {
           headers: {
@@ -142,7 +142,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
       const plantId = plant.id;
       console.log(plantId);
       const response = await Axios.delete(
-        "http://127.0.0.1/5000/Plant/" + plantId,
+        "http://localhost:5000/Plant/" + plantId,
         {
           headers: {
             "Content-Type": "application/json",

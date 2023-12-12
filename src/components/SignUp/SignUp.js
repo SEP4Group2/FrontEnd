@@ -35,7 +35,7 @@ export default function SignUp() {
         setWarningText("Fields cannot be empty!")
       }
       else{
-        await axios.post('http://127.0.0.1/5000/User/createUser', {
+        await axios.post('http://localhost:5000/User/createUser', {
         username: username,
         password: password,
       });

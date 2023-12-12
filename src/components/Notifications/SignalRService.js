@@ -1,7 +1,7 @@
 import * as signalR from '@microsoft/signalr';
 
 const hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl('ws://127.0.0.1/5016/notificationhub', { transport: signalR.HttpTransportType.WebSockets, skipNegotiation: true })
+  .withUrl('ws://localhost:5016/notificationhub', { transport: signalR.HttpTransportType.WebSockets, skipNegotiation: true })
   .configureLogging(signalR.LogLevel.Debug)
   .build();
 
@@ -16,6 +16,8 @@ const hubConnection = new signalR.HubConnectionBuilder()
       console.error('Error while establishing SignalR connection:', err);
     }
   };
+  
+
 // Function to perform manual negotiation
 const manualNegotiation = async () => {
   try {
@@ -27,6 +29,7 @@ const manualNegotiation = async () => {
     console.error('Error during manual negotiation:', err);
   }
 };
+
 const subscribeToNotification = (callback) => {
   hubConnection.on('ReceiveNotification', (message) => {
     callback(message);

@@ -82,7 +82,7 @@ describe('MyProfile Component', () => {
 
     // Verify that fetch was called with the expected parameters
     expect(global.fetch).toHaveBeenCalledWith(
-      'http://127.0.0.1/5000/User',
+      'http://localhost:5000/User',
       expect.objectContaining({
         method: 'PATCH',
         headers: {

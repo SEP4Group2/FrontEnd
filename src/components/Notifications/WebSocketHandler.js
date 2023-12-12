@@ -36,7 +36,7 @@ const WebSocketHandler = ({ onNotificationReceived, userId }) => {
     };
 
     const handleUser = async () => {
-      
+      console.log(user);
       if (user === "undefined") {
         if (isConnectionStarted.current) {
           try {
