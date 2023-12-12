@@ -38,9 +38,13 @@ const NotificationIcon = ({ notification, notificationCount, onRemoveNotificatio
         color="inherit"
         onClick={handleClick}
       >
-        <Badge badgeContent={notificationCount - popoverCount} color="error">
+        {open ? ( // Only render Badge when the Popover is closed
           <NotificationsIcon style={{ width: '40px', height: '40px' }} />
-        </Badge>
+        ) : (
+          <Badge badgeContent={notificationCount - popoverCount} color="error">
+            <NotificationsIcon style={{ width: '40px', height: '40px' }} />
+          </Badge>
+        )}
       </IconButton>
       <Popover
         open={open}
