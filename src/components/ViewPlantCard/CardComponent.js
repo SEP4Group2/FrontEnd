@@ -597,7 +597,7 @@ export default function CardComponent({ plant, plantsData, onClose }) {
               }}
             >
               <WaterTank
-                waterLevel={100 - plantsData.tankLevel}
+                waterLevel={plantsData.tankLevel}
               />
             </div>
           </>
